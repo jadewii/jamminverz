@@ -1,0 +1,190 @@
+//
+//  TaskModel.swift
+//  Shared between iOS, watchOS, and macOS
+//
+//  Universal task model for all platforms
+//
+
+import Foundation
+import SwiftUI
+
+// MARK: - Task Model
+public struct Task: Identifiable, Codable, Hashable {
+    public let id: UUID
+    public var text: String
+    public var isCompleted: Bool
+    public var createdAt: Date
+    public var listId: String
+    public var mode: String
+    public var dueDate: Date?
+    public var isRecurring: Bool
+    public var urgencyLevel: Int
+    public var recurringDays: [String]
+    public var recurringTime: Date?
+    
+    public init(
+        id: UUID = UUID(),
+        text: String,
+        isCompleted: Bool = false,
+        createdAt: Date = Date(),
+        listId: String,
+        mode: String,
+        dueDate: Date? = nil,
+        isRecurring: Bool = false,
+        urgencyLevel: Int = 0,
+        recurringDays: [String] = [],
+        recurringTime: Date? = nil
+    ) {
+        self.id = id
+        self.text = text
+        self.isCompleted = isCompleted
+        self.createdAt = createdAt
+        self.listId = listId
+        self.mode = mode
+        self.dueDate = dueDate
+        self.isRecurring = isRecurring
+        self.urgencyLevel = urgencyLevel
+        self.recurringDays = recurringDays
+        self.recurringTime = recurringTime
+    }
+    
+    public var urgencyColor: Color {
+        switch urgencyLevel {
+        case 3: return .red
+        case 2: return .orange
+        case 1: return .yellow
+        default: return .green
+        }
+    }
+}
+
+// MARK: - View Mode
+public enum ViewMode: String, CaseIterable, Codable {
+    case life = "life"
+    case work = "work"
+    case school = "school"
+    
+    public var displayName: String {
+        switch self {
+        case .life: return "LIFE"
+        case .work: return "WORK"
+        case .school: return "SCHOOL"
+        }
+    }
+    
+    public var modeButtonColor: Color {
+        switch self {
+        case .life: return Color(red: 0.25, green: 0.5, blue: 1.0)
+        case .work: return Color.orange
+        case .school: return Color(red: 0.4, green: 0.2, blue: 0.6)
+        }
+    }
+    
+    public func getListIds() -> [String] {
+        switch self {
+        case .life: return ["today", "later", "done"]
+        case .work: return ["today", "week", "month"]
+        case .school: return ["today", "assignments", "exams"]
+        }
+    }
+    
+    public func getListName(for listId: String) -> String {
+        switch self {
+        case .life:
+            switch listId {
+            case "today": return "TODAY"
+            case "later": return "LATER"
+            case "done": return "DONE"
+            default: return listId.uppercased()
+            }
+        case .work:
+            switch listId {
+            case "today": return "TODAY"
+            case "week": return "THIS WEEK"
+            case "month": return "THIS MONTH"
+            case "done": return "DONE"
+            default: return listId.uppercased()
+            }
+        case .school:
+            switch listId {
+            case "today": return "TODAY"
+            case "assignments": return "ASSIGNMENTS"
+            case "exams": return "EXAMS"
+            case "done": return "DONE"
+            default: return listId.uppercased()
+            }
+        }
+    }
+    
+    public func getListColor(for listId: String) -> Color {
+        switch self {
+        case .life:
+            switch listId {
+            case "today": return Color(red: 0.4, green: 0.8, blue: 1.0)
+            case "later": return Color(red: 0.859, green: 0.835, blue: 0.145)
+            case "done": return Color.gray
+            default: return Color.gray
+            }
+        case .work:
+            switch listId {
+            case "today": return .orange
+            case "week": return Color(red: 1.0, green: 0.5, blue: 0.0)
+            case "month": return Color(red: 1.0, green: 0.7, blue: 0.3)
+            case "done": return Color.gray
+            default: return Color.gray
+            }
+        case .school:
+            switch listId {
+            case "today": return Color(red: 0.6, green: 0.4, blue: 1.0)
+            case "assignments": return Color(red: 0.5, green: 0.3, blue: 0.8)
+            case "exams": return Color(red: 0.7, green: 0.2, blue: 0.9)
+            case "done": return Color.gray
+            default: return Color.gray
+            }
+        }
+    }
+    
+    public struct SecondPageButton {
+        public let title: String
+        public let color: Color
+        public let listId: String
+        
+        public init(title: String, color: Color, listId: String) {
+            self.title = title
+            self.color = color
+            self.listId = listId
+        }
+    }
+    
+    public func getSecondPageButtons() -> [SecondPageButton] {
+        switch self {
+        case .life:
+            return [
+                SecondPageButton(title: "ROUTINE", color: Color(red: 0.4, green: 0.8, blue: 0.4), listId: "routine"),
+                SecondPageButton(title: "GOALS", color: Color(red: 1.0, green: 0.4, blue: 0.6), listId: "goals"),
+                SecondPageButton(title: "PLANS", color: Color(red: 0.6, green: 0.4, blue: 1.0), listId: "plans"),
+                SecondPageButton(title: "BILLS", color: Color(red: 1.0, green: 0.6, blue: 0.2), listId: "bills"),
+                SecondPageButton(title: "MODES", color: Color.gray, listId: "modes"),
+                SecondPageButton(title: "RANDOM", color: Color.black, listId: "random")
+            ]
+        case .work:
+            return [
+                SecondPageButton(title: "PROJECTS", color: Color(red: 0.2, green: 0.6, blue: 1.0), listId: "projects"),
+                SecondPageButton(title: "SCHEDULE", color: Color(red: 0.4, green: 0.8, blue: 0.6), listId: "schedule"),
+                SecondPageButton(title: "IDEAS", color: Color(red: 1.0, green: 0.8, blue: 0.2), listId: "ideas"),
+                SecondPageButton(title: "DEADLINES", color: Color(red: 1.0, green: 0.2, blue: 0.2), listId: "deadlines"),
+                SecondPageButton(title: "MODES", color: Color.gray, listId: "modes"),
+                SecondPageButton(title: "PRIORITY", color: Color.black, listId: "priority")
+            ]
+        case .school:
+            return [
+                SecondPageButton(title: "HOMEWORK", color: Color(red: 0.8, green: 0.6, blue: 1.0), listId: "homework"),
+                SecondPageButton(title: "STUDY", color: Color(red: 0.4, green: 0.8, blue: 1.0), listId: "study"),
+                SecondPageButton(title: "NOTES", color: Color(red: 1.0, green: 0.9, blue: 0.4), listId: "notes"),
+                SecondPageButton(title: "TESTS", color: Color(red: 1.0, green: 0.4, blue: 0.4), listId: "tests"),
+                SecondPageButton(title: "MODES", color: Color.gray, listId: "modes"),
+                SecondPageButton(title: "TIMER", color: Color.black, listId: "timer")
+            ]
+        }
+    }
+}

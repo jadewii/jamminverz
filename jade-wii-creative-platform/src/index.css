@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-jade-darker text-white font-mono;
+  }
+}
+
+@layer components {
+  .tab-button {
+    @apply px-4 py-2 rounded-t-lg border-t border-x border-gray-700 hover:bg-jade-dark transition-colors;
+  }
+  
+  .tab-button.active {
+    @apply bg-jade-dark border-jade-purple;
+  }
+  
+  .pixel-border {
+    box-shadow: 
+      0 4px 0 0 rgba(0, 0, 0, 0.25),
+      0 0 0 3px #000,
+      0 0 0 6px #333;
+  }
+  
+  .glow-purple {
+    text-shadow: 0 0 10px #9333ea, 0 0 20px #9333ea, 0 0 30px #9333ea;
+  }
+  
+  .glow-pink {
+    text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899, 0 0 30px #ec4899;
+  }
+}
