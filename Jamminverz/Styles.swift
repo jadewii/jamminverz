@@ -6,6 +6,11 @@ struct TodomaiButtonStyle: ButtonStyle {
     let backgroundColor: Color
     let textColor: Color
     
+    init(backgroundColor: Color, textColor: Color = .white) {
+        self.backgroundColor = backgroundColor
+        self.textColor = textColor
+    }
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(size: 17, weight: .heavy))

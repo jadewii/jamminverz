@@ -1,510 +1,326 @@
 //
 //  SettingsView.swift
-//  Todomai-iOS
+//  Jamminverz
 //
-//  Settings page with custom Todomai UI style
+//  Settings page for the music production app
 //
 
 import SwiftUI
+import StoreKit
 
 struct SettingsView: View {
-    @ObservedObject var taskStore: TaskStore
-    @Binding var currentTab: String
+    @EnvironmentObject var taskStore: TaskStore
+    
+    // Audio Settings
+    @State private var sampleRate = 44100
+    @State private var bufferSize = 512
+    @State private var enableMetronome = true
+    
+    // Export Settings  
+    @State private var exportFormat = "WAV"
+    @State private var normalizeOnExport = true
+    
+    // App Settings
+    @State private var autoSave = true
+    @State private var enableHaptics = true
+    
+    @State private var showingThemes = false
+    @State private var showingClearData = false
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                Color.white.ignoresSafeArea()
-                
-                VStack(spacing: 0) {
+        ZStack {
+            Color.black.ignoresSafeArea()
+            
+            ScrollView {
+                VStack(spacing: 32) {
                     // Header
                     Text("SETTINGS")
                         .font(.system(size: 36, weight: .heavy))
-                        .foregroundColor(.black)
-                        .padding(.top, 60)
-                        .padding(.bottom, 40)
+                        .foregroundColor(.white)
+                        .padding(.top, 40)
                     
-                    ScrollView {
-                        VStack(spacing: 16) {
-                            // Current Mode Info
-                            VStack(spacing: 12) {
-                                Text("CURRENT MODE")
-                                    .font(.system(size: 18, weight: .heavy))
-                                    .foregroundColor(.black)
-                                
-                                Text(taskStore.currentMode.displayName)
-                                    .font(.system(size: 24, weight: .heavy))
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 56)
-                                    .background(
-                                        ZStack {
-                                            taskStore.currentMode.modeButtonColor
-                                            Rectangle()
-                                                .stroke(Color.black, lineWidth: 3)
-                                        }
-                                    )
+                    // Audio Section
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("AUDIO")
+                            .font(.system(size: 24, weight: .heavy))
+                            .foregroundColor(.white)
+                        
+                        // Sample Rate
+                        HStack {
+                            Text("Sample Rate")
+                                .foregroundColor(.white)
+                            Spacer()
+                            Menu {
+                                Button("44.1 kHz") { sampleRate = 44100 }
+                                Button("48 kHz") { sampleRate = 48000 }
+                                Button("96 kHz") { sampleRate = 96000 }
+                            } label: {
+                                Text("\(sampleRate / 1000) kHz")
+                                    .foregroundColor(.purple)
                             }
-                            .padding(.horizontal, 40)
-                            
-                            // Daily Schedule Settings
-                            VStack(spacing: 12) {
-                                Text("DAILY SCHEDULE")
-                                    .font(.system(size: 18, weight: .heavy))
-                                    .foregroundColor(.black)
-                                    .padding(.top, 20)
-                                
-                                // Toggle for world clock
-                                Button(action: {
-                                    let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                                    impactFeedback.impactOccurred()
-                                    taskStore.isDailyScheduleEnabled.toggle()
-                                }) {
-                                    HStack {
-                                        Text("SHOW DAILY SCHEDULE")
-                                            .font(.system(size: 16, weight: .heavy))
-                                            .foregroundColor(.black)
-                                        
-                                        Spacer()
-                                        
-                                        ZStack {
-                                            Rectangle()
-                                                .fill(taskStore.isDailyScheduleEnabled ? Color.green : Color.gray.opacity(0.3))
-                                                .frame(width: 50, height: 30)
-                                            
-                                            Circle()
-                                                .fill(.white)
-                                                .frame(width: 26, height: 26)
-                                                .offset(x: taskStore.isDailyScheduleEnabled ? 10 : -10)
-                                        }
-                                        .animation(.easeInOut(duration: 0.2), value: taskStore.isDailyScheduleEnabled)
-                                    }
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 56)
-                                    .padding(.horizontal, 20)
-                                    .background(
-                                        ZStack {
-                                            Color.white
-                                            Rectangle()
-                                                .stroke(Color.black, lineWidth: 3)
-                                        }
-                                    )
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                                
-                                if taskStore.isDailyScheduleEnabled {
-                                    // Work mode settings
-                                    VStack(spacing: 12) {
-                                        Text("WORK HOURS")
-                                            .font(.system(size: 14, weight: .heavy))
-                                            .foregroundColor(.black)
-                                        
-                                        // Clock in/out times
-                                        HStack(spacing: 16) {
-                                            VStack {
-                                                Text("CLOCK IN")
-                                                    .font(.system(size: 12, weight: .heavy))
-                                                    .foregroundColor(.black)
-                                                DatePicker("", selection: $taskStore.workClockInTime, displayedComponents: .hourAndMinute)
-                                                    .labelsHidden()
-                                                    .scaleEffect(0.8)
-                                            }
-                                            
-                                            VStack {
-                                                Text("CLOCK OUT")
-                                                    .font(.system(size: 12, weight: .heavy))
-                                                    .foregroundColor(.black)
-                                                DatePicker("", selection: $taskStore.workClockOutTime, displayedComponents: .hourAndMinute)
-                                                    .labelsHidden()
-                                                    .scaleEffect(0.8)
-                                            }
-                                        }
-                                        .padding(.vertical, 12)
-                                        .frame(maxWidth: .infinity)
-                                        .background(
-                                            ZStack {
-                                                Color(red: 0.2, green: 0.8, blue: 0.4).opacity(0.1)
-                                                Rectangle()
-                                                    .stroke(Color(red: 0.2, green: 0.8, blue: 0.4), lineWidth: 2)
-                                            }
-                                        )
-                                        
-                                        // Calendar blocking toggle
-                                        Button(action: {
-                                            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                                            impactFeedback.impactOccurred()
-                                            taskStore.isWorkCalendarBlockingEnabled.toggle()
-                                        }) {
-                                            HStack {
-                                                VStack(alignment: .leading, spacing: 2) {
-                                                    Text("OFF THE CLOCK!")
-                                                        .font(.system(size: 14, weight: .heavy))
-                                                        .foregroundColor(.red)
-                                                    Text("Blocks work calendar and all work related tasks until your next Clock in time")
-                                                        .font(.system(size: 11, weight: .medium))
-                                                        .foregroundColor(.gray)
-                                                }
-                                                
-                                                Spacer()
-                                                
-                                                ZStack {
-                                                    Rectangle()
-                                                        .fill(taskStore.isWorkCalendarBlockingEnabled ? Color.green : Color.gray.opacity(0.3))
-                                                        .frame(width: 44, height: 26)
-                                                        .cornerRadius(13)
-                                                    
-                                                    Circle()
-                                                        .fill(.white)
-                                                        .frame(width: 22, height: 22)
-                                                        .offset(x: taskStore.isWorkCalendarBlockingEnabled ? 9 : -9)
-                                                }
-                                                .animation(.easeInOut(duration: 0.2), value: taskStore.isWorkCalendarBlockingEnabled)
-                                            }
-                                        }
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 12)
-                                        .background(
-                                            ZStack {
-                                                Color(red: 0.2, green: 0.8, blue: 0.4).opacity(0.05)
-                                                Rectangle()
-                                                    .stroke(Color(red: 0.2, green: 0.8, blue: 0.4).opacity(0.3), lineWidth: 1)
-                                            }
-                                        )
-                                    }
-                                    
-                                    // School hours settings
-                                    VStack(spacing: 12) {
-                                        Text("SCHOOL HOURS")
-                                            .font(.system(size: 14, weight: .heavy))
-                                            .foregroundColor(.black)
-                                        
-                                        // School hours
-                                        HStack(spacing: 16) {
-                                            VStack {
-                                                Text("START")
-                                                    .font(.system(size: 12, weight: .heavy))
-                                                    .foregroundColor(.black)
-                                                DatePicker("", selection: $taskStore.schoolStartTime, displayedComponents: .hourAndMinute)
-                                                    .labelsHidden()
-                                                    .scaleEffect(0.8)
-                                            }
-                                            
-                                            VStack {
-                                                Text("END")
-                                                    .font(.system(size: 12, weight: .heavy))
-                                                    .foregroundColor(.black)
-                                                DatePicker("", selection: $taskStore.schoolEndTime, displayedComponents: .hourAndMinute)
-                                                    .labelsHidden()
-                                                    .scaleEffect(0.8)
-                                            }
-                                        }
-                                        .padding(.vertical, 12)
-                                        .frame(maxWidth: .infinity)
-                                        .background(
-                                            ZStack {
-                                                Color(red: 0.6, green: 0.3, blue: 0.8).opacity(0.1)
-                                                Rectangle()
-                                                    .stroke(Color(red: 0.6, green: 0.3, blue: 0.8), lineWidth: 2)
-                                            }
-                                        )
-                                        
-                                        // School days selection
-                                        VStack(spacing: 8) {
-                                            Text("SCHOOL DAYS")
-                                                .font(.system(size: 12, weight: .heavy))
-                                                .foregroundColor(.black)
-                                            
-                                            HStack(spacing: 8) {
-                                                ForEach([(0, "S"), (1, "M"), (2, "T"), (3, "W"), (4, "T"), (5, "F"), (6, "S")], id: \.0) { day, letter in
-                                                    Button(action: {
-                                                        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                                                        impactFeedback.impactOccurred()
-                                                        if taskStore.schoolDays.contains(day) {
-                                                            taskStore.schoolDays.remove(day)
-                                                        } else {
-                                                            taskStore.schoolDays.insert(day)
-                                                        }
-                                                    }) {
-                                                        Text(letter)
-                                                            .font(.system(size: 14, weight: .heavy))
-                                                            .foregroundColor(taskStore.schoolDays.contains(day) ? .white : .black)
-                                                            .frame(width: 32, height: 32)
-                                                            .background(
-                                                                taskStore.schoolDays.contains(day) 
-                                                                    ? Color(red: 0.6, green: 0.3, blue: 0.8)
-                                                                    : Color.gray.opacity(0.2)
-                                                            )
-                                                            .cornerRadius(16)
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .padding(.vertical, 12)
-                                        .frame(maxWidth: .infinity)
-                                        .background(
-                                            ZStack {
-                                                Color(red: 0.6, green: 0.3, blue: 0.8).opacity(0.05)
-                                                Rectangle()
-                                                    .stroke(Color(red: 0.6, green: 0.3, blue: 0.8).opacity(0.3), lineWidth: 1)
-                                            }
-                                        )
-                                    }
-                                    
-                                    // Study time calendar lock
-                                    VStack(spacing: 12) {
-                                        Text("STUDY TIME")
-                                            .font(.system(size: 14, weight: .heavy))
-                                            .foregroundColor(.black)
-                                        
-                                        // Enable study time calendar lock
-                                        Button(action: {
-                                            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                                            impactFeedback.impactOccurred()
-                                            taskStore.isStudyTimeCalendarLockEnabled.toggle()
-                                        }) {
-                                            HStack {
-                                                VStack(alignment: .leading, spacing: 2) {
-                                                    Text("LOCK CALENDAR DURING STUDY")
-                                                        .font(.system(size: 14, weight: .heavy))
-                                                        .foregroundColor(.black)
-                                                    Text("Blocks all calendars during study hours")
-                                                        .font(.system(size: 11, weight: .medium))
-                                                        .foregroundColor(.gray)
-                                                }
-                                                
-                                                Spacer()
-                                                
-                                                ZStack {
-                                                    Rectangle()
-                                                        .fill(taskStore.isStudyTimeCalendarLockEnabled ? Color(red: 0.6, green: 0.3, blue: 0.8) : Color.gray.opacity(0.3))
-                                                        .frame(width: 44, height: 26)
-                                                        .cornerRadius(13)
-                                                    
-                                                    Circle()
-                                                        .fill(.white)
-                                                        .frame(width: 22, height: 22)
-                                                        .offset(x: taskStore.isStudyTimeCalendarLockEnabled ? 9 : -9)
-                                                }
-                                                .animation(.easeInOut(duration: 0.2), value: taskStore.isStudyTimeCalendarLockEnabled)
-                                            }
-                                        }
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 12)
-                                        .background(
-                                            ZStack {
-                                                Color(red: 0.6, green: 0.3, blue: 0.8).opacity(0.05)
-                                                Rectangle()
-                                                    .stroke(Color(red: 0.6, green: 0.3, blue: 0.8).opacity(0.3), lineWidth: 1)
-                                            }
-                                        )
-                                        
-                                        if taskStore.isStudyTimeCalendarLockEnabled {
-                                            // Study hours
-                                            HStack(spacing: 16) {
-                                                VStack {
-                                                    Text("START")
-                                                        .font(.system(size: 12, weight: .heavy))
-                                                        .foregroundColor(.black)
-                                                    DatePicker("", selection: $taskStore.studyStartTime, displayedComponents: .hourAndMinute)
-                                                        .labelsHidden()
-                                                        .scaleEffect(0.8)
-                                                }
-                                                
-                                                VStack {
-                                                    Text("END")
-                                                        .font(.system(size: 12, weight: .heavy))
-                                                        .foregroundColor(.black)
-                                                    DatePicker("", selection: $taskStore.studyEndTime, displayedComponents: .hourAndMinute)
-                                                        .labelsHidden()
-                                                        .scaleEffect(0.8)
-                                                }
-                                            }
-                                            .padding(.vertical, 12)
-                                            .frame(maxWidth: .infinity)
-                                            .background(
-                                                ZStack {
-                                                    Color(red: 0.6, green: 0.3, blue: 0.8).opacity(0.1)
-                                                    Rectangle()
-                                                        .stroke(Color(red: 0.6, green: 0.3, blue: 0.8), lineWidth: 2)
-                                                }
-                                            )
-                                            
-                                            // Study days selection
-                                            VStack(spacing: 8) {
-                                                Text("STUDY DAYS")
-                                                    .font(.system(size: 12, weight: .heavy))
-                                                    .foregroundColor(.black)
-                                                
-                                                HStack(spacing: 8) {
-                                                    ForEach([(0, "S"), (1, "M"), (2, "T"), (3, "W"), (4, "T"), (5, "F"), (6, "S")], id: \.0) { day, letter in
-                                                        Button(action: {
-                                                            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                                                            impactFeedback.impactOccurred()
-                                                            if taskStore.studyDays.contains(day) {
-                                                                taskStore.studyDays.remove(day)
-                                                            } else {
-                                                                taskStore.studyDays.insert(day)
-                                                            }
-                                                        }) {
-                                                            Text(letter)
-                                                                .font(.system(size: 14, weight: .heavy))
-                                                                .foregroundColor(taskStore.studyDays.contains(day) ? .white : .black)
-                                                                .frame(width: 32, height: 32)
-                                                                .background(
-                                                                    taskStore.studyDays.contains(day) 
-                                                                        ? Color(red: 0.6, green: 0.3, blue: 0.8)
-                                                                        : Color.gray.opacity(0.2)
-                                                                )
-                                                                .cornerRadius(16)
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            .padding(.vertical, 12)
-                                            .frame(maxWidth: .infinity)
-                                            .background(
-                                                ZStack {
-                                                    Color(red: 0.6, green: 0.3, blue: 0.8).opacity(0.05)
-                                                    Rectangle()
-                                                        .stroke(Color(red: 0.6, green: 0.3, blue: 0.8).opacity(0.3), lineWidth: 1)
-                                                }
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                            .padding(.horizontal, 40)
-                            
-                            // Statistics
-                            VStack(spacing: 12) {
-                                Text("STATISTICS")
-                                    .font(.system(size: 18, weight: .heavy))
-                                    .foregroundColor(.black)
-                                    .padding(.top, 20)
-                                
-                                HStack {
-                                    SettingsStatBox(title: "TOTAL", value: "\(taskStore.tasks.count)", color: Color(red: 0.4, green: 0.8, blue: 1.0))
-                                    SettingsStatBox(title: "COMPLETED", value: "\(taskStore.tasks.filter { $0.isCompleted }.count)", color: Color(red: 0.4, green: 0.8, blue: 0.4))
-                                }
-                                
-                                HStack {
-                                    SettingsStatBox(title: "PENDING", value: "\(taskStore.tasks.filter { !$0.isCompleted }.count)", color: Color(red: 1.0, green: 0.7, blue: 0.3))
-                                    SettingsStatBox(title: "TODAY", value: "\(taskStore.tasks.filter { $0.listId == "today" && !$0.isCompleted }.count)", color: Color(red: 1.0, green: 0.431, blue: 0.431))
-                                }
-                            }
-                            .padding(.horizontal, 40)
-                            
-                            // About Section
-                            VStack(spacing: 12) {
-                                Text("ABOUT")
-                                    .font(.system(size: 18, weight: .heavy))
-                                    .foregroundColor(.black)
-                                    .padding(.top, 20)
-                                
-                                VStack(spacing: 4) {
-                                    Text("TODOMAI")
-                                        .font(.system(size: 24, weight: .heavy))
-                                        .foregroundColor(.black)
-                                    Text("VERSION 1.0")
-                                        .font(.system(size: 16, weight: .bold))
-                                        .foregroundColor(.gray)
-                                    Text("© 2025")
-                                        .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(.gray)
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 20)
-                                .background(
-                                    ZStack {
-                                        Color.gray.opacity(0.1)
-                                        Rectangle()
-                                            .stroke(Color.black, lineWidth: 3)
-                                    }
-                                )
-                            }
-                            .padding(.horizontal, 40)
-                            
-                            // Clear Data Button
-                            Button(action: {
-                                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                                impactFeedback.impactOccurred()
-                                taskStore.clearCompleted()
-                            }) {
-                                Text("CLEAR COMPLETED TASKS")
-                                    .font(.system(size: 16, weight: .heavy))
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 56)
-                                    .background(
-                                        ZStack {
-                                            Color.red
-                                            Rectangle()
-                                                .stroke(Color.black, lineWidth: 3)
-                                        }
-                                    )
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            .padding(.horizontal, 40)
-                            .padding(.top, 20)
                         }
-                        .padding(.bottom, 40)
+                        
+                        // Buffer Size
+                        HStack {
+                            Text("Buffer Size")
+                                .foregroundColor(.white)
+                            Spacer()
+                            Menu {
+                                Button("128") { bufferSize = 128 }
+                                Button("256") { bufferSize = 256 }
+                                Button("512") { bufferSize = 512 }
+                                Button("1024") { bufferSize = 1024 }
+                            } label: {
+                                Text("\(bufferSize)")
+                                    .foregroundColor(.purple)
+                            }
+                        }
+                        
+                        // Metronome
+                        Toggle(isOn: $enableMetronome) {
+                            Text("Metronome")
+                                .foregroundColor(.white)
+                        }
+                        .toggleStyle(SwitchToggleStyle(tint: .purple))
+                    }
+                    .padding(24)
+                    .background(Color.white.opacity(0.05))
+                    .cornerRadius(16)
+                    
+                    // Export Section
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("EXPORT")
+                            .font(.system(size: 24, weight: .heavy))
+                            .foregroundColor(.white)
+                        
+                        // Format
+                        HStack {
+                            Text("Format")
+                                .foregroundColor(.white)
+                            Spacer()
+                            Menu {
+                                Button("WAV") { exportFormat = "WAV" }
+                                Button("MP3") { exportFormat = "MP3" }
+                                Button("AIFF") { exportFormat = "AIFF" }
+                                Button("FLAC") { exportFormat = "FLAC" }
+                            } label: {
+                                Text(exportFormat)
+                                    .foregroundColor(.purple)
+                            }
+                        }
+                        
+                        // Normalize
+                        Toggle(isOn: $normalizeOnExport) {
+                            Text("Normalize on Export")
+                                .foregroundColor(.white)
+                        }
+                        .toggleStyle(SwitchToggleStyle(tint: .purple))
+                    }
+                    .padding(24)
+                    .background(Color.white.opacity(0.05))
+                    .cornerRadius(16)
+                    
+                    // App Section
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("APP")
+                            .font(.system(size: 24, weight: .heavy))
+                            .foregroundColor(.white)
+                        
+                        Toggle(isOn: $autoSave) {
+                            Text("Auto Save")
+                                .foregroundColor(.white)
+                        }
+                        .toggleStyle(SwitchToggleStyle(tint: .purple))
+                        
+                        Toggle(isOn: $enableHaptics) {
+                            Text("Haptic Feedback")
+                                .foregroundColor(.white)
+                        }
+                        .toggleStyle(SwitchToggleStyle(tint: .purple))
+                        
+                        // Themes Button
+                        Button(action: {
+                            showingThemes = true
+                        }) {
+                            HStack {
+                                Text("Themes")
+                                    .foregroundColor(.white)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        
+                        // Clear Data
+                        Button(action: {
+                            showingClearData = true
+                        }) {
+                            HStack {
+                                Text("Clear All Data")
+                                    .foregroundColor(.red)
+                                Spacer()
+                            }
+                        }
+                    }
+                    .padding(24)
+                    .background(Color.white.opacity(0.05))
+                    .cornerRadius(16)
+                    
+                    // About Section
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("ABOUT")
+                            .font(.system(size: 24, weight: .heavy))
+                            .foregroundColor(.white)
+                        
+                        HStack {
+                            Text("Version")
+                                .foregroundColor(.gray)
+                            Spacer()
+                            Text("1.0.0")
+                                .foregroundColor(.white)
+                        }
+                        
+                        HStack {
+                            Text("Created by")
+                                .foregroundColor(.gray)
+                            Spacer()
+                            Text("JAde Wii")
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .padding(24)
+                    .background(Color.white.opacity(0.05))
+                    .cornerRadius(16)
+                    
+                    Spacer(minLength: 100)
+                }
+                .padding(.horizontal, 24)
+            }
+        }
+        .sheet(isPresented: $showingThemes) {
+            SimpleThemeView()
+        }
+        .alert("Clear All Data?", isPresented: $showingClearData) {
+            Button("Cancel", role: .cancel) { }
+            Button("Clear", role: .destructive) {
+                UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+            }
+        } message: {
+            Text("This will delete all your projects, samples, and settings.")
+        }
+    }
+}
+
+// Simple Theme Selection View
+struct SimpleThemeView: View {
+    @Environment(\.dismiss) var dismiss
+    @State private var selectedTheme = 0
+    
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.black.ignoresSafeArea()
+                
+                VStack(spacing: 20) {
+                    Button(action: {
+                        selectedTheme = 0
+                        if ThemeManager.shared.themes.count > 0 {
+                            ThemeManager.shared.setTheme(ThemeManager.shared.themes[0])
+                        }
+                    }) {
+                        HStack {
+                            Text("TODOMAI CLASSIC")
+                                .foregroundColor(.white)
+                            Spacer()
+                            if selectedTheme == 0 {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.purple)
+                            }
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(12)
                     }
                     
-                    // Back button
                     Button(action: {
-                        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                        impactFeedback.impactOccurred()
-                        currentTab = "menu"
+                        selectedTheme = 1
+                        if ThemeManager.shared.themes.count > 1 {
+                            ThemeManager.shared.setTheme(ThemeManager.shared.themes[1])
+                        }
                     }) {
-                        Text("← BACK")
-                            .font(.system(size: 18, weight: .heavy))
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 56)
-                            .background(
-                                ZStack {
-                                    Color.white
-                                    Rectangle()
-                                        .stroke(Color.black, lineWidth: 3)
-                                }
-                            )
+                        HStack {
+                            Text("CYBERPUNK NEON")
+                                .foregroundColor(.white)
+                            Spacer()
+                            if selectedTheme == 1 {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.purple)
+                            }
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(12)
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(.horizontal, 40)
-                    .padding(.bottom, 40)
+                    
+                    Button(action: {
+                        selectedTheme = 2
+                        if ThemeManager.shared.themes.count > 2 {
+                            ThemeManager.shared.setTheme(ThemeManager.shared.themes[2])
+                        }
+                    }) {
+                        HStack {
+                            Text("GLASS AURORA")
+                                .foregroundColor(.white)
+                            Spacer()
+                            if selectedTheme == 2 {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.purple)
+                            }
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(12)
+                    }
+                    
+                    Button(action: {
+                        selectedTheme = 3
+                        if ThemeManager.shared.themes.count > 3 {
+                            ThemeManager.shared.setTheme(ThemeManager.shared.themes[3])
+                        }
+                    }) {
+                        HStack {
+                            Text("RETRO WAVE")
+                                .foregroundColor(.white)
+                            Spacer()
+                            if selectedTheme == 3 {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.purple)
+                            }
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(12)
+                    }
+                    
+                    Spacer()
+                }
+                .padding()
+            }
+            .navigationTitle("Themes")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                    .foregroundColor(.purple)
                 }
             }
         }
     }
 }
 
-struct SettingsStatBox: View {
-    let title: String
-    let value: String
-    let color: Color
-    
-    var body: some View {
-        VStack(spacing: 8) {
-            Text(title)
-                .font(.system(size: 14, weight: .heavy))
-                .foregroundColor(.black)
-            
-            Text(value)
-                .font(.system(size: 28, weight: .heavy))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(
-                    ZStack {
-                        color
-                        Rectangle()
-                            .stroke(Color.black, lineWidth: 3)
-                    }
-                )
-        }
-    }
-}
-
 #Preview {
-    SettingsView(taskStore: TaskStore(), currentTab: .constant("settings"))
+    SettingsView()
+        .environmentObject(TaskStore())
 }

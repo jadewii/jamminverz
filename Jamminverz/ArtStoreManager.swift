@@ -59,7 +59,7 @@ class ArtStoreManager: ObservableObject {
             )
         ]
         
-        await MainActor.run {
+        _ = await MainActor.run {
             self.artCollection = mockArts.map { $0.toAlbumArt() }
             self.isLoading = false
         }
@@ -69,7 +69,7 @@ class ArtStoreManager: ObservableObject {
     func fetchPurchasedArt(for userId: String) async {
         // TODO: Replace with Supabase query when package is added
         // Mock data - simulate some purchased art
-        await MainActor.run {
+        _ = await MainActor.run {
             self.purchasedArtIds = ["art1"]
         }
     }
@@ -80,7 +80,7 @@ class ArtStoreManager: ObservableObject {
         // Mock the purchase
         try? await _Concurrency.Task.sleep(nanoseconds: 500_000_000)
         
-        await MainActor.run {
+        _ = await MainActor.run {
             self.purchasedArtIds.insert(art.id)
         }
     }

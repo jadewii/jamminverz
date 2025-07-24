@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView_Adaptive: View {
     @StateObject private var taskStore = TaskStore()
+    @StateObject private var themeManager = ThemeManager.shared
     @State private var currentTab = "radio"
     @State private var isRouletteMode = false
     @State private var showRandomModeSelection = false
@@ -155,7 +156,8 @@ struct ContentView_Adaptive: View {
                     case "repeatFrequency":
                         RepeatFrequencyView(taskStore: taskStore, currentTab: $currentTab)
                     case "settings":
-                        SettingsView(taskStore: taskStore, currentTab: $currentTab)
+                        SettingsView()
+                            .environmentObject(taskStore)
                     case "routines":
                         RoutinesView(
                             taskStore: taskStore,
@@ -215,10 +217,11 @@ struct ContentView_Adaptive: View {
                     case "social":
                         // TODO: Implement social view
                         ZStack {
-                            Color.black.ignoresSafeArea()
+                            themeManager.currentTheme.primaryBackground
+                                .ignoresSafeArea()
                             Text("SOCIAL COMING SOON")
-                                .font(.system(size: 24, weight: .heavy))
-                                .foregroundColor(.white)
+                                .font(.system(size: 24, weight: themeManager.currentTheme.headerFont))
+                                .foregroundColor(themeManager.currentTheme.primaryText)
                         }
                     
                     case "profile":

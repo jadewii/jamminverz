@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var taskStore = TaskStore()
+    @StateObject private var themeManager = ThemeManager.shared
     @State private var currentTab = "menu"
     @State private var isRouletteMode = false
     @State private var showRandomModeSelection = false
@@ -14,6 +15,7 @@ struct ContentView: View {
         if UIDevice.current.userInterfaceIdiom == .pad {
             // Use adaptive layout for iPad
             ContentView_Adaptive()
+                .environmentObject(themeManager)
         } else {
             // iPhone layout
             iPhoneLayout
@@ -65,7 +67,8 @@ struct ContentView: View {
                     )
                     
                 case "settings":
-                    SettingsView(taskStore: taskStore, currentTab: $currentTab)
+                    SettingsView()
+                        .environmentObject(taskStore)
                     
                 // Handle all list views using ListsView
                 case "later", "week", "month", "assignments", "exams", 
@@ -892,4 +895,5 @@ struct CalendarDayView_iOS: View {
 
 #Preview {
     ContentView()
+        .environmentObject(ThemeManager.shared)
 }

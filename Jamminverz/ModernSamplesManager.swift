@@ -228,6 +228,13 @@ class ModernSamplesManager: ObservableObject {
         saveSamplePacks()
     }
     
+    func getSamplesForPack(_ pack: SamplePack) -> [SampleFile] {
+        // Return all audio files that match the sample IDs in the pack
+        return audioFiles.filter { sample in
+            pack.samples.contains(sample.id)
+        }
+    }
+    
     func createAutoPacksWithAI() {
         // Group samples by characteristics
         let kickSamples = audioFiles.filter { $0.name.lowercased().contains("kick") }

@@ -11,13 +11,15 @@ import AVFoundation
 struct AlbumsView: View {
     @ObservedObject var taskStore: TaskStore
     @Binding var currentTab: String
+    @StateObject private var themeManager = ThemeManager.shared
     @State private var selectedTab = "my-albums"
     @State private var showCreateAlbum = false
     @State private var albums: [Album] = []
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            themeManager.currentTheme.primaryBackground
+                .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Header
@@ -52,12 +54,12 @@ struct AlbumsView: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text("ALBUMS")
-                    .font(.system(size: 34, weight: .heavy))
-                    .foregroundColor(.white)
+                    .font(.system(size: 34, weight: themeManager.currentTheme.headerFont))
+                    .foregroundColor(themeManager.currentTheme.primaryText)
                 
                 Text("Create albums from your projects")
-                    .font(.system(size: 14))
-                    .foregroundColor(.gray)
+                    .font(.system(size: 14, weight: themeManager.currentTheme.captionFont))
+                    .foregroundColor(themeManager.currentTheme.secondaryText)
             }
             
             Spacer()
@@ -67,7 +69,7 @@ struct AlbumsView: View {
             }) {
                 Image(systemName: "plus.circle.fill")
                     .font(.system(size: 30))
-                    .foregroundColor(.blue)
+                    .foregroundColor(themeManager.currentTheme.accentColor)
             }
         }
         .padding(.horizontal, 24)
@@ -87,7 +89,7 @@ struct AlbumsView: View {
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 16)
-        .background(Color.white.opacity(0.05))
+        .background(themeManager.currentTheme.cardBackground)
     }
     
     private var myAlbumsView: some View {
@@ -174,6 +176,7 @@ struct AlbumTrack: Identifiable {
 // MARK: - Album Card
 struct AlbumsAlbumCard: View {
     let album: Album
+    @StateObject private var themeManager = ThemeManager.shared
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -187,7 +190,7 @@ struct AlbumsAlbumCard: View {
                         .clipped()
                 } else {
                     LinearGradient(
-                        colors: [.blue, .purple],
+                        colors: [themeManager.currentTheme.accentColor, themeManager.currentTheme.secondaryAccent],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -195,21 +198,21 @@ struct AlbumsAlbumCard: View {
                     .overlay(
                         Image(systemName: "music.note")
                             .font(.system(size: 40))
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(themeManager.currentTheme.primaryText.opacity(0.8))
                     )
                 }
             }
-            .cornerRadius(12)
+            .cornerRadius(themeManager.currentTheme.cornerRadius)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(album.title)
-                    .font(.system(size: 16, weight: .heavy))
-                    .foregroundColor(.white)
+                    .font(.system(size: 16, weight: themeManager.currentTheme.headerFont))
+                    .foregroundColor(themeManager.currentTheme.primaryText)
                     .lineLimit(1)
                 
                 Text("\(album.tracks.count) tracks • \(album.playCount) plays")
-                    .font(.system(size: 12))
-                    .foregroundColor(.gray)
+                    .font(.system(size: 12, weight: themeManager.currentTheme.captionFont))
+                    .foregroundColor(themeManager.currentTheme.secondaryText)
             }
             .padding(.horizontal, 4)
         }
@@ -221,6 +224,7 @@ struct CreateAlbumView: View {
     @ObservedObject var taskStore: TaskStore
     @Binding var albums: [Album]
     @Environment(\.presentationMode) var presentationMode
+    @StateObject private var themeManager = ThemeManager.shared
     
     @State private var albumTitle = ""
     @State private var albumDescription = ""
@@ -235,7 +239,8 @@ struct CreateAlbumView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                themeManager.currentTheme.primaryBackground
+                    .ignoresSafeArea()
                 
                 ScrollView {
                     VStack(spacing: 24) {
@@ -456,16 +461,17 @@ struct TabButton: View {
     let title: String
     let isSelected: Bool
     let action: () -> Void
+    @StateObject private var themeManager = ThemeManager.shared
     
     var body: some View {
         Button(action: action) {
             VStack(spacing: 8) {
                 Text(title)
-                    .font(.system(size: 14, weight: .heavy))
-                    .foregroundColor(isSelected ? .white : .gray)
+                    .font(.system(size: 14, weight: themeManager.currentTheme.headerFont))
+                    .foregroundColor(isSelected ? themeManager.currentTheme.primaryText : themeManager.currentTheme.secondaryText)
                 
                 Rectangle()
-                    .fill(isSelected ? Color.blue : Color.clear)
+                    .fill(isSelected ? themeManager.currentTheme.accentColor : Color.clear)
                     .frame(height: 3)
             }
         }

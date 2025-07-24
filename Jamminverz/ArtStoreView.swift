@@ -11,6 +11,7 @@ import StoreKit
 struct ArtStoreView: View {
     @ObservedObject var taskStore: TaskStore
     @Binding var currentTab: String
+    @StateObject private var themeManager = ThemeManager.shared
     @State private var selectedCategory = "all"
     @State private var selectedArt: AlbumArt?
     @State private var showPurchaseConfirmation = false
@@ -24,7 +25,8 @@ struct ArtStoreView: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            themeManager.currentTheme.primaryBackground
+                .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Header
@@ -41,7 +43,7 @@ struct ArtStoreView: View {
                     Spacer()
                     ProgressView()
                         .scaleEffect(1.5)
-                        .progressViewStyle(CircularProgressViewStyle(tint: .purple))
+                        .progressViewStyle(CircularProgressViewStyle(tint: themeManager.currentTheme.accentColor))
                     Spacer()
                 } else {
                     artGallery

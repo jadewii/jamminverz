@@ -85,17 +85,22 @@ struct FriendsView: View {
             
             TabButton(title: "REQUESTS", isSelected: selectedTab == "requests") {
                 selectedTab = "requests"
-                if !pendingRequests.isEmpty {
-                    Text("\(pendingRequests.count)")
-                        .font(.system(size: 10, weight: .heavy))
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.red)
-                        .cornerRadius(10)
-                        .offset(x: -8, y: -8)
-                }
             }
+            .overlay(
+                Group {
+                    if !pendingRequests.isEmpty {
+                        Text("\(pendingRequests.count)")
+                            .font(.system(size: 10, weight: .heavy))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.red)
+                            .cornerRadius(10)
+                            .offset(x: -8, y: -8)
+                    }
+                },
+                alignment: .topTrailing
+            )
             
             TabButton(title: "FIND FRIENDS", isSelected: selectedTab == "search") {
                 selectedTab = "search"

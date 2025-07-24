@@ -12,7 +12,8 @@ import AVFoundation
 struct ProfileView: View {
     @ObservedObject var taskStore: TaskStore
     @Binding var currentTab: String
-    @State private var selectedProfileTab = "packs"
+    @StateObject private var themeManager = ThemeManager.shared
+    @State private var selectedProfileTab = "profile"
     @State private var isEditingProfile = false
     @State private var profileImage: Image? = nil
     @State private var bannerImage: Image? = nil
@@ -37,7 +38,8 @@ struct ProfileView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            themeManager.currentTheme.primaryBackground
+                .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Custom Navigation Header
@@ -92,7 +94,7 @@ struct ProfileView: View {
                     Text("BACK")
                         .font(.system(size: 17, weight: .heavy))
                 }
-                .foregroundColor(.white)
+                .foregroundColor(themeManager.currentTheme.primaryText)
             }
             .buttonStyle(PlainButtonStyle())
             
@@ -231,6 +233,9 @@ struct ProfileView: View {
     private var profileTabBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 32) {
+                ProfileTabButton(title: "PROFILE", isSelected: selectedProfileTab == "profile") {
+                    selectedProfileTab = "profile"
+                }
                 ProfileTabButton(title: "PACKS", isSelected: selectedProfileTab == "packs") {
                     selectedProfileTab = "packs"
                 }
@@ -254,6 +259,8 @@ struct ProfileView: View {
     private var profileTabContent: some View {
         VStack(spacing: 20) {
             switch selectedProfileTab {
+            case "profile":
+                ProfileOverviewView(primaryColor: primaryColor)
             case "packs":
                 ProfilePacksView(primaryColor: primaryColor)
             case "albums":
@@ -312,17 +319,118 @@ struct ProfileTabButton: View {
     }
 }
 
+// MARK: - Profile Overview View
+struct ProfileOverviewView: View {
+    let primaryColor: Color
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 32) {
+                // Packs Section
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack {
+                        Text("SAMPLE PACKS")
+                            .font(.system(size: 20, weight: .heavy))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Button(action: {}) {
+                            Text("SEE ALL")
+                                .font(.system(size: 12, weight: .heavy))
+                                .foregroundColor(primaryColor)
+                        }
+                    }
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(0..<6) { index in
+                                ProfilePackCard(index: index, primaryColor: primaryColor)
+                                    .frame(width: 180)
+                            }
+                        }
+                    }
+                }
+                
+                // Albums Section
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack {
+                        Text("ALBUMS")
+                            .font(.system(size: 20, weight: .heavy))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Button(action: {}) {
+                            Text("SEE ALL")
+                                .font(.system(size: 12, weight: .heavy))
+                                .foregroundColor(primaryColor)
+                        }
+                    }
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(0..<4) { index in
+                                ProfileAlbumCard(index: index, primaryColor: primaryColor)
+                                    .frame(width: 180)
+                            }
+                        }
+                    }
+                }
+                
+                // Projects Section
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack {
+                        Text("PROJECTS")
+                            .font(.system(size: 20, weight: .heavy))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Button(action: {}) {
+                            Text("SEE ALL")
+                                .font(.system(size: 12, weight: .heavy))
+                                .foregroundColor(primaryColor)
+                        }
+                    }
+                    
+                    VStack(spacing: 12) {
+                        ForEach(0..<3) { index in
+                            ProjectRow(index: index, primaryColor: primaryColor)
+                        }
+                    }
+                }
+                
+                // Collabs Section
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack {
+                        Text("COLLABS")
+                            .font(.system(size: 20, weight: .heavy))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Button(action: {}) {
+                            Text("SEE ALL")
+                                .font(.system(size: 12, weight: .heavy))
+                                .foregroundColor(primaryColor)
+                        }
+                    }
+                    
+                    VStack(spacing: 16) {
+                        ForEach(0..<2) { index in
+                            ProfileCollabCard(index: index, primaryColor: primaryColor)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 // MARK: - Profile Packs View
 struct ProfilePacksView: View {
     let primaryColor: Color
     
     var body: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible(), spacing: 16),
-            GridItem(.flexible(), spacing: 16)
-        ], spacing: 16) {
-            ForEach(0..<6) { index in
-                ProfilePackCard(index: index, primaryColor: primaryColor)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                ForEach(0..<6) { index in
+                    ProfilePackCard(index: index, primaryColor: primaryColor)
+                        .frame(width: 260)
+                }
             }
         }
     }
@@ -377,12 +485,12 @@ struct ProfileAlbumsView: View {
     let primaryColor: Color
     
     var body: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible(), spacing: 16),
-            GridItem(.flexible(), spacing: 16)
-        ], spacing: 16) {
-            ForEach(0..<4) { index in
-                ProfileAlbumCard(index: index, primaryColor: primaryColor)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                ForEach(0..<4) { index in
+                    ProfileAlbumCard(index: index, primaryColor: primaryColor)
+                        .frame(width: 260)
+                }
             }
         }
     }

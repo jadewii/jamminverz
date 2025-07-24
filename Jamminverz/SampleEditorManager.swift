@@ -87,19 +87,19 @@ class SampleEditorManager: ObservableObject {
                 let frameCount = AVAudioFrameCount(file.length)
                 
                 originalBuffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCount)
-                guard let buffer = originalBuffer else { return }
+                guard let originalBuffer = originalBuffer else { return }
                 
-                try file.read(into: buffer)
+                try file.read(into: originalBuffer)
                 
                 // Create editable buffer copy
-                editedBuffer = copyBuffer(buffer)
-                compareBuffer = copyBuffer(buffer)
+                editedBuffer = copyBuffer(originalBuffer)
+                compareBuffer = copyBuffer(originalBuffer)
                 
                 // Update duration
                 duration = Double(frameCount) / format.sampleRate
                 
                 // Generate waveform
-                await self.generateWaveform(from: buffer)
+                await self.generateWaveform(from: originalBuffer)
                 
                 isLoading = false
             } catch {

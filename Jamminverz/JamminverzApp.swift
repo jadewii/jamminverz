@@ -13,6 +13,7 @@ struct JamminverzApp: App {
     @StateObject private var taskStore = TaskStore()
     @StateObject private var artStoreManager = ArtStoreManager.shared
     @StateObject private var paymentManager = PaymentManager.shared
+    @StateObject private var themeManager = ThemeManager.shared
     
     var body: some Scene {
         WindowGroup {
@@ -20,6 +21,7 @@ struct JamminverzApp: App {
                 .environmentObject(taskStore)
                 .environmentObject(artStoreManager)
                 .environmentObject(paymentManager)
+                .environmentObject(themeManager)
         }
         #if os(macOS)
         .windowStyle(HiddenTitleBarWindowStyle())

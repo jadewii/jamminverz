@@ -21,6 +21,7 @@ struct ModernSamplesView: View {
     @State private var hoveredPack: SamplePack?
     @State private var showCreatePackSheet = false
     @State private var selectedPack: SamplePack?
+    @State private var selectedPackSamples: [SampleFile] = []
     
     var body: some View {
         ZStack {
@@ -37,19 +38,200 @@ struct ModernSamplesView: View {
             .ignoresSafeArea()
             
             // Main content
-            HStack(spacing: 0) {
-                // Left side - Individual samples
-                samplesListView
-                    .frame(maxWidth: .infinity)
+            VStack(spacing: 0) {
+                // Header
+                HStack {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(selectedPack != nil ? selectedPack!.name.uppercased() : "ALL SAMPLES")
+                            .font(.system(size: 28, weight: .heavy))
+                            .foregroundColor(.white)
+                        
+                        Text("\(selectedPack != nil ? selectedPackSamples.count : samplesManager.audioFiles.count) files")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.white.opacity(0.8))
+                    }
+                    
+                    Spacer()
+                    
+                    Text("SAMPLE PACKS")
+                        .font(.system(size: 28, weight: .heavy))
+                        .foregroundColor(.white)
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 24)
                 
-                Divider()
-                    .background(Color.white.opacity(0.3))
+                // Search bar
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.white.opacity(0.6))
+                    
+                    TextField("Search samples...", text: $searchText)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .foregroundColor(.white)
+                        .accentColor(.white)
+                }
+                .padding(12)
+                .background(Color.white.opacity(0.2))
+                .cornerRadius(12)
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
                 
-                // Right side - Sample packs
-                samplePacksView
+                // Content area - split view
+                HStack(spacing: 24) {
+                    // Left side - Sample list
+                    VStack(spacing: 0) {
+                        // List header
+                        HStack {
+                            Text("SAMPLES")
+                                .font(.system(size: 20, weight: .heavy))
+                                .foregroundColor(.white)
+                            Spacer()
+                            Text("\(selectedPack != nil ? selectedPackSamples.count : samplesManager.audioFiles.count)")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.white.opacity(0.7))
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(Color.black.opacity(0.1))
+                        
+                        ScrollView {
+                            LazyVStack(spacing: 8) {
+                                ForEach(selectedPack != nil ? filteredPackSamples : filteredSamples) { file in
+                                    SampleRow(
+                                        file: file,
+                                        isSelected: selectedSamples.contains(file.id),
+                                        onToggle: { toggleSelection(file) },
+                                        onDragStart: { startDragging([file]) }
+                                    )
+                                }
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                        }
+                        .scrollIndicators(.hidden)
+                        
+                        // Action buttons - Todomai style
+                        HStack(spacing: 0) {
+                            if selectedPack != nil {
+                                Button(action: { 
+                                    selectedPack = nil
+                                    selectedPackSamples = []
+                                }) {
+                                    Text("SHOW ALL")
+                                }
+                                .buttonStyle(TodomaiButtonStyle(backgroundColor: Color.purple.opacity(0.3)))
+                            } else {
+                                Button(action: selectAll) {
+                                    Text("SELECT ALL")
+                                }
+                                .buttonStyle(TodomaiButtonStyle(backgroundColor: Color.purple.opacity(0.3)))
+                            }
+                            
+                            Button(action: { samplesManager.scanForAudioFiles() }) {
+                                Text("REFRESH")
+                            }
+                            .buttonStyle(TodomaiButtonStyle(backgroundColor: Color.blue.opacity(0.3)))
+                        }
+                    }
                     .frame(maxWidth: .infinity)
+                    .background(Color.black.opacity(0.3))
+                    
+                    // Right side - Sample packs
+                    GeometryReader { geometry in
+                        VStack(spacing: 0) {
+                            // Packs header
+                            HStack {
+                                Text("PACKS")
+                                    .font(.system(size: 20, weight: .heavy))
+                                    .foregroundColor(.white)
+                                Spacer()
+                                Text("\(samplesManager.samplePacks.count)")
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.7))
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(Color.black.opacity(0.1))
+                            
+                            ScrollView {
+                                LazyVGrid(columns: [
+                                    GridItem(.fixed(110), spacing: 12),
+                                    GridItem(.fixed(110), spacing: 12),
+                                    GridItem(.fixed(110), spacing: 12),
+                                    GridItem(.fixed(110), spacing: 12),
+                                    GridItem(.fixed(110), spacing: 12)
+                                ], spacing: 12) {
+                                ForEach(samplesManager.samplePacks) { pack in
+                                    SamplePackCard(
+                                        pack: pack,
+                                        isHovered: hoveredPack?.id == pack.id,
+                                        isSelected: selectedPack?.id == pack.id,
+                                        onTap: { 
+                                            selectedPack = pack
+                                            selectedPackSamples = samplesManager.getSamplesForPack(pack)
+                                        },
+                                        onDrop: { samples in
+                                            samplesManager.addSamplesToPack(samples, pack: pack)
+                                        }
+                                    )
+                                    .onHover { hovering in
+                                        if hovering && isDragging {
+                                            hoveredPack = pack
+                                        } else if !hovering && hoveredPack?.id == pack.id {
+                                            hoveredPack = nil
+                                        }
+                                    }
+                                }
+                                
+                                // Add pack button
+                                Button(action: { showCreatePackSheet = true }) {
+                                    VStack(spacing: 4) {
+                                        Image(systemName: "plus")
+                                            .font(.system(size: 24, weight: .medium))
+                                        Text("ADD\nPACK")
+                                            .font(.system(size: 11, weight: .bold))
+                                            .multilineTextAlignment(.center)
+                                    }
+                                    .foregroundColor(.white)
+                                    .frame(width: 110, height: 110)
+                                    .background(Color.white.opacity(0.2))
+                                    .overlay(
+                                        Rectangle() // Sharp corners
+                                            .stroke(Color.white.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [5]))
+                                    )
+                                }
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                        }
+                        .scrollIndicators(.hidden)
+                        
+                        // Pack action buttons - Todomai style
+                        HStack(spacing: 0) {
+                            Button(action: aiAutoPack) {
+                                Text("AI AUTO-PACK")
+                            }
+                            .buttonStyle(TodomaiButtonStyle(backgroundColor: Color.purple))
+                            
+                            Button(action: { showCreatePackSheet = true }) {
+                                Text("CREATE PACK")
+                            }
+                            .buttonStyle(TodomaiButtonStyle(backgroundColor: Color.green))
+                            
+                            Button(action: importPack) {
+                                Text("IMPORT PACK")
+                            }
+                            .buttonStyle(TodomaiButtonStyle(backgroundColor: Color.orange))
+                        }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .background(Color.black.opacity(0.3))
+                        .cornerRadius(20)
+                    }
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 16)
             }
-            .padding()
         }
         .onAppear {
             samplesManager.scanForAudioFiles()
@@ -57,162 +239,9 @@ struct ModernSamplesView: View {
         .sheet(isPresented: $showCreatePackSheet) {
             CreatePackSheet(samplesManager: samplesManager)
         }
-        .sheet(item: $selectedPack) { pack in
-            PackDetailView(pack: pack, samplesManager: samplesManager)
-        }
+        // Removed sheet for pack detail - we show samples in the left panel instead
     }
     
-    // MARK: - Samples List View
-    private var samplesListView: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // Header
-            VStack(alignment: .leading, spacing: 8) {
-                Text("SAMPLES")
-                    .font(.system(size: 28, weight: .heavy))
-                    .foregroundColor(.white)
-                
-                Text("\(samplesManager.audioFiles.count) files")
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(.white.opacity(0.8))
-            }
-            
-            // Search bar
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(.white.opacity(0.6))
-                
-                TextField("Search samples...", text: $searchText)
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .foregroundColor(.white)
-                    .accentColor(.white)
-            }
-            .padding(12)
-            .background(Color.white.opacity(0.2))
-            .cornerRadius(12)
-            
-            // Samples list
-            ScrollView {
-                LazyVStack(spacing: 8) {
-                    ForEach(filteredSamples) { file in
-                        SampleRow(
-                            file: file,
-                            isSelected: selectedSamples.contains(file.id),
-                            onToggle: { toggleSelection(file) },
-                            onDragStart: { startDragging([file]) }
-                        )
-                    }
-                }
-            }
-            .scrollIndicators(.hidden)
-            
-            // Action buttons
-            HStack(spacing: 12) {
-                Button(action: selectAll) {
-                    Label("Select All", systemImage: "checkmark.square")
-                        .font(.system(size: 14, weight: .medium))
-                }
-                .buttonStyle(ModernButtonStyle())
-                
-                Button(action: { samplesManager.scanForAudioFiles() }) {
-                    Label("Refresh", systemImage: "arrow.clockwise")
-                        .font(.system(size: 14, weight: .medium))
-                }
-                .buttonStyle(ModernButtonStyle())
-                
-                Spacer()
-                
-                Button(action: bulkActions) {
-                    Label("Bulk Actions", systemImage: "ellipsis.circle")
-                        .font(.system(size: 14, weight: .medium))
-                }
-                .buttonStyle(ModernButtonStyle())
-            }
-        }
-        .padding()
-    }
-    
-    // MARK: - Sample Packs View
-    private var samplePacksView: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // Header
-            Text("SAMPLE PACKS")
-                .font(.system(size: 28, weight: .heavy))
-                .foregroundColor(.white)
-            
-            // Packs grid
-            ScrollView {
-                LazyVGrid(columns: [
-                    GridItem(.flexible()),
-                    GridItem(.flexible()),
-                    GridItem(.flexible()),
-                    GridItem(.flexible())
-                ], spacing: 16) {
-                    ForEach(samplesManager.samplePacks) { pack in
-                        SamplePackCard(
-                            pack: pack,
-                            isHovered: hoveredPack?.id == pack.id,
-                            onTap: { selectedPack = pack },
-                            onDrop: { samples in
-                                samplesManager.addSamplesToPack(samples, pack: pack)
-                            }
-                        )
-                        .onHover { hovering in
-                            if hovering && isDragging {
-                                hoveredPack = pack
-                            } else if !hovering && hoveredPack?.id == pack.id {
-                                hoveredPack = nil
-                            }
-                        }
-                    }
-                    
-                    // Add pack button
-                    Button(action: { showCreatePackSheet = true }) {
-                        VStack(spacing: 8) {
-                            Image(systemName: "plus")
-                                .font(.system(size: 32, weight: .medium))
-                            Text("ADD\nPACK")
-                                .font(.system(size: 14, weight: .bold))
-                                .multilineTextAlignment(.center)
-                        }
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 120)
-                        .background(Color.white.opacity(0.2))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.white.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [5]))
-                        )
-                        .cornerRadius(16)
-                    }
-                }
-            }
-            .scrollIndicators(.hidden)
-            
-            // Action buttons
-            HStack(spacing: 12) {
-                Button(action: aiAutoPack) {
-                    Label("AI Auto-Pack", systemImage: "wand.and.stars")
-                        .font(.system(size: 14, weight: .medium))
-                }
-                .buttonStyle(ModernButtonStyle())
-                
-                Button(action: { showCreatePackSheet = true }) {
-                    Label("Create Pack", systemImage: "plus.square")
-                        .font(.system(size: 14, weight: .medium))
-                }
-                .buttonStyle(ModernButtonStyle())
-                
-                Spacer()
-                
-                Button(action: importPack) {
-                    Label("Import Pack", systemImage: "square.and.arrow.down")
-                        .font(.system(size: 14, weight: .medium))
-                }
-                .buttonStyle(ModernButtonStyle())
-            }
-        }
-        .padding()
-    }
     
     // MARK: - Helper Methods
     private var filteredSamples: [SampleFile] {
@@ -220,6 +249,15 @@ struct ModernSamplesView: View {
             return samplesManager.audioFiles
         }
         return samplesManager.audioFiles.filter {
+            $0.name.localizedCaseInsensitiveContains(searchText)
+        }
+    }
+    
+    private var filteredPackSamples: [SampleFile] {
+        if searchText.isEmpty {
+            return selectedPackSamples
+        }
+        return selectedPackSamples.filter {
             $0.name.localizedCaseInsensitiveContains(searchText)
         }
     }
@@ -347,37 +385,39 @@ struct SampleRow: View {
 struct SamplePackCard: View {
     let pack: SamplePack
     let isHovered: Bool
+    let isSelected: Bool
     let onTap: () -> Void
     let onDrop: ([SampleFile]) -> Void
     
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 8) {
+            VStack(spacing: 4) {
                 // Icon or image
                 ZStack {
-                    RoundedRectangle(cornerRadius: 12)
+                    Rectangle() // Sharp corners
                         .fill(pack.color.gradient)
-                        .frame(height: 60)
+                        .frame(height: 45)
                     
                     Text(pack.icon)
-                        .font(.system(size: 32))
+                        .font(.system(size: 24))
                 }
                 
                 Text(pack.name.uppercased())
-                    .font(.system(size: 14, weight: .bold))
+                    .font(.system(size: 11, weight: .bold))
                     .foregroundColor(.white)
+                    .lineLimit(1)
                 
                 Text("\(pack.samples.count)")
-                    .font(.system(size: 18, weight: .medium))
+                    .font(.system(size: 14, weight: .medium))
                     .foregroundColor(.white.opacity(0.8))
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 120)
+            .frame(width: 110, height: 110)
             .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.white.opacity(0.15))
+                Rectangle() // Sharp corners
+                    .fill(Color.white.opacity(isSelected ? 0.3 : 0.15))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 16)
+                        Rectangle()
+                            .stroke(isSelected ? Color.white : Color.clear, lineWidth: 2)
                             .stroke(Color.white.opacity(isHovered ? 0.5 : 0.2), lineWidth: 2)
                     )
             )
@@ -413,20 +453,7 @@ struct SampleDragPreview: View {
     }
 }
 
-// MARK: - Modern Button Style
-struct ModernButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .foregroundColor(.white)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.white.opacity(configuration.isPressed ? 0.3 : 0.2))
-            )
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-    }
-}
+// TodomaiButtonStyle is imported from Styles.swift
 
 // MARK: - Create Pack Sheet
 struct CreatePackSheet: View {

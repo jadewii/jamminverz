@@ -37,7 +37,8 @@ struct TodomaiSidebar: View {
             ("unlocks", "UNLOCKS", Color(red: 0.6, green: 0.4, blue: 0.9)), // Lavender - achievements
             ("friends", "FRIENDS", Color(red: 0.3, green: 0.8, blue: 0.3)), // Green - social
             ("store", "STORE", Color(red: 1.0, green: 0.5, blue: 0.0)), // Orange - JAde Wii marketplace
-            ("artstore", "ART GALLERY", Color(red: 0.7, green: 0.3, blue: 0.9)) // Purple - album art store
+            ("artstore", "ALBUM ART", Color(red: 0.7, green: 0.3, blue: 0.9)), // Purple - album art store
+            ("settings", "SETTINGS", Color(red: 0.6, green: 0.6, blue: 0.6)) // Gray - settings
         ]
     }
     
@@ -85,9 +86,7 @@ struct TodomaiSidebar: View {
                                             let impactFeedback = UIImpactFeedbackGenerator(style: .light)
                                             impactFeedback.impactOccurred()
                                             currentTab = item.id
-                                            withAnimation(.easeInOut(duration: 0.2)) {
-                                                showQuickButtons = false
-                                            }
+                                            // Don't expand - just navigate
                                         }) {
                                             ZStack {
                                                 Circle()
@@ -132,7 +131,7 @@ struct TodomaiSidebar: View {
                     Spacer()
                 }
                 .frame(width: 60)
-                .background(Color.black)
+                .background(Color.clear)
                 .onTapGesture {
                     if showQuickButtons {
                         withAnimation(.easeInOut(duration: 0.2)) {
@@ -210,9 +209,9 @@ struct TodomaiSidebar: View {
                     .animation(nil, value: taskStore.currentMode) // Remove animation when mode changes
                 }
                 .frame(width: 320)
+                .background(Color.black)
                 .padding(.top, 20)
                 .padding(.bottom, 20)
-                .background(Color.black)
             }
         }
     }

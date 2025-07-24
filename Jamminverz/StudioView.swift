@@ -359,7 +359,7 @@ class StudioEngine: ObservableObject {
     
     init() {
         // Initialize with 4 empty tracks
-        for i in 0..<4 {
+        for _ in 0..<4 {
             addTrack()
         }
     }
