@@ -60,6 +60,12 @@
 		B1C12AC3422A4874433A /* BeatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF15548683CB0468A18 /* BeatsView.swift */; };
 		S10AFCE2B721DABE0912C /* SamplerEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = S14C8DEB4CB3D110537E8 /* SamplerEngine.swift */; };
 		SDA58806DBAC5C2FE1DD /* SamplerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S57AEAC4C8677B0C073A /* SamplerView.swift */; };
+		879224A088534B53B2815B56 /* CreateMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0BAED3B80943589A538EF7 /* CreateMenuView.swift */; };
+		D1E2F3G41A2B3C4D5E6F7801 /* MyMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3G31A2B3C4D5E6F7801 /* MyMusicView.swift */; };
+		D1E2F3G51A2B3C4D5E6F7802 /* AllMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3G41A2B3C4D5E6F7802 /* AllMusicView.swift */; };
+		D1E2F3G61A2B3C4D5E6F7803 /* FavoriteSongsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3G51A2B3C4D5E6F7803 /* FavoriteSongsView.swift */; };
+		D1E2F3G71A2B3C4D5E6F7804 /* RemixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3G61A2B3C4D5E6F7804 /* RemixView.swift */; };
+		D1E2F3G81A2B3C4D5E6F7805 /* AudioProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3G71A2B3C4D5E6F7805 /* AudioProcessor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +123,12 @@
 		BCCDE0F54B4B4D35218E /* BeatsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatsManager.swift; sourceTree = "<group>"; };
 		S14C8DEB4CB3D110537E8 /* SamplerEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplerEngine.swift; sourceTree = "<group>"; };
 		S57AEAC4C8677B0C073A /* SamplerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplerView.swift; sourceTree = "<group>"; };
+		3D0BAED3B80943589A538EF7 /* CreateMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMenuView.swift; sourceTree = "<group>"; };
+		D1E2F3G31A2B3C4D5E6F7801 /* MyMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMusicView.swift; sourceTree = "<group>"; };
+		D1E2F3G41A2B3C4D5E6F7802 /* AllMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMusicView.swift; sourceTree = "<group>"; };
+		D1E2F3G51A2B3C4D5E6F7803 /* FavoriteSongsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSongsView.swift; sourceTree = "<group>"; };
+		D1E2F3G61A2B3C4D5E6F7804 /* RemixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemixView.swift; sourceTree = "<group>"; };
+		D1E2F3G71A2B3C4D5E6F7805 /* AudioProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioProcessor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +194,7 @@
 				A1B2C3FD1A2B3C4D5E6F78B3 /* SampleEditorView.swift */,
 				A1B2C3FE1A2B3C4D5E6F78B4 /* SampleEditorManager.swift */,
 				A1B2C3FF1A2B3C4D5E6F78B5 /* CreateView.swift */,
+				3D0BAED3B80943589A538EF7 /* CreateMenuView.swift */,
 				A1B2C4001A2B3C4D5E6F78B6 /* DrumMachineEngine.swift */,
 				A1B2C4021A2B3C4D5E6F78B7 /* ModernSamplesView.swift */,
 				A1B2C4031A2B3C4D5E6F78B8 /* ModernSamplesManager.swift */,
@@ -202,6 +215,11 @@
 				0791301B2E321AAD0016A08A /* ArtStoreManager.swift */,
 				0791301C2E321AAD0016A08A /* ArtStoreView.swift */,
 				0791301F2E321AAD0016A08A /* PaymentManager.swift */,
+				D1E2F3G31A2B3C4D5E6F7801 /* MyMusicView.swift */,
+				D1E2F3G41A2B3C4D5E6F7802 /* AllMusicView.swift */,
+				D1E2F3G51A2B3C4D5E6F7803 /* FavoriteSongsView.swift */,
+				D1E2F3G61A2B3C4D5E6F7804 /* RemixView.swift */,
+				D1E2F3G71A2B3C4D5E6F7805 /* AudioProcessor.swift */,
 				A1B2C3E71A2B3C4D5E6F78A4 /* Assets.xcassets */,
 			);
 			path = Jamminverz;
@@ -269,10 +287,10 @@
 			);
 			dependencies = (
 			);
-			name = Jamminverz;
+			name = JAMVERZ;
 			packageProductDependencies = (
 			);
-			productName = Jamminverz;
+			productName = JAMVERZ;
 			productReference = A1B2C3D01A2B3C4D5E6F7800 /* Jamminverz.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -367,6 +385,7 @@
 				A1B2C3FE1A2B3C4D5E6F78B3 /* SampleEditorView.swift in Sources */,
 				A1B2C3FF1A2B3C4D5E6F78B4 /* SampleEditorManager.swift in Sources */,
 				A1B2C4001A2B3C4D5E6F78B5 /* CreateView.swift in Sources */,
+				879224A088534B53B2815B56 /* CreateMenuView.swift in Sources */,
 				A1B2C4011A2B3C4D5E6F78B6 /* DrumMachineEngine.swift in Sources */,
 				A1B2C4041A2B3C4D5E6F78B7 /* ModernSamplesView.swift in Sources */,
 				A1B2C4051A2B3C4D5E6F78B8 /* ModernSamplesManager.swift in Sources */,
@@ -374,6 +393,11 @@
 				079130282E321AAD0016A08A /* ArtStoreView.swift in Sources */,
 				0791302A2E321AAD0016A08A /* PaymentManager.swift in Sources */,
 				0791302B2E321AAD0016A08A /* ArtStoreManager.swift in Sources */,
+				D1E2F3G41A2B3C4D5E6F7801 /* MyMusicView.swift in Sources */,
+				D1E2F3G51A2B3C4D5E6F7802 /* AllMusicView.swift in Sources */,
+				D1E2F3G61A2B3C4D5E6F7803 /* FavoriteSongsView.swift in Sources */,
+				D1E2F3G71A2B3C4D5E6F7804 /* RemixView.swift in Sources */,
+				D1E2F3G81A2B3C4D5E6F7805 /* AudioProcessor.swift in Sources */,
 				B1C12AC3422A4874433A /* BeatsView.swift in Sources */,
 				B108AAA6B7187F3CE337F /* BeatsManager.swift in Sources */,
 				SDA58806DBAC5C2FE1DD /* SamplerView.swift in Sources */,
@@ -528,7 +552,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jadewii.Jamminverz;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jadewii.JAMVERZ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -557,7 +581,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jadewii.Jamminverz;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jadewii.JAMVERZ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

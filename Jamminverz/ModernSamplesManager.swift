@@ -79,6 +79,7 @@ struct SamplePack: Identifiable, Codable {
 class ModernSamplesManager: ObservableObject {
     @Published var audioFiles: [SampleFile] = []
     @Published var samplePacks: [SamplePack] = []
+    @Published var favoritePacks: Set<String> = []
     @Published var isScanning = false
     @Published var scanProgress: Double = 0.0
     
@@ -98,6 +99,7 @@ class ModernSamplesManager: ObservableObject {
     
     init() {
         loadSamplePacks()
+        loadFavorites()
         if samplePacks.isEmpty {
             createDefaultPacks()
         }
@@ -274,6 +276,24 @@ class ModernSamplesManager: ObservableObject {
         saveSamplePacks()
     }
     
+    // MARK: - Favorite Management
+    func toggleFavorite(_ packId: String) {
+        if favoritePacks.contains(packId) {
+            favoritePacks.remove(packId)
+        } else {
+            favoritePacks.insert(packId)
+        }
+        saveFavorites()
+    }
+    
+    func isFavorite(_ packId: String) -> Bool {
+        favoritePacks.contains(packId)
+    }
+    
+    var favoritedPacks: [SamplePack] {
+        samplePacks.filter { favoritePacks.contains($0.id) }
+    }
+    
     // MARK: - Persistence
     private func saveSamplePacks() {
         guard let url = getPacksURL() else { return }
@@ -308,6 +328,36 @@ class ModernSamplesManager: ObservableObject {
         for (name, icon, color) in defaultPacks {
             createPack(name: name, icon: icon, color: color)
         }
+    }
+    
+    private func saveFavorites() {
+        guard let url = getFavoritesURL() else { return }
+        
+        do {
+            let data = try JSONEncoder().encode(Array(favoritePacks))
+            try data.write(to: url)
+        } catch {
+            print("Failed to save favorites: \(error)")
+        }
+    }
+    
+    private func loadFavorites() {
+        guard let url = getFavoritesURL(),
+              fileManager.fileExists(atPath: url.path) else { return }
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let favoriteIds = try JSONDecoder().decode([String].self, from: data)
+            favoritePacks = Set(favoriteIds)
+        } catch {
+            print("Failed to load favorites: \(error)")
+        }
+    }
+    
+    private func getFavoritesURL() -> URL? {
+        fileManager.urls(for: .documentDirectory, in: .userDomainMask)
+            .first?
+            .appendingPathComponent("JamminverzFavoritePacks.json")
     }
 }
 

@@ -1,0 +1,30 @@
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/TestDataManager.swift":
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TestDataManager.d"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TestDataManager.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TestDataManager.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TestDataManager.swiftconstvalues"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TestDataManager.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SettingsView.swift":
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SettingsView.swiftconstvalues"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SettingsView.swiftdeps"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SettingsView.dia"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SettingsView.d"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SettingsView.o"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/Styles.swift":
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/Styles.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/Styles.o"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/Styles.d"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/Styles.swiftconstvalues"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/Styles.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/TaskTemplate.swift":
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskTemplate.swiftdeps"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskTemplate.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskTemplate.o"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskTemplate.d"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskTemplate.swiftconstvalues"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ThemeManager.swift":
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/ThemeManager.swiftdeps"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/ThemeManager.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/ThemeManager.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/ThemeManager.swiftconstvalues"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/ThemeManager.d"

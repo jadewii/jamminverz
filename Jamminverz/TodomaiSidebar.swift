@@ -12,6 +12,7 @@ struct TodomaiSidebar: View {
     @Binding var currentTab: String
     @State private var isCollapsed = false
     @State private var showQuickButtons = false
+    @StateObject private var musicPlayerManager = MusicPlayerManager.shared
     
     var isColoredBackground: Bool {
         // Check if current view has a colored background
@@ -33,11 +34,13 @@ struct TodomaiSidebar: View {
             ("create", "CREATE", Color(red: 0.8, green: 0.2, blue: 0.8)), // Magenta - pack generator
             ("albums", "ALBUMS", Color(red: 0.2, green: 0.6, blue: 1.0)), // Blue - albums
             ("studio", "STUDIO", Color(red: 0.1, green: 0.8, blue: 0.6)), // Teal - beat builder
+            ("sampler", "SAMPLER", Color(red: 0.5, green: 0.2, blue: 0.9)), // Deep purple - sampler
             ("collabs", "COLLABS", Color(red: 0.9, green: 0.3, blue: 0.5)), // Hot pink - collaborations
             ("unlocks", "UNLOCKS", Color(red: 0.6, green: 0.4, blue: 0.9)), // Lavender - achievements
             ("friends", "FRIENDS", Color(red: 0.3, green: 0.8, blue: 0.3)), // Green - social
             ("store", "STORE", Color(red: 1.0, green: 0.5, blue: 0.0)), // Orange - JAde Wii marketplace
             ("artstore", "ALBUM ART", Color(red: 0.7, green: 0.3, blue: 0.9)), // Purple - album art store
+            ("mymusic", "MY MUSIC", Color(red: 1.0, green: 0.4, blue: 0.4)), // Light red - my music
             ("settings", "SETTINGS", Color(red: 0.6, green: 0.6, blue: 0.6)) // Gray - settings
         ]
     }
@@ -131,7 +134,6 @@ struct TodomaiSidebar: View {
                     Spacer()
                 }
                 .frame(width: 60)
-                .background(Color.clear)
                 .onTapGesture {
                     if showQuickButtons {
                         withAnimation(.easeInOut(duration: 0.2)) {
@@ -204,12 +206,21 @@ struct TodomaiSidebar: View {
                     
                     Spacer()
                     
+                    // Remix button above radio
+                    RemixButton(currentTab: $currentTab)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 8)
+                    
+                    // Radio button at the very bottom
+                    RadioTransportButton(currentTab: $currentTab)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
+                    
                     }
                     .frame(maxWidth: .infinity)
                     .animation(nil, value: taskStore.currentMode) // Remove animation when mode changes
                 }
                 .frame(width: 320)
-                .background(Color.black)
                 .padding(.top, 20)
                 .padding(.bottom, 20)
             }
@@ -299,6 +310,141 @@ struct DailySchedulePieChart: View {
             Image(systemName: "clock.fill")
                 .font(.system(size: 20, weight: .medium))
                 .foregroundColor(.white)
+        }
+    }
+}
+
+// MARK: - Radio Transport Button
+struct RadioTransportButton: View {
+    @Binding var currentTab: String
+    @State private var isHovering = false
+    @StateObject private var playerManager = MusicPlayerManager.shared
+    @StateObject private var downloadManager = StationDownloadManager.shared
+    
+    private let radioColor = Color(red: 0.2, green: 0.9, blue: 0.6) // Mint green
+    
+    var body: some View {
+        ZStack {
+            // Background
+            radioColor
+            
+            if isHovering {
+                // Transport controls - always show on hover
+                HStack(spacing: 16) {
+                    // Heart button
+                    Button(action: {
+                        if let song = playerManager.currentSong {
+                            playerManager.toggleFavorite(song)
+                        }
+                    }) {
+                        Image(systemName: playerManager.isCurrentSongFavorite() ? "heart.fill" : "heart")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(playerManager.isCurrentSongFavorite() ? Color(red: 1.0, green: 0.4, blue: 0.4) : .black)
+                            .opacity(playerManager.currentStation != nil ? 1.0 : 0.3)
+                    }
+                    .disabled(playerManager.currentStation == nil)
+                    
+                    Button(action: {
+                        if playerManager.currentStation != nil {
+                            playerManager.previousSong()
+                        }
+                    }) {
+                        Image(systemName: "backward.fill")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.black)
+                            .opacity(playerManager.currentStation != nil ? 1.0 : 0.3)
+                    }
+                    .disabled(playerManager.currentStation == nil)
+                    
+                    Button(action: {
+                        if playerManager.currentStation == nil {
+                            // Start playing World Radio
+                            let worldRadio = downloadManager.getStation(by: "lofi")
+                            playerManager.loadStation(worldRadio)
+                        } else {
+                            playerManager.togglePlayPause()
+                        }
+                    }) {
+                        Image(systemName: playerManager.currentStation == nil ? "play.fill" : (playerManager.isPlaying ? "pause.fill" : "play.fill"))
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(.black)
+                    }
+                    
+                    Button(action: {
+                        if playerManager.currentStation != nil {
+                            playerManager.nextSong()
+                        }
+                    }) {
+                        Image(systemName: "forward.fill")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.black)
+                            .opacity(playerManager.currentStation != nil ? 1.0 : 0.3)
+                    }
+                    .disabled(playerManager.currentStation == nil)
+                }
+                .transition(.opacity.combined(with: .scale(scale: 0.8)))
+            } else {
+                // RADIO text
+                Text("RADIO")
+                    .font(.system(size: 18, weight: .heavy))
+                    .foregroundColor(.black)
+                    .transition(.opacity)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 56)
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.15)) {
+                isHovering = hovering
+            }
+        }
+        .onTapGesture {
+            if !isHovering {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                impactFeedback.impactOccurred()
+                currentTab = "radio"
+            }
+        }
+    }
+}
+
+// MARK: - Remix Button
+struct RemixButton: View {
+    @Binding var currentTab: String
+    @StateObject private var playerManager = MusicPlayerManager.shared
+    @State private var isHovering = false
+    
+    private let remixColor = Color(red: 0.9, green: 0.3, blue: 0.6) // Hot pink
+    
+    var body: some View {
+        Button(action: {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+            impactFeedback.impactOccurred()
+            currentTab = "remix"
+        }) {
+            ZStack {
+                // Background
+                remixColor
+                    .opacity(playerManager.currentStation != nil ? (isHovering ? 0.9 : 0.8) : 0.3)
+                
+                HStack(spacing: 8) {
+                    Image(systemName: "slider.vertical.3")
+                        .font(.system(size: 16, weight: .heavy))
+                        .foregroundColor(playerManager.currentStation != nil ? .white : .white.opacity(0.5))
+                    
+                    Text("REMIX")
+                        .font(.system(size: 18, weight: .heavy))
+                        .foregroundColor(playerManager.currentStation != nil ? .white : .white.opacity(0.5))
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 40)
+        .disabled(playerManager.currentStation == nil)
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.15)) {
+                isHovering = hovering
+            }
         }
     }
 }

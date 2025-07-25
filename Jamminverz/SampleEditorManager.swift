@@ -231,7 +231,7 @@ class SampleEditorManager: ObservableObject {
     }
     
     func removeSilence() {
-        guard let buffer = editedBuffer else { return }
+        guard let _ = editedBuffer else { return }
         
         // TODO: Implement silence detection and removal
         recordEdit(.removeSilence)

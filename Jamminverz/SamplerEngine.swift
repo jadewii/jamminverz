@@ -442,4 +442,13 @@ class SamplerEngine: ObservableObject {
         guard padIndex < pads.count else { return }
         pads[padIndex].pitch = pitch
     }
+    
+    // MARK: - Sequencer Control
+    func startSequencer() {
+        startPlayback()
+    }
+    
+    func stopSequencer() {
+        stopPlayback()
+    }
 }

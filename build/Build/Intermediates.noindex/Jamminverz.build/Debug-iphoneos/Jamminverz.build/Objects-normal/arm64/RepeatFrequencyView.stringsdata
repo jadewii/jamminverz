@@ -1,0 +1,88 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/RepeatFrequencyView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "REPEAT FREQUENCY",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 62
+        }
+      },
+      {
+        "comment": "",
+        "key": "WEEKLY",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 90
+        }
+      },
+      {
+        "comment": "",
+        "key": "New Recurring Task",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 216
+        }
+      },
+      {
+        "comment": "",
+        "key": "What would you like to do?",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 238
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter task description",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 242
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 266
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 255
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 261
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 277
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create Task",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 286
+        }
+      }
+    ]
+  },
+  "version": 1
+}

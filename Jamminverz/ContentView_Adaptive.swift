@@ -7,10 +7,56 @@
 
 import SwiftUI
 
+// MARK: - Mini Player View
+struct MiniPlayerView: View {
+    @StateObject private var playerManager = MusicPlayerManager.shared
+    
+    var body: some View {
+        HStack(spacing: 16) {
+            Button(action: {
+                playerManager.previousSong()
+            }) {
+                Image(systemName: "backward.fill")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(.white)
+            }
+            
+            Button(action: {
+                playerManager.togglePlayPause()
+            }) {
+                Image(systemName: playerManager.isPlaying ? "pause.fill" : "play.fill")
+                    .font(.system(size: 22, weight: .medium))
+                    .foregroundColor(.white)
+            }
+            
+            Button(action: {
+                playerManager.nextSong()
+            }) {
+                Image(systemName: "forward.fill")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(.white)
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .background(
+            Color.black
+                .overlay(Color.purple.opacity(0.2))
+        )
+        .overlay(
+            Rectangle()
+                .fill(Color.white.opacity(0.1))
+                .frame(height: 1),
+            alignment: .top
+        )
+    }
+}
+
 struct ContentView_Adaptive: View {
     @StateObject private var taskStore = TaskStore()
     @StateObject private var themeManager = ThemeManager.shared
-    @State private var currentTab = "radio"
+    @StateObject private var musicPlayerManager = MusicPlayerManager.shared
+    @State private var currentTab = "sampler"
     @State private var isRouletteMode = false
     @State private var showRandomModeSelection = false
     @State private var isInYearMode = false
@@ -45,14 +91,16 @@ struct ContentView_Adaptive: View {
             ZStack {
                 Color.white.ignoresSafeArea()
                 
-                // Main navigation switch - exactly like watchOS
-                switch currentTab {
+                VStack(spacing: 0) {
+                    // Main content area
+                    ZStack {
+                        // Main navigation switch - exactly like watchOS
+                        switch currentTab {
                 case "menu":
-                    MenuView(
+                    // Default to radio view for menu
+                    RadioView(
                         taskStore: taskStore,
-                        currentTab: $currentTab,
-                        isRouletteMode: $isRouletteMode,
-                        showRandomModeSelection: $showRandomModeSelection
+                        currentTab: $currentTab
                     )
                     
                 case "today":
@@ -104,13 +152,15 @@ struct ContentView_Adaptive: View {
                             backgroundColor: getListColor(for: currentTab)
                         )
                     } else {
-                        MenuView(
+                        // Default to radio view
+                        RadioView(
                             taskStore: taskStore,
-                            currentTab: $currentTab,
-                            isRouletteMode: $isRouletteMode,
-                            showRandomModeSelection: $showRandomModeSelection
+                            currentTab: $currentTab
                         )
                     }
+                }
+                    }
+                    .frame(maxHeight: .infinity)
                 }
             }
         }
@@ -130,12 +180,13 @@ struct ContentView_Adaptive: View {
             Color.black
             .ignoresSafeArea()
             
-            HStack(spacing: 0) {
-                // Custom sidebar - width now handled internally by TodomaiSidebar
-                TodomaiSidebar(taskStore: taskStore, currentTab: $currentTab)
-                
-                // Detail view - each view controls its own background
-                Group {
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    // Custom sidebar - width now handled internally by TodomaiSidebar
+                    TodomaiSidebar(taskStore: taskStore, currentTab: $currentTab)
+                    
+                    // Detail view - each view controls its own background
+                    Group {
                     switch currentTab {
                     case "today":
                         if taskStore.isTimeBlockingEnabled {
@@ -197,7 +248,7 @@ struct ContentView_Adaptive: View {
                         }
                     
                     case "create":
-                        CreateView(
+                        CreateMenuView(
                             taskStore: taskStore,
                             currentTab: $currentTab
                         )
@@ -272,6 +323,30 @@ struct ContentView_Adaptive: View {
                             currentTab: $currentTab
                         )
                     
+                    case "mymusic":
+                        MyMusicView(
+                            taskStore: taskStore,
+                            currentTab: $currentTab
+                        )
+                    
+                    case "allmusicview":
+                        AllMusicView(
+                            taskStore: taskStore,
+                            currentTab: $currentTab
+                        )
+                    
+                    case "favorites":
+                        FavoriteSongsView(
+                            taskStore: taskStore,
+                            currentTab: $currentTab
+                        )
+                    
+                    case "remix":
+                        RemixView(
+                            taskStore: taskStore,
+                            currentTab: $currentTab
+                        )
+                    
                     case "getItDone":
                         GetItDoneView(
                             taskStore: taskStore,
@@ -310,6 +385,7 @@ struct ContentView_Adaptive: View {
                 .id(currentTab) // Force view refresh on tab change
                 .animation(nil, value: currentTab) // Remove animation on tab change
             } // End HStack
+            } // End VStack
         } // End ZStack
     }
     

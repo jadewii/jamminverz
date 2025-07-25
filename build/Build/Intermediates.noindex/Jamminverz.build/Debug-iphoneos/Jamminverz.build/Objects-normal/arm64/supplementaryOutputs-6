@@ -1,0 +1,30 @@
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/AIOrganizationManager.swift":
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AIOrganizationManager.o"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AIOrganizationManager.d"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AIOrganizationManager.swiftconstvalues"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AIOrganizationManager.swiftdeps"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AIOrganizationManager.dia"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SampleOrganizerView.swift":
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SampleOrganizerView.swiftconstvalues"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SampleOrganizerView.swiftdeps"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SampleOrganizerView.d"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SampleOrganizerView.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SampleOrganizerView.o"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/OrganizeView.swift":
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/OrganizeView.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/OrganizeView.swiftdeps"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/OrganizeView.dia"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/OrganizeView.swiftconstvalues"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/OrganizeView.o"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/AudioAnalysisEngine.swift":
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AudioAnalysisEngine.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AudioAnalysisEngine.swiftconstvalues"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AudioAnalysisEngine.dia"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AudioAnalysisEngine.swiftdeps"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AudioAnalysisEngine.d"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SmartSearchEngine.swift":
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SmartSearchEngine.dia"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SmartSearchEngine.swiftconstvalues"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SmartSearchEngine.o"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SmartSearchEngine.swiftdeps"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SmartSearchEngine.d"

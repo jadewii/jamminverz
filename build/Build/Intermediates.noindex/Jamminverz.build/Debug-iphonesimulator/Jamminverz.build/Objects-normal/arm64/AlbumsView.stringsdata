@@ -1,0 +1,160 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/AlbumsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "ALBUMS",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create albums from your projects",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 70
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create albums from your projects",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 143
+        }
+      },
+      {
+        "comment": "",
+        "key": "CREATE ALBUM",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 150
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld tracks",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 220
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld tracks • %lld plays",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 289
+        }
+      },
+      {
+        "comment": "",
+        "key": "ADD COVER ART",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 343
+        }
+      },
+      {
+        "comment": "",
+        "key": "BROWSE ART GALLERY",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 360
+        }
+      },
+      {
+        "comment": "",
+        "key": "ALBUM TITLE",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 374
+        }
+      },
+      {
+        "comment": "",
+        "key": "My Album",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 378
+        }
+      },
+      {
+        "comment": "",
+        "key": "DESCRIPTION",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 383
+        }
+      },
+      {
+        "comment": "",
+        "key": "SELECT TRACKS FROM PROJECTS",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 398
+        }
+      },
+      {
+        "comment": "",
+        "key": "No projects available",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 402
+        }
+      },
+      {
+        "comment": "",
+        "key": "MOOD TAGS",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 413
+        }
+      },
+      {
+        "comment": "",
+        "key": "PUBLIC ALBUM",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 435
+        }
+      },
+      {
+        "comment": "",
+        "key": "Allow others to discover and play",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 438
+        }
+      },
+      {
+        "comment": "",
+        "key": "CREATE ALBUM",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 459
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 452
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 465
+        }
+      }
+    ]
+  },
+  "version": 1
+}

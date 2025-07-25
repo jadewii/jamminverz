@@ -21,12 +21,18 @@ class MusicPlayerManager: NSObject, ObservableObject {
     @Published var duration: TimeInterval = 0
     
     private var audioPlayer: AVAudioPlayer?
+    private var nextAudioPlayer: AVAudioPlayer? // Pre-buffer next song
+    private var audioDataCache: [String: Data] = [:] // Cache audio data
     var availableSongs: [StationSong] = []
     private var timer: Timer?
+    
+    // Favorite songs
+    @Published var favoriteSongs: Set<String> = []
     
     override private init() {
         super.init()
         setupAudioSession()
+        loadFavorites()
     }
     
     private func setupAudioSession() {
@@ -38,32 +44,47 @@ class MusicPlayerManager: NSObject, ObservableObject {
         }
     }
     
+    private var playedSongIndices: Set<Int> = []
+    
     func loadStation(_ station: MusicStation) {
         currentStation = station
+        playedSongIndices.removeAll() // Reset played songs
         
-        // Get all downloaded songs for this station
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let stationPath = documentsPath
-            .appendingPathComponent("Music")
-            .appendingPathComponent(station.name.replacingOccurrences(of: " ", with: "_"))
-        
-        availableSongs = []
-        
-        // Find which songs are actually downloaded
-        for song in station.songs {
-            let songPath = stationPath.appendingPathComponent(song.filename)
-            if FileManager.default.fileExists(atPath: songPath.path) {
-                availableSongs.append(song)
+        // For World Radio, use all songs directly since they're local files
+        if station.id == "lofi" {
+            availableSongs = station.songs
+            print("World Radio: Loaded \(availableSongs.count) songs")
+        } else {
+            // For other stations, check downloaded songs
+            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let stationPath = documentsPath
+                .appendingPathComponent("Music")
+                .appendingPathComponent(station.name.replacingOccurrences(of: " ", with: "_"))
+            
+            availableSongs = []
+            
+            // Find which songs are actually downloaded
+            for song in station.songs {
+                let songPath = stationPath.appendingPathComponent(song.filename)
+                if FileManager.default.fileExists(atPath: songPath.path) {
+                    availableSongs.append(song)
+                }
             }
         }
         
-        // Shuffle the songs
-        availableSongs.shuffle()
-        
-        // Start playing the first song
+        // Start playing a random song immediately
         if !availableSongs.isEmpty {
-            currentSongIndex = 0
+            // Set playing state immediately for smooth UI
+            isPlaying = true
+            
+            // Pick a random song
+            currentSongIndex = Int.random(in: 0..<availableSongs.count)
+            playedSongIndices.insert(currentSongIndex)
+            
+            print("Starting playback with song: \(availableSongs[currentSongIndex].filename)")
             playCurrentSong()
+        } else {
+            print("No songs available to play!")
         }
     }
     
@@ -73,23 +94,149 @@ class MusicPlayerManager: NSObject, ObservableObject {
         let song = availableSongs[currentSongIndex]
         currentSong = song
         
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let songPath = documentsPath
-            .appendingPathComponent("Music")
-            .appendingPathComponent(currentStation?.name.replacingOccurrences(of: " ", with: "_") ?? "")
-            .appendingPathComponent(song.filename)
+        // Keep isPlaying true for smooth UI during transitions
+        isPlaying = true
         
+        // Handle different URL types for World Radio
+        if currentStation?.id == "lofi" {
+            if song.url.hasPrefix("file://") {
+                // Local file URL
+                playLocalFile(song.url)
+            } else if song.url.hasPrefix("https://") {
+                // Stream from URL
+                streamFromURL(song.url)
+            }
+        } else {
+            // Handle downloaded files for other stations
+            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let songURL = documentsPath
+                .appendingPathComponent("Music")
+                .appendingPathComponent(currentStation?.name.replacingOccurrences(of: " ", with: "_") ?? "")
+                .appendingPathComponent(song.filename)
+            
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: songURL)
+                audioPlayer?.delegate = self
+                audioPlayer?.prepareToPlay()
+                audioPlayer?.play()
+                isPlaying = true
+                startTimer()
+            } catch {
+                print("Error playing audio: \(error)")
+                print("Failed URL: \(songURL)")
+                // Try next song
+                nextSong()
+            }
+        }
+    }
+    
+    private func streamFromURL(_ urlString: String) {
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL: \(urlString)")
+            nextSong()
+            return
+        }
+        
+        // Check cache first
+        if let cachedData = audioDataCache[urlString] {
+            print("Playing from cache: \(urlString)")
+            playAudioData(cachedData)
+            preloadNextSong() // Pre-buffer next song
+            return
+        }
+        
+        print("Streaming from: \(url)")
+        
+        // Use URLSession with aggressive settings
+        let configuration = URLSessionConfiguration.default
+        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        configuration.urlCache = URLCache(memoryCapacity: 500_000_000, diskCapacity: 1_000_000_000, diskPath: nil)
+        let session = URLSession(configuration: configuration)
+        
+        session.dataTask(with: url) { [weak self] data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to stream: \(error?.localizedDescription ?? "Unknown error")")
+                DispatchQueue.main.async {
+                    self?.nextSong()
+                }
+                return
+            }
+            
+            // Cache the data
+            self?.audioDataCache[urlString] = data
+            
+            DispatchQueue.main.async {
+                self?.playAudioData(data)
+                self?.preloadNextSong() // Pre-buffer next song
+            }
+        }.resume()
+    }
+    
+    private func playAudioData(_ data: Data) {
         do {
-            audioPlayer = try AVAudioPlayer(contentsOf: songPath)
+            audioPlayer = try AVAudioPlayer(data: data)
             audioPlayer?.delegate = self
             audioPlayer?.prepareToPlay()
             audioPlayer?.play()
-            isPlaying = true
             startTimer()
         } catch {
-            print("Error playing audio: \(error)")
-            // Try next song
+            print("Error playing audio data: \(error)")
             nextSong()
+        }
+    }
+    
+    private func playLocalFile(_ urlString: String) {
+        guard let url = URL(string: urlString) else {
+            print("Invalid local URL: \(urlString)")
+            nextSong()
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.delegate = self
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+            startTimer()
+            preloadNextSong() // Pre-buffer next song
+        } catch {
+            print("Error playing local file: \(error)")
+            nextSong()
+        }
+    }
+    
+    private func preloadNextSong() {
+        // Pre-buffer the next song
+        guard !availableSongs.isEmpty else { return }
+        
+        // Find next unplayed song
+        var nextIndex = currentSongIndex
+        for _ in 0..<availableSongs.count {
+            nextIndex = (nextIndex + 1) % availableSongs.count
+            if !playedSongIndices.contains(nextIndex) {
+                break
+            }
+        }
+        
+        let nextSong = availableSongs[nextIndex]
+        if nextSong.url.hasPrefix("https://") {
+            // Pre-download next song
+            guard let url = URL(string: nextSong.url) else { return }
+            
+            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
+                if let data = data {
+                    self?.audioDataCache[nextSong.url] = data
+                    // Pre-create the audio player
+                    DispatchQueue.main.async {
+                        do {
+                            self?.nextAudioPlayer = try AVAudioPlayer(data: data)
+                            self?.nextAudioPlayer?.prepareToPlay()
+                        } catch {
+                            print("Error pre-buffering: \(error)")
+                        }
+                    }
+                }
+            }.resume()
         }
     }
     
@@ -114,7 +261,34 @@ class MusicPlayerManager: NSObject, ObservableObject {
     }
     
     func nextSong() {
-        currentSongIndex = (currentSongIndex + 1) % availableSongs.count
+        // Stop current playback immediately but keep isPlaying true for UI
+        audioPlayer?.stop()
+        stopTimer()
+        
+        // True random: pick from unplayed songs
+        if playedSongIndices.count >= availableSongs.count {
+            // All songs played, reset
+            playedSongIndices.removeAll()
+        }
+        
+        // Find unplayed songs
+        var unplayedIndices: [Int] = []
+        for i in 0..<availableSongs.count {
+            if !playedSongIndices.contains(i) {
+                unplayedIndices.append(i)
+            }
+        }
+        
+        if !unplayedIndices.isEmpty {
+            // Pick random from unplayed
+            currentSongIndex = unplayedIndices.randomElement()!
+            playedSongIndices.insert(currentSongIndex)
+        } else {
+            // Fallback: pick any random song
+            currentSongIndex = Int.random(in: 0..<availableSongs.count)
+            playedSongIndices.insert(currentSongIndex)
+        }
+        
         playCurrentSong()
     }
     
@@ -124,9 +298,8 @@ class MusicPlayerManager: NSObject, ObservableObject {
             audioPlayer?.currentTime = 0
             audioPlayer?.play()
         } else {
-            // Otherwise go to previous song
-            currentSongIndex = currentSongIndex > 0 ? currentSongIndex - 1 : availableSongs.count - 1
-            playCurrentSong()
+            // For previous, just go to a random song
+            nextSong()
         }
     }
     
@@ -158,6 +331,28 @@ class MusicPlayerManager: NSObject, ObservableObject {
             playbackProgress = currentTime / duration
         }
     }
+    
+    // MARK: - Favorite Management
+    func toggleFavorite(_ song: StationSong) {
+        if favoriteSongs.contains(song.filename) {
+            favoriteSongs.remove(song.filename)
+        } else {
+            favoriteSongs.insert(song.filename)
+        }
+        // Save to UserDefaults
+        UserDefaults.standard.set(Array(favoriteSongs), forKey: "favoriteSongs")
+    }
+    
+    func isCurrentSongFavorite() -> Bool {
+        guard let currentSong = currentSong else { return false }
+        return favoriteSongs.contains(currentSong.filename)
+    }
+    
+    func loadFavorites() {
+        if let saved = UserDefaults.standard.array(forKey: "favoriteSongs") as? [String] {
+            favoriteSongs = Set(saved)
+        }
+    }
 }
 
 // MARK: - AVAudioPlayerDelegate
@@ -178,8 +373,8 @@ struct MusicPlayerView: View {
     
     var body: some View {
         ZStack {
-            // Background
-            station.color.ignoresSafeArea()
+            // Background - ensure it's not white
+            Color.black.ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Header
@@ -241,7 +436,7 @@ struct MusicPlayerView: View {
                         
                         // Song info
                         VStack(spacing: 8) {
-                            Text(playerManager.currentSong?.filename.replacingOccurrences(of: ".m4a", with: "") ?? "No Song Playing")
+                            Text(formatSongName(playerManager.currentSong?.filename ?? "No Song Playing"))
                                 .font(.system(size: 24, weight: .heavy))
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
@@ -326,6 +521,8 @@ struct MusicPlayerView: View {
             }
         }
         .onAppear {
+            print("MusicPlayerView appeared for station: \(station.name)")
+            print("Station has \(station.songs.count) songs")
             playerManager.loadStation(station)
         }
     }
@@ -334,5 +531,14 @@ struct MusicPlayerView: View {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60
         return String(format: "%d:%02d", minutes, seconds)
+    }
+    
+    private func formatSongName(_ filename: String) -> String {
+        // Clean up the filename for display
+        return filename
+            .replacingOccurrences(of: ".mp3", with: "")
+            .replacingOccurrences(of: ".m4a", with: "")
+            .replacingOccurrences(of: "_", with: " ")
+            .replacingOccurrences(of: "-", with: " ")
     }
 }

@@ -1,0 +1,32 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ContentView_Adaptive.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "SOCIAL COMING SOON",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 273
+        }
+      },
+      {
+        "comment": "",
+        "key": "SELECT A VIEW",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 377
+        }
+      },
+      {
+        "comment": "",
+        "key": "Select an item from the sidebar",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 493
+        }
+      }
+    ]
+  },
+  "version": 1
+}

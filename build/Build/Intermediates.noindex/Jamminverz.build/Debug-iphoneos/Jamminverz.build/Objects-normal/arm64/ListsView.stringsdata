@@ -1,0 +1,48 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ListsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Timer Selection Coming Soon",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 32
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add new task...",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 103
+        }
+      },
+      {
+        "comment": "",
+        "key": "New task",
+        "location": {
+          "startingColumn": 55,
+          "startingLine": 89
+        }
+      },
+      {
+        "comment": "",
+        "key": "move to today",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 142
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 288
+        }
+      }
+    ]
+  },
+  "version": 1
+}

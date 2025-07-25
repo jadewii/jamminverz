@@ -1,0 +1,32 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/RemixView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "REMIX STUDIO",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 60
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 52
+        }
+      },
+      {
+        "comment": "",
+        "key": "RESET",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 68
+        }
+      }
+    ]
+  },
+  "version": 1
+}

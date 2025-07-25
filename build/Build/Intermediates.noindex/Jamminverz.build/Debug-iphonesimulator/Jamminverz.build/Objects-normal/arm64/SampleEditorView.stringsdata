@@ -1,0 +1,200 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SampleEditorView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 96
+        }
+      },
+      {
+        "comment": "",
+        "key": "SAMPLE EDITOR",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 106
+        }
+      },
+      {
+        "comment": "",
+        "key": "SAVE",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 123
+        }
+      },
+      {
+        "comment": "",
+        "key": "/ %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 242
+        }
+      },
+      {
+        "comment": "",
+        "key": "A/B",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 263
+        }
+      },
+      {
+        "comment": "",
+        "key": "EFFECTS CHAIN",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 345
+        }
+      },
+      {
+        "comment": "",
+        "key": "CLEAR ALL",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 354
+        }
+      },
+      {
+        "comment": "",
+        "key": "Loading sample...",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 384
+        }
+      },
+      {
+        "comment": "",
+        "key": "🎵 Pitch",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 491
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@%lld semitones",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 497
+        }
+      },
+      {
+        "comment": "",
+        "key": "📏 Speed",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 512
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld%%",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 518
+        }
+      },
+      {
+        "comment": "",
+        "key": "🔊 Volume",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 533
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@%lld dB",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 539
+        }
+      },
+      {
+        "comment": "",
+        "key": "VIEW EFFECTS CHAIN",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 609
+        }
+      },
+      {
+        "comment": "",
+        "key": "(%lld)",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 613
+        }
+      },
+      {
+        "comment": "",
+        "key": "SAVE OPTIONS",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1011
+        }
+      },
+      {
+        "comment": "",
+        "key": "FILE NAME",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1027
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter file name",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 1031
+        }
+      },
+      {
+        "comment": "",
+        "key": "FORMAT",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1046
+        }
+      },
+      {
+        "comment": "",
+        "key": "QUALITY",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1062
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add to sample pack",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 1082
+        }
+      },
+      {
+        "comment": "",
+        "key": "CANCEL",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1101
+        }
+      },
+      {
+        "comment": "",
+        "key": "SAVE",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1115
+        }
+      }
+    ]
+  },
+  "version": 1
+}

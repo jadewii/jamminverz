@@ -1,0 +1,30 @@
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/MusicPlayerView.swift":
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MusicPlayerView.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MusicPlayerView.swiftconstvalues"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MusicPlayerView.dia"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MusicPlayerView.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MusicPlayerView.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/RadioView.swift":
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RadioView.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RadioView.o"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RadioView.d"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RadioView.swiftconstvalues"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RadioView.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/TodomaiSidebar.swift":
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/TodomaiSidebar.dia"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/TodomaiSidebar.swiftdeps"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/TodomaiSidebar.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/TodomaiSidebar.swiftconstvalues"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/TodomaiSidebar.d"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/StationDownloadManager.swift":
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/StationDownloadManager.o"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/StationDownloadManager.dia"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/StationDownloadManager.swiftconstvalues"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/StationDownloadManager.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/StationDownloadManager.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/RoutinesView.swift":
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RoutinesView.swiftconstvalues"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RoutinesView.d"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RoutinesView.dia"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RoutinesView.swiftdeps"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/RoutinesView.o"

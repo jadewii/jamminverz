@@ -1,0 +1,30 @@
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ArtStoreView.swift":
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreView.o"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreView.dia"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreView.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreView.swiftdeps"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreView.swiftconstvalues"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/PaymentManager.swift":
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/PaymentManager.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/PaymentManager.swiftconstvalues"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/PaymentManager.swiftdeps"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/PaymentManager.d"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/PaymentManager.dia"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ArtSelectionView.swift":
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtSelectionView.swiftconstvalues"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtSelectionView.swiftdeps"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtSelectionView.o"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtSelectionView.d"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtSelectionView.dia"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/MyMusicView.swift":
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MyMusicView.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MyMusicView.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MyMusicView.swiftconstvalues"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MyMusicView.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/MyMusicView.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ArtStoreManager.swift":
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreManager.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreManager.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreManager.swiftconstvalues"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreManager.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/ArtStoreManager.swiftdeps"

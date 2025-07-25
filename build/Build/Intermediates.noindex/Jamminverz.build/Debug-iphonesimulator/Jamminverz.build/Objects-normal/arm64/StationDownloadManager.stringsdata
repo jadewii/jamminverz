@@ -1,0 +1,16 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/StationDownloadManager.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld%%",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 391
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -17,6 +17,9 @@ struct ProfileView: View {
     @State private var isEditingProfile = false
     @State private var profileImage: Image? = nil
     @State private var bannerImage: Image? = nil
+    @State private var showProfilePicker = false
+    @State private var selectedProfileIcon: String? = nil
+    @State private var isHoveringProfile = false
     
     // Profile data
     @State private var username = "jadewii"
@@ -80,6 +83,13 @@ struct ProfileView: View {
                 backgroundColor: $backgroundColor
             )
         }
+        .sheet(isPresented: $showProfilePicker) {
+            ProfilePicker(
+                selectedIcon: $selectedProfileIcon,
+                profileImage: $profileImage,
+                isPresented: $showProfilePicker
+            )
+        }
     }
     
     // MARK: - Header
@@ -141,28 +151,46 @@ struct ProfileView: View {
             
             // Profile Image
             HStack {
-                ZStack {
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: 120, height: 120)
-                    
-                    if let profileImage = profileImage {
-                        profileImage
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 116, height: 116)
-                            .clipShape(Circle())
-                    } else {
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 50))
-                            .foregroundColor(.gray)
+                Button(action: {
+                    showProfilePicker = true
+                }) {
+                    ZStack {
+                        Circle()
+                            .fill(isHoveringProfile ? Color.black.opacity(0.7) : Color.black)
+                            .frame(width: 180, height: 180)
+                        
+                        if isHoveringProfile {
+                            Image(systemName: "plus")
+                                .font(.system(size: 75, weight: .medium))
+                                .foregroundColor(.white)
+                        } else {
+                            if let profileImage = profileImage {
+                                profileImage
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 174, height: 174)
+                                    .clipShape(Circle())
+                            } else if let icon = selectedProfileIcon {
+                                Text(icon)
+                                    .font(.system(size: 75))
+                                    .foregroundColor(.white)
+                            } else {
+                                Image(systemName: "person.fill")
+                                    .font(.system(size: 75))
+                                    .foregroundColor(.gray)
+                            }
+                        }
                     }
+                }
+                .buttonStyle(PlainButtonStyle())
+                .onHover { hovering in
+                    isHoveringProfile = hovering
                 }
                 .overlay(
                     Circle()
-                        .stroke(primaryColor, lineWidth: 4)
+                        .stroke(primaryColor, lineWidth: 6)
                 )
-                .offset(y: 60)
+                .offset(y: 90)
                 
                 Spacer()
             }
@@ -173,17 +201,37 @@ struct ProfileView: View {
     // MARK: - Profile Info Section
     private var profileInfoSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack {
+            HStack(alignment: .top) {
                 Spacer().frame(width: 144) // Space for profile image
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(displayName)
-                        .font(.system(size: 28, weight: .heavy))
-                        .foregroundColor(.white)
-                    
-                    Text("@\(username)")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.gray)
+                    HStack(alignment: .top, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(displayName)
+                                .font(.system(size: 28, weight: .heavy))
+                                .foregroundColor(.white)
+                            
+                            Text("@\(username)")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.gray)
+                        }
+                        
+                        // Friend/Follow Button - moved closer to name
+                        Button(action: {
+                            // Add friend functionality
+                        }) {
+                            HStack(spacing: 8) {
+                                Image(systemName: "person.badge.plus")
+                                Text("ADD FRIEND")
+                            }
+                            .font(.system(size: 14, weight: .heavy))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                            .background(primaryColor)
+                            .cornerRadius(25)
+                        }
+                    }
                     
                     if !bio.isEmpty {
                         Text(bio)
@@ -195,20 +243,40 @@ struct ProfileView: View {
                 
                 Spacer()
                 
-                // Friend/Follow Button
-                Button(action: {
-                    // Add friend functionality
-                }) {
-                    HStack(spacing: 8) {
-                        Image(systemName: "person.badge.plus")
-                        Text("ADD FRIEND")
+                // Friends section moved to the right
+                if friendCount > 0 {
+                    VStack(alignment: .trailing, spacing: 8) {
+                        Text("FRIENDS")
+                            .font(.system(size: 12, weight: .heavy))
+                            .foregroundColor(.gray)
+                        
+                        let maxFriends = min(8, Int(friendCount))
+                        HStack(spacing: -10) {
+                            ForEach(0..<maxFriends, id: \.self) { index in
+                                FriendAvatarCircle(
+                                    index: index,
+                                    size: 44
+                                )
+                                .zIndex(Double(8 - index))
+                            }
+                            
+                            if friendCount > 8 {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.gray.opacity(0.3))
+                                        .frame(width: 44, height: 44)
+                                    
+                                    Text("+\(friendCount - 8)")
+                                        .font(.system(size: 12, weight: .heavy))
+                                        .foregroundColor(.white)
+                                }
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.black, lineWidth: 2)
+                                )
+                            }
+                        }
                     }
-                    .font(.system(size: 14, weight: .heavy))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    .background(primaryColor)
-                    .cornerRadius(25)
                 }
             }
             .padding(.horizontal, 24)
@@ -425,21 +493,156 @@ struct ProfilePacksView: View {
     let primaryColor: Color
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: 24) {
+            // Sample packs section header
+            HStack {
+                Text("SAMPLE PACKS")
+                    .font(.system(size: 20, weight: .heavy))
+                    .foregroundColor(.white)
+                Spacer()
+                Button(action: {}) {
+                    Text("SEE ALL")
+                        .font(.system(size: 12, weight: .heavy))
+                        .foregroundColor(primaryColor)
+                }
+            }
+            
+            // Sample packs grid
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 24), count: 6), spacing: 24) {
                 ForEach(0..<6) { index in
-                    ProfilePackCard(index: index, primaryColor: primaryColor)
-                        .frame(width: 260)
+                    SamplePackViewWithAdd(index: index)
                 }
             }
         }
     }
 }
 
-// MARK: - Pack Card
+// MARK: - Sample Pack View With Add Button
+struct SamplePackViewWithAdd: View {
+    let index: Int
+    @State private var isAdded = false
+    @State private var isHovering = false
+    
+    private let colors: [Color] = [.purple, .pink, .blue, .green, .orange, .red]
+    private let packColor: Color
+    private let gridOpacities: [Double] = (0..<16).map { _ in Double.random(in: 0.3...0.8) }
+    
+    init(index: Int) {
+        self.index = index
+        self.packColor = colors[index % colors.count]
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // Pack Preview Grid
+            ZStack(alignment: .topTrailing) {
+                LazyVGrid(columns: [
+                    GridItem(.flexible(), spacing: 1),
+                    GridItem(.flexible(), spacing: 1),
+                    GridItem(.flexible(), spacing: 1),
+                    GridItem(.flexible(), spacing: 1)
+                ], spacing: 1) {
+                    ForEach(0..<16) { i in
+                        Rectangle()
+                            .fill(packColor.opacity(gridOpacities[i]))
+                            .aspectRatio(1, contentMode: .fit)
+                    }
+                }
+                .padding(8)
+                .background(Color.black)
+                .clipShape(RoundedRectangle(cornerRadius: 4))
+                
+                // Heart+ Add button
+                Button(action: {
+                    withAnimation(.spring()) {
+                        isAdded.toggle()
+                        if isAdded {
+                            // Add to sampler
+                            addPackToSampler()
+                        }
+                    }
+                }) {
+                    ZStack {
+                        Circle()
+                            .fill(isAdded ? Color.green : Color.white.opacity(0.2))
+                            .frame(width: 32, height: 32)
+                        
+                        Image(systemName: isAdded ? "checkmark" : "heart")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(.white)
+                        
+                        if !isAdded {
+                            Image(systemName: "plus")
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundColor(.white)
+                                .offset(x: 10, y: -10)
+                        }
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                .offset(x: -4, y: 4)
+            }
+            
+            // Pack name and stats
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text("Sample Pack \(index + 1)")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.white)
+                        .lineLimit(1)
+                    
+                    Spacer()
+                }
+                
+                HStack(spacing: 8) {
+                    HStack(spacing: 2) {
+                        Image(systemName: "square.grid.2x2")
+                            .font(.system(size: 9))
+                        Text("\(Int.random(in: 10...50))")
+                            .font(.system(size: 10))
+                    }
+                    
+                    HStack(spacing: 2) {
+                        Image(systemName: "arrow.down.circle")
+                            .font(.system(size: 9))
+                        Text("\(Int.random(in: 100...999))")
+                            .font(.system(size: 10))
+                    }
+                }
+                .foregroundColor(.gray)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 12)
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.white.opacity(isHovering ? 0.1 : 0.05))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(
+                    isAdded ? packColor : Color.white.opacity(0.2),
+                    lineWidth: isAdded ? 2 : 1
+                )
+        )
+        .onHover { hovering in
+            isHovering = hovering
+        }
+    }
+    
+    private func addPackToSampler() {
+        // This would add the pack to the user's sampler collection
+        // For now, just a placeholder
+        print("Added Sample Pack \(index + 1) to sampler")
+    }
+}
+
+// MARK: - Pack Card (Original style for other views)
 struct ProfilePackCard: View {
     let index: Int
     let primaryColor: Color
+    
+    private let gridOpacities: [Double] = (0..<16).map { _ in Double.random(in: 0.3...0.8) }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -452,7 +655,7 @@ struct ProfilePackCard: View {
             ], spacing: 2) {
                 ForEach(0..<16) { i in
                     Rectangle()
-                        .fill(primaryColor.opacity(Double.random(in: 0.3...0.8)))
+                        .fill(primaryColor.opacity(gridOpacities[i]))
                         .aspectRatio(1, contentMode: .fit)
                         .cornerRadius(2)
                 }
@@ -552,14 +755,19 @@ struct ProjectRow: View {
     let index: Int
     let primaryColor: Color
     
+    private let waveformData: [(opacity: Double, height: CGFloat)] = (0..<30).map { _ in
+        (opacity: Double.random(in: 0.3...1.0),
+         height: CGFloat.random(in: 10...40))
+    }
+    
     var body: some View {
         HStack(spacing: 16) {
             // Waveform Preview
             HStack(spacing: 1) {
-                ForEach(0..<30) { _ in
+                ForEach(0..<30) { index in
                     Rectangle()
-                        .fill(primaryColor.opacity(Double.random(in: 0.3...1.0)))
-                        .frame(width: 2, height: CGFloat.random(in: 10...40))
+                        .fill(primaryColor.opacity(waveformData[index].opacity))
+                        .frame(width: 2, height: waveformData[index].height)
                 }
             }
             .frame(width: 80, height: 50)
@@ -923,6 +1131,240 @@ struct ProfileTextFieldStyle: TextFieldStyle {
             .cornerRadius(12)
             .foregroundColor(.white)
             .font(.system(size: 16, weight: .medium))
+    }
+}
+
+// MARK: - Friend Avatar Circle
+struct FriendAvatarCircle: View {
+    let index: Int
+    let size: CGFloat
+    
+    // Mock data for friend avatars - in real app, this would come from friend data
+    private let mockFriends = [
+        ("🎭", Color.gray),
+        ("🦊", Color.green),
+        ("🐕", Color.brown),
+        ("d", Color.orange),
+        ("🚫", Color.red),
+        ("🌄", Color.blue),
+        ("D", Color.purple),
+        ("👨", Color.black)
+    ]
+    
+    var body: some View {
+        ZStack {
+            if index < mockFriends.count {
+                Circle()
+                    .fill(mockFriends[index].1)
+                    .frame(width: size, height: size)
+                
+                Text(mockFriends[index].0)
+                    .font(.system(size: size * 0.5))
+                    .foregroundColor(.white)
+            } else {
+                // Fallback for additional friends
+                Circle()
+                    .fill(Color.gray)
+                    .frame(width: size, height: size)
+                
+                Text("👤")
+                    .font(.system(size: size * 0.5))
+                    .foregroundColor(.white)
+            }
+        }
+        .overlay(
+            Circle()
+                .stroke(Color.black, lineWidth: 2)
+        )
+    }
+}
+
+// MARK: - Profile Picker
+struct ProfilePicker: View {
+    @Binding var selectedIcon: String?
+    @Binding var profileImage: Image?
+    @Binding var isPresented: Bool
+    @State private var showingImagePicker = false
+    
+    let profileIcons: [(String, Color)] = {
+        let icons1 = [
+            ("👤", Color.gray),
+            ("🎭", Color.purple),
+            ("🦊", Color.orange),
+            ("🐕", Color.brown),
+            ("🎵", Color.blue)
+        ]
+        let icons2 = [
+            ("🎸", Color.red),
+            ("🎹", Color.indigo),
+            ("🎤", Color.pink),
+            ("🎧", Color.green),
+            ("🥁", Color.orange)
+        ]
+        let icons3 = [
+            ("🎺", Color.yellow),
+            ("🎻", Color.brown),
+            ("🎨", Color.purple),
+            ("🌟", Color.yellow),
+            ("🔥", Color.red)
+        ]
+        let icons4 = [
+            ("💎", Color.cyan),
+            ("🚀", Color.blue),
+            ("🌈", Color.pink),
+            ("⚡", Color.yellow),
+            ("🌙", Color.indigo)
+        ]
+        return icons1 + icons2 + icons3 + icons4
+    }()
+    
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.black.ignoresSafeArea()
+                
+                VStack(spacing: 24) {
+                    Text("Choose Profile Picture")
+                        .font(.system(size: 24, weight: .heavy))
+                        .foregroundColor(.white)
+                        .padding(.top, 20)
+                    
+                    // Upload button
+                    Button(action: {
+                        showingImagePicker = true
+                    }) {
+                        HStack(spacing: 12) {
+                            Image(systemName: "camera.fill")
+                                .font(.system(size: 20))
+                            Text("UPLOAD PHOTO")
+                                .font(.system(size: 16, weight: .heavy))
+                        }
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                        .background(Color.purple)
+                        .cornerRadius(12)
+                    }
+                    .padding(.horizontal, 24)
+                    
+                    // Icon grid
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 32) {
+                            // Free Icons Section
+                            VStack(alignment: .leading, spacing: 16) {
+                                Text("OR CHOOSE AN ICON")
+                                    .font(.system(size: 14, weight: .heavy))
+                                    .foregroundColor(.gray)
+                                    .padding(.horizontal, 24)
+                                
+                                LazyVGrid(columns: [
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16)
+                                ], spacing: 16) {
+                                    ForEach(0..<profileIcons.count, id: \.self) { index in
+                                        Button(action: {
+                                            selectedIcon = profileIcons[index].0
+                                            profileImage = nil
+                                            isPresented = false
+                                        }) {
+                                            ZStack {
+                                                Circle()
+                                                    .fill(profileIcons[index].1)
+                                                    .frame(width: 57, height: 57)
+                                                
+                                                Text(profileIcons[index].0)
+                                                    .font(.system(size: 28))
+                                                    .foregroundColor(.white)
+                                            }
+                                            .overlay(
+                                                Circle()
+                                                    .stroke(selectedIcon == profileIcons[index].0 ? Color.white : Color.clear, lineWidth: 2)
+                                            )
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    }
+                                }
+                                .padding(.horizontal, 24)
+                            }
+                            
+                            // Pro Avatars Section
+                            VStack(alignment: .leading, spacing: 16) {
+                                Text("PRO AVATARS")
+                                    .font(.system(size: 14, weight: .heavy))
+                                    .foregroundColor(.gray)
+                                    .padding(.horizontal, 24)
+                                
+                                LazyVGrid(columns: [
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16),
+                                    GridItem(.flexible(), spacing: 16)
+                                ], spacing: 16) {
+                                    ForEach(0..<18, id: \.self) { index in
+                                        Button(action: {
+                                            // Show upgrade prompt
+                                        }) {
+                                            ZStack {
+                                                Circle()
+                                                    .fill(Color.gray.opacity(0.3))
+                                                    .frame(width: 57, height: 57)
+                                                
+                                                Image(systemName: "lock.fill")
+                                                    .font(.system(size: 20, weight: .medium))
+                                                    .foregroundColor(.white.opacity(0.6))
+                                            }
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    }
+                                }
+                                .padding(.horizontal, 24)
+                            }
+                        }
+                        .padding(.bottom, 100)
+                    }
+                }
+            }
+            .navigationBarHidden(true)
+            .overlay(
+                VStack {
+                    HStack {
+                        Button("Cancel") {
+                            isPresented = false
+                        }
+                        .font(.system(size: 17, weight: .medium))
+                        .foregroundColor(.gray)
+                        .padding()
+                        
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            )
+        }
+        .fileImporter(
+            isPresented: $showingImagePicker,
+            allowedContentTypes: [.image],
+            allowsMultipleSelection: false
+        ) { result in
+            switch result {
+            case .success(let urls):
+                if let url = urls.first,
+                   let data = try? Data(contentsOf: url),
+                   let uiImage = UIImage(data: data) {
+                    profileImage = Image(uiImage: uiImage)
+                    selectedIcon = nil
+                    isPresented = false
+                }
+            case .failure(let error):
+                print("Error selecting image: \(error)")
+            }
+        }
     }
 }
 

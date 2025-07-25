@@ -1,0 +1,56 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/FavoriteSongsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "MY FAVORITE SONGS",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 47
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 39
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 57
+        }
+      },
+      {
+        "comment": "",
+        "key": "No favorite songs yet",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 74
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tap the heart button while playing to add favorites",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 78
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 155
+        }
+      }
+    ]
+  },
+  "version": 1
+}

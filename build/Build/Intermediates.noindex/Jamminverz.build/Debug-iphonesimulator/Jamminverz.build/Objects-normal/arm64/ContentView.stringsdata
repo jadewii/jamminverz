@@ -1,0 +1,32 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "JAde Wii",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 167
+        }
+      },
+      {
+        "comment": "",
+        "key": "GET IT DONE!",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 282
+        }
+      },
+      {
+        "comment": "",
+        "key": "← BACK TO MENU",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 335
+        }
+      }
+    ]
+  },
+  "version": 1
+}

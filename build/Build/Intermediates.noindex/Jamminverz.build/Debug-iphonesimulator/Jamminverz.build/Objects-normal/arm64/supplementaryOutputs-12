@@ -1,0 +1,24 @@
+"/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/DerivedSources/GeneratedAssetSymbols.swift":
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/GeneratedAssetSymbols.dia"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/GeneratedAssetSymbols.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/GeneratedAssetSymbols.d"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SamplerEngine.swift":
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerEngine.d"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerEngine.swiftconstvalues"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerEngine.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerEngine.o"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerEngine.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/BeatsManager.swift":
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/BeatsManager.dia"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/BeatsManager.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/BeatsManager.swiftconstvalues"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/BeatsManager.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/BeatsManager.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SamplerView.swift":
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerView.o"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerView.d"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerView.swiftconstvalues"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerView.dia"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphonesimulator/Jamminverz.build/Objects-normal/arm64/SamplerView.swiftdeps"

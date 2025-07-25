@@ -1,0 +1,72 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SetRepeatTaskView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "New Plan",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 160
+        }
+      },
+      {
+        "comment": "",
+        "key": "New Deadline/Appointment",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 161
+        }
+      },
+      {
+        "comment": "",
+        "key": "New Task",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 162
+        }
+      },
+      {
+        "comment": "",
+        "key": "What would you like to add?",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 173
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter task description",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 177
+        }
+      },
+      {
+        "comment": "",
+        "key": "Date",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 190
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 212
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add Task",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 221
+        }
+      }
+    ]
+  },
+  "version": 1
+}

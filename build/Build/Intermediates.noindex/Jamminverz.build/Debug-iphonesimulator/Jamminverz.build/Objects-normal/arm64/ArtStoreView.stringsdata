@@ -1,0 +1,168 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ArtStoreView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Purchase Complete!",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "OK",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "You now have full rights to use this artwork in your Jamminverz albums, profile, and sample packs.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 69
+        }
+      },
+      {
+        "comment": "",
+        "key": "Curated cover art by JAde Wii • Full usage rights included",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 91
+        }
+      },
+      {
+        "comment": "",
+        "key": "ALBUM ART",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
+        "key": "GALLERY",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 86
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 100
+        }
+      },
+      {
+        "comment": "",
+        "key": "OWNED",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 103
+        }
+      },
+      {
+        "comment": "",
+        "key": "Page %lld of %lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 192
+        }
+      },
+      {
+        "comment": "",
+        "key": "FEATURED",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 486
+        }
+      },
+      {
+        "comment": "",
+        "key": "LIMITED",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 496
+        }
+      },
+      {
+        "comment": "",
+        "key": "OWNED",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 548
+        }
+      },
+      {
+        "comment": "",
+        "key": "$%@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 552
+        }
+      },
+      {
+        "comment": "",
+        "key": "USE",
+        "location": {
+          "startingColumn": 44,
+          "startingLine": 559
+        }
+      },
+      {
+        "comment": "",
+        "key": "PREVIEW",
+        "location": {
+          "startingColumn": 52,
+          "startingLine": 559
+        }
+      },
+      {
+        "comment": "",
+        "key": "Use in albums, profiles, and sample packs. Cannot resell or redistribute.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 664
+        }
+      },
+      {
+        "comment": "",
+        "key": "Full usage rights for Jamminverz",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 660
+        }
+      },
+      {
+        "comment": "",
+        "key": "OWNED - CLICK TO USE",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 676
+        }
+      },
+      {
+        "comment": "",
+        "key": "PURCHASE",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 689
+        }
+      },
+      {
+        "comment": "",
+        "key": "$%@",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 690
+        }
+      }
+    ]
+  },
+  "version": 1
+}

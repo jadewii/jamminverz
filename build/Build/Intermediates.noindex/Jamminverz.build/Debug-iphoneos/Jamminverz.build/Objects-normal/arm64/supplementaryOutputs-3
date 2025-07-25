@@ -1,0 +1,30 @@
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/RepeatFrequencyView.swift":
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/RepeatFrequencyView.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/RepeatFrequencyView.swiftconstvalues"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/RepeatFrequencyView.d"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/RepeatFrequencyView.dia"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/RepeatFrequencyView.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SetRepeatTaskView.swift":
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SetRepeatTaskView.d"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SetRepeatTaskView.swiftconstvalues"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SetRepeatTaskView.o"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SetRepeatTaskView.dia"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/SetRepeatTaskView.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/AddTaskView.swift":
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AddTaskView.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AddTaskView.swiftdeps"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AddTaskView.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AddTaskView.swiftconstvalues"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/AddTaskView.dia"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/TaskDetailView.swift":
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskDetailView.o"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskDetailView.swiftconstvalues"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskDetailView.dia"
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskDetailView.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/TaskDetailView.swiftdeps"
+"/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/EditTaskView.swift":
+  dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/EditTaskView.d"
+  swift-dependencies: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/EditTaskView.swiftdeps"
+  diagnostics: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/EditTaskView.dia"
+  const-values: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/EditTaskView.swiftconstvalues"
+  object: "/Users/jade/SunoMusicPipeline/jamminverz/build/Build/Intermediates.noindex/Jamminverz.build/Debug-iphoneos/Jamminverz.build/Objects-normal/arm64/EditTaskView.o"

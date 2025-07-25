@@ -1,6 +1,6 @@
 //
 //  JamminverzApp.swift
-//  Jamminverz
+//  JAMVERZ
 //
 //  Created by jade on 7/10/25.
 //

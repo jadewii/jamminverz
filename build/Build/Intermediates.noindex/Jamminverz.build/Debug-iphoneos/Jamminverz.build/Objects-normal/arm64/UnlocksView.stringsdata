@@ -1,0 +1,72 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/UnlocksView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "UNLOCKS",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 60
+        }
+      },
+      {
+        "comment": "",
+        "key": "Earn rewards by reaching milestones",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "LVL",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 73
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "UNLOCKED",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 498
+        }
+      },
+      {
+        "comment": "",
+        "key": "CLAIM",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 503
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld/%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 553
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld%%",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 559
+        }
+      }
+    ]
+  },
+  "version": 1
+}

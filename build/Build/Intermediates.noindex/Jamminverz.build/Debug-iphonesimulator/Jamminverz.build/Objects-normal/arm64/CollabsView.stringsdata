@@ -1,0 +1,216 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/CollabsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "COLLABS",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 54
+        }
+      },
+      {
+        "comment": "",
+        "key": "Work together with friends on projects",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 58
+        }
+      },
+      {
+        "comment": "",
+        "key": "No Features Yet",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 115
+        }
+      },
+      {
+        "comment": "",
+        "key": "Projects where you've been credited will appear here",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 119
+        }
+      },
+      {
+        "comment": "",
+        "key": "No Collaborations Yet",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 142
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start a collaboration with friends",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 146
+        }
+      },
+      {
+        "comment": "",
+        "key": "START COLLAB",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 153
+        }
+      },
+      {
+        "comment": "",
+        "key": "Last updated %@",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 242
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld%%",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 251
+        }
+      },
+      {
+        "comment": "",
+        "key": "COMPLETE",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 254
+        }
+      },
+      {
+        "comment": "",
+        "key": "+%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 284
+        }
+      },
+      {
+        "comment": "",
+        "key": "OPEN",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 296
+        }
+      },
+      {
+        "comment": "",
+        "key": "by %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 359
+        }
+      },
+      {
+        "comment": "",
+        "key": "Featured as %@",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 363
+        }
+      },
+      {
+        "comment": "",
+        "key": "COLLAB TITLE",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 399
+        }
+      },
+      {
+        "comment": "",
+        "key": "My Collab",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 403
+        }
+      },
+      {
+        "comment": "",
+        "key": "TYPE",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 408
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 412
+        }
+      },
+      {
+        "comment": "",
+        "key": "Project",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 413
+        }
+      },
+      {
+        "comment": "",
+        "key": "Album",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 414
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sample Pack",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 415
+        }
+      },
+      {
+        "comment": "",
+        "key": "INVITE FRIENDS",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 423
+        }
+      },
+      {
+        "comment": "",
+        "key": "No friends to invite",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 427
+        }
+      },
+      {
+        "comment": "",
+        "key": "START COLLAB",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 450
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 443
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 456
+        }
+      }
+    ]
+  },
+  "version": 1
+}

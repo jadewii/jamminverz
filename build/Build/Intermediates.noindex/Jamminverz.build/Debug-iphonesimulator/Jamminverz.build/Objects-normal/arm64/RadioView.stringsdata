@@ -1,0 +1,328 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/RadioView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Name Your Playlist",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 57
+        }
+      },
+      {
+        "comment": "",
+        "key": "Playlist name",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 58
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 63
+        }
+      },
+      {
+        "comment": "",
+        "key": "SELECT A STATION",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 249
+        }
+      },
+      {
+        "comment": "",
+        "key": "MUSIC",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 139
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 130
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 150
+        }
+      },
+      {
+        "comment": "",
+        "key": "RADIO",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 168
+        }
+      },
+      {
+        "comment": "",
+        "key": "MY MUSIC",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 184
+        }
+      },
+      {
+        "comment": "",
+        "key": "MY PLAYLISTS",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 206
+        }
+      },
+      {
+        "comment": "",
+        "key": "Upload your favorite tracks",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 213
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete Playlist",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 234
+        }
+      },
+      {
+        "comment": "",
+        "key": "TAP A STATION TO LISTEN",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 283
+        }
+      },
+      {
+        "comment": "",
+        "key": "DOWNLOAD STATIONS FOR OFFLINE LISTENING",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 287
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld songs",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 380
+        }
+      },
+      {
+        "comment": "",
+        "key": "COMING SOON",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 384
+        }
+      },
+      {
+        "comment": "",
+        "key": "CLOSE",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 425
+        }
+      },
+      {
+        "comment": "",
+        "key": "DELETE",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 438
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 476
+        }
+      },
+      {
+        "comment": "",
+        "key": "SONGS",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 479
+        }
+      },
+      {
+        "comment": "",
+        "key": "~%lld",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 485
+        }
+      },
+      {
+        "comment": "",
+        "key": "MB",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 488
+        }
+      },
+      {
+        "comment": "",
+        "key": "DOWNLOAD STATION",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 506
+        }
+      },
+      {
+        "comment": "",
+        "key": "DOWNLOADING...",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 522
+        }
+      },
+      {
+        "comment": "",
+        "key": "CANCEL",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 534
+        }
+      },
+      {
+        "comment": "",
+        "key": "PLAY STATION",
+        "location": {
+          "startingColumn": 58,
+          "startingLine": 559
+        }
+      },
+      {
+        "comment": "",
+        "key": "DOWNLOADED",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 577
+        }
+      },
+      {
+        "comment": "",
+        "key": "ERROR",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 585
+        }
+      },
+      {
+        "comment": "",
+        "key": "COMING SOON",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 607
+        }
+      },
+      {
+        "comment": "",
+        "key": "This station will be available in a future update",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 611
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld songs",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 682
+        }
+      },
+      {
+        "comment": "",
+        "key": "ADD MUSIC",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 755
+        }
+      },
+      {
+        "comment": "",
+        "key": "SELECT MUSIC",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 805
+        }
+      },
+      {
+        "comment": "",
+        "key": "CANCEL",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 798
+        }
+      },
+      {
+        "comment": "",
+        "key": "ADD (%lld)",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 816
+        }
+      },
+      {
+        "comment": "",
+        "key": "SHOW ALL",
+        "location": {
+          "startingColumn": 51,
+          "startingLine": 859
+        }
+      },
+      {
+        "comment": "",
+        "key": "FOLDERS",
+        "location": {
+          "startingColumn": 64,
+          "startingLine": 859
+        }
+      },
+      {
+        "comment": "",
+        "key": "No audio files found",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 877
+        }
+      },
+      {
+        "comment": "",
+        "key": "Navigate to a folder with music files",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 881
+        }
+      }
+    ]
+  },
+  "version": 1
+}

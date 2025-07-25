@@ -14,6 +14,7 @@ struct RadioView: View {
     @Binding var currentTab: String
     @StateObject private var downloadManager = StationDownloadManager.shared
     @StateObject private var playlistManager = PlaylistManager.shared
+    @StateObject private var playerManager = MusicPlayerManager.shared
     @State private var selectedStation: MusicStation? = nil
     @State private var showingStationDetail = false
     @State private var showingMusicPlayer = false
@@ -39,9 +40,6 @@ struct RadioView: View {
         mainContent
             .sheet(isPresented: $showingStationDetail) {
                 stationDetailSheet
-            }
-            .fullScreenCover(isPresented: $showingMusicPlayer) {
-                musicPlayerSheet
             }
             .fileImporter(
                 isPresented: $showingFilePicker,
@@ -264,10 +262,12 @@ struct RadioView: View {
                         action: {
                             selectedStation = station
                             
-                            // If downloaded, show player; otherwise show detail
+                            // If downloaded/available, start playing immediately
                             if downloadManager.downloadStates[station.id] == .downloaded {
-                                showingMusicPlayer = true
+                                // Start playing in background
+                                MusicPlayerManager.shared.loadStation(station)
                             } else {
+                                // Show download detail if not available
                                 showingStationDetail = true
                             }
                         }
@@ -549,7 +549,9 @@ struct StationDetailView: View {
                                             Button(action: {
                                                 let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
                                                 impactFeedback.impactOccurred()
-                                                shouldShowPlayer = true
+                                                // Start playing directly instead of showing player
+                                                MusicPlayerManager.shared.loadStation(station)
+                                                onClose()
                                             }) {
                                                 HStack(spacing: 12) {
                                                     Image(systemName: "play.circle.fill")
@@ -1039,6 +1041,7 @@ struct FileRow: View {
             .padding(.leading, 60)
     }
 }
+
 
 #Preview {
     RadioView(taskStore: TaskStore(), currentTab: .constant("radio"))

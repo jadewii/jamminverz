@@ -1,0 +1,432 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ProfileView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "PROFILE",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 113
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 104
+        }
+      },
+      {
+        "comment": "",
+        "key": "@%@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 214
+        }
+      },
+      {
+        "comment": "",
+        "key": "ADD FRIEND",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 225
+        }
+      },
+      {
+        "comment": "",
+        "key": "FRIENDS",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 249
+        }
+      },
+      {
+        "comment": "",
+        "key": "+%lld",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 269
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 356
+        }
+      },
+      {
+        "comment": "",
+        "key": "SAMPLE PACKS",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 400
+        }
+      },
+      {
+        "comment": "",
+        "key": "SEE ALL",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 405
+        }
+      },
+      {
+        "comment": "",
+        "key": "ALBUMS",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 424
+        }
+      },
+      {
+        "comment": "",
+        "key": "SEE ALL",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 429
+        }
+      },
+      {
+        "comment": "",
+        "key": "PROJECTS",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 448
+        }
+      },
+      {
+        "comment": "",
+        "key": "SEE ALL",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 453
+        }
+      },
+      {
+        "comment": "",
+        "key": "COLLABS",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 469
+        }
+      },
+      {
+        "comment": "",
+        "key": "SEE ALL",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 474
+        }
+      },
+      {
+        "comment": "",
+        "key": "SAMPLE PACKS",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 499
+        }
+      },
+      {
+        "comment": "",
+        "key": "SEE ALL",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 504
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sample Pack %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 589
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 601
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 608
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sample Pack %lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 668
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 673
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 674
+        }
+      },
+      {
+        "comment": "",
+        "key": "Album %lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 725
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld tracks",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 729
+        }
+      },
+      {
+        "comment": "",
+        "key": "Project %lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 778
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld BPM",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 783
+        }
+      },
+      {
+        "comment": "",
+        "key": "3:24",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 784
+        }
+      },
+      {
+        "comment": "",
+        "key": "Collaboration Project %lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 852
+        }
+      },
+      {
+        "comment": "",
+        "key": "A collaborative beat created with friends",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 856
+        }
+      },
+      {
+        "comment": "",
+        "key": "COLLAB",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 847
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 834
+        }
+      },
+      {
+        "comment": "",
+        "key": "PROFILE IMAGE",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 897
+        }
+      },
+      {
+        "comment": "",
+        "key": "ADD PHOTO",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 920
+        }
+      },
+      {
+        "comment": "",
+        "key": "BANNER IMAGE",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 931
+        }
+      },
+      {
+        "comment": "",
+        "key": "ADD BANNER",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 955
+        }
+      },
+      {
+        "comment": "",
+        "key": "SELECT FROM GALLERY",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 970
+        }
+      },
+      {
+        "comment": "",
+        "key": "USERNAME",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 984
+        }
+      },
+      {
+        "comment": "",
+        "key": "Username",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 988
+        }
+      },
+      {
+        "comment": "",
+        "key": "DISPLAY NAME",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 993
+        }
+      },
+      {
+        "comment": "",
+        "key": "Display Name",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 997
+        }
+      },
+      {
+        "comment": "",
+        "key": "BIO",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 1002
+        }
+      },
+      {
+        "comment": "",
+        "key": "THEME COLORS",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1017
+        }
+      },
+      {
+        "comment": "",
+        "key": "EDIT PROFILE",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1056
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 1049
+        }
+      },
+      {
+        "comment": "",
+        "key": "Save",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 1062
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 1112
+        }
+      },
+      {
+        "comment": "",
+        "key": "👤",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1170
+        }
+      },
+      {
+        "comment": "",
+        "key": "Choose Profile Picture",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1227
+        }
+      },
+      {
+        "comment": "",
+        "key": "UPLOAD PHOTO",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1239
+        }
+      },
+      {
+        "comment": "",
+        "key": "OR CHOOSE AN ICON",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 1255
+        }
+      },
+      {
+        "comment": "",
+        "key": "PRO AVATARS",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 1296
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 1337
+        }
+      }
+    ]
+  },
+  "version": 1
+}

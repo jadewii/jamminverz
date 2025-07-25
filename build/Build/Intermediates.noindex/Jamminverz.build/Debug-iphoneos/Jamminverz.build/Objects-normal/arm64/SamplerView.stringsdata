@@ -1,0 +1,64 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SamplerView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "SAMPLER",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 88
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 80
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 98
+        }
+      },
+      {
+        "comment": "",
+        "key": "SELECT A SAMPLE PACK",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 125
+        }
+      },
+      {
+        "comment": "",
+        "key": "BY JADEWII",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 119
+        }
+      },
+      {
+        "comment": "",
+        "key": "MY SAMPLE PACKS",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 184
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 330
+        }
+      }
+    ]
+  },
+  "version": 1
+}

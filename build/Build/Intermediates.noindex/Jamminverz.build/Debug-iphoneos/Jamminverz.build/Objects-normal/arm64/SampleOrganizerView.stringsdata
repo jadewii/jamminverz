@@ -1,0 +1,176 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SampleOrganizerView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "SAMPLE ORGANIZER",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 699
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 690
+        }
+      },
+      {
+        "comment": "",
+        "key": "📊 Analytics",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 732
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld samples | %lld kicks | %lld snares",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 736
+        }
+      },
+      {
+        "comment": "",
+        "key": "Find dark trap kicks 85BPM",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 756
+        }
+      },
+      {
+        "comment": "",
+        "key": "ANALYZING SAMPLES",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 862
+        }
+      },
+      {
+        "comment": "",
+        "key": "Analyzing %lld%% complete...",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 872
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 937
+        }
+      },
+      {
+        "comment": "",
+        "key": "samples",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 945
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 1002
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit Sample",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 1048
+        }
+      },
+      {
+        "comment": "",
+        "key": "Deselect",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 1055
+        }
+      },
+      {
+        "comment": "",
+        "key": "Select",
+        "location": {
+          "startingColumn": 49,
+          "startingLine": 1055
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sample Analytics",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1100
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 1102
+        }
+      },
+      {
+        "comment": "",
+        "key": "YOUR SAMPLE LIBRARY STATS",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 1110
+        }
+      },
+      {
+        "comment": "",
+        "key": "📈 BPM Distribution",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 1128
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1152
+        }
+      },
+      {
+        "comment": "",
+        "key": "🎵 Instrument Breakdown",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 1163
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1179
+        }
+      },
+      {
+        "comment": "",
+        "key": "🔄 Library Health",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 1198
+        }
+      }
+    ]
+  },
+  "version": 1
+}

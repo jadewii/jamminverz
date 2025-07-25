@@ -1,0 +1,176 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/RoutinesView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "ROUTINES",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 263
+        }
+      },
+      {
+        "comment": "",
+        "key": "RECOMMENDED FOR %@",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 303
+        }
+      },
+      {
+        "comment": "",
+        "key": "QUICK START",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 349
+        }
+      },
+      {
+        "comment": "",
+        "key": "WELLNESS CATEGORIES",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 420
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld COMPLETED TODAY",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 426
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld MIN",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 525
+        }
+      },
+      {
+        "comment": "",
+        "key": "CLOSE",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 588
+        }
+      },
+      {
+        "comment": "",
+        "key": "STEPS",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 631
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 637
+        }
+      },
+      {
+        "comment": "",
+        "key": "START ROUTINE",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 667
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ / %lld:00",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 747
+        }
+      },
+      {
+        "comment": "",
+        "key": "CANCEL",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 740
+        }
+      },
+      {
+        "comment": "",
+        "key": "STEP %lld OF %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 758
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld%%",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 780
+        }
+      },
+      {
+        "comment": "",
+        "key": "PREVIOUS",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 796
+        }
+      },
+      {
+        "comment": "",
+        "key": "NEXT",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 817
+        }
+      },
+      {
+        "comment": "",
+        "key": "COMPLETE",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 837
+        }
+      },
+      {
+        "comment": "",
+        "key": "QUICK START",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 893
+        }
+      },
+      {
+        "comment": "",
+        "key": "Based on your time of day",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 897
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld minutes",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 914
+        }
+      },
+      {
+        "comment": "",
+        "key": "CANCEL",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 945
+        }
+      }
+    ]
+  },
+  "version": 1
+}

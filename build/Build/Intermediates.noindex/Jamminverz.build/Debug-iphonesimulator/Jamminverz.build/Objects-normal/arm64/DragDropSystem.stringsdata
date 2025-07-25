@@ -1,0 +1,96 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/DragDropSystem.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 188
+        }
+      },
+      {
+        "comment": "",
+        "key": "samples",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 199
+        }
+      },
+      {
+        "comment": "",
+        "key": "→ %lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 330
+        }
+      },
+      {
+        "comment": "",
+        "key": "MATCH",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 324
+        }
+      },
+      {
+        "comment": "",
+        "key": "CHECK",
+        "location": {
+          "startingColumn": 56,
+          "startingLine": 324
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 528
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld BPM",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 652
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld samples selected",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 690
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 839
+        }
+      },
+      {
+        "comment": "",
+        "key": "Choose Target Category",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 777
+        }
+      },
+      {
+        "comment": "",
+        "key": "ORGANIZE SAMPLES",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 823
+        }
+      }
+    ]
+  },
+  "version": 1
+}

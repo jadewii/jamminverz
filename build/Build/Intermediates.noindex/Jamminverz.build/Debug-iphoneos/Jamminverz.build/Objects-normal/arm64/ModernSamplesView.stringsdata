@@ -1,0 +1,216 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ModernSamplesView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "SAMPLES",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "Organize your sample library",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 49
+        }
+      },
+      {
+        "comment": "",
+        "key": "Search samples...",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "MY PACKS",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 86
+        }
+      },
+      {
+        "comment": "",
+        "key": "ALL PACKS",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 118
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 122
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add New",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 168
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create custom pack",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 172
+        }
+      },
+      {
+        "comment": "",
+        "key": "CREATE PACK",
+        "location": {
+          "startingColumn": 58,
+          "startingLine": 162
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ SAMPLES",
+        "location": {
+          "startingColumn": 64,
+          "startingLine": 188
+        }
+      },
+      {
+        "comment": "",
+        "key": "RECENT SAMPLES",
+        "location": {
+          "startingColumn": 111,
+          "startingLine": 188
+        }
+      },
+      {
+        "comment": "",
+        "key": "SHOW ALL",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 197
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 335
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 404
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 520
+        }
+      },
+      {
+        "comment": "",
+        "key": "MY PACK",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 525
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld BPM",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 571
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create Pack",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 702
+        }
+      },
+      {
+        "comment": "",
+        "key": "Pack Name",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 637
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter pack name",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 641
+        }
+      },
+      {
+        "comment": "",
+        "key": "Icon",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 652
+        }
+      },
+      {
+        "comment": "",
+        "key": "Color",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 673
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 706
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 711
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 764
+        }
+      }
+    ]
+  },
+  "version": 1
+}

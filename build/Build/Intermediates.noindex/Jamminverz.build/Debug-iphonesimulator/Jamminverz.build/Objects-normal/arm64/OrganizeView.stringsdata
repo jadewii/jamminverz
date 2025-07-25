@@ -1,0 +1,240 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/OrganizeView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "ORGANIZE",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 152
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 143
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 163
+        }
+      },
+      {
+        "comment": "",
+        "key": "CHOOSE ORGANIZATION MODE",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 176
+        }
+      },
+      {
+        "comment": "",
+        "key": "Select the type of content you want to organize",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 196
+        }
+      },
+      {
+        "comment": "",
+        "key": "ORGANIZE %@",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 209
+        }
+      },
+      {
+        "comment": "",
+        "key": "Choose your organization method",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 214
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ - %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 245
+        }
+      },
+      {
+        "comment": "",
+        "key": "Organization interface will appear here",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 250
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 296
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI ASSISTANT > ORGANIZE %@",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 427
+        }
+      },
+      {
+        "comment": "",
+        "key": "CLOSE",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 433
+        }
+      },
+      {
+        "comment": "",
+        "key": "CLOSE",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 419
+        }
+      },
+      {
+        "comment": "",
+        "key": "ORGANIZATION RESULTS",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 444
+        }
+      },
+      {
+        "comment": "",
+        "key": "ANALYZING %@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 500
+        }
+      },
+      {
+        "comment": "",
+        "key": "Analyzing %lld of %lld items...",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 510
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI ORGANIZING %@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 525
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ready to organize %lld %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 530
+        }
+      },
+      {
+        "comment": "",
+        "key": "START AI ANALYSIS",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 537
+        }
+      },
+      {
+        "comment": "",
+        "key": "GENRE THIS!",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 644
+        }
+      },
+      {
+        "comment": "",
+        "key": "GENRE THIS! > TRACK %lld of %lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 648
+        }
+      },
+      {
+        "comment": "",
+        "key": "CLOSE",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 655
+        }
+      },
+      {
+        "comment": "",
+        "key": "CLOSE",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 635
+        }
+      },
+      {
+        "comment": "",
+        "key": "MANUAL ORGANIZATION",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 670
+        }
+      },
+      {
+        "comment": "",
+        "key": "Classify your %@ one by one\nwith detailed control",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 674
+        }
+      },
+      {
+        "comment": "",
+        "key": "START ORGANIZING",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 682
+        }
+      },
+      {
+        "comment": "",
+        "key": "Progress: %lld%% complete",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 700
+        }
+      },
+      {
+        "comment": "",
+        "key": "Streak: 🔥 %lld in a row!",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 722
+        }
+      },
+      {
+        "comment": "",
+        "key": "🎵 %@",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 738
+        }
+      }
+    ]
+  },
+  "version": 1
+}

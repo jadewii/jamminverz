@@ -1,0 +1,56 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/TodayViewTimeBlocked.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "NEED SCHEDULING",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
+        "key": "(%lld)",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 86
+        }
+      },
+      {
+        "comment": "",
+        "key": "No scheduled tasks",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 122
+        }
+      },
+      {
+        "comment": "",
+        "key": "Drag tasks from above to schedule them",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 126
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld:00",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 312
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld min",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 358
+        }
+      }
+    ]
+  },
+  "version": 1
+}

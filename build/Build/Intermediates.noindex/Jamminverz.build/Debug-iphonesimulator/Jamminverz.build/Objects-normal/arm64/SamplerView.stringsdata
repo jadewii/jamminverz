@@ -1,0 +1,88 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SamplerView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "SAMPLER",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 122
+        }
+      },
+      {
+        "comment": "",
+        "key": "BACK",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 114
+        }
+      },
+      {
+        "comment": "",
+        "key": "SELECT A SAMPLE PACK",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 391
+        }
+      },
+      {
+        "comment": "",
+        "key": "BY JADEWII",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 386
+        }
+      },
+      {
+        "comment": "",
+        "key": "MY JAM PACKS",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 453
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 565
+        }
+      },
+      {
+        "comment": "",
+        "key": "GRID COLOR",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 685
+        }
+      },
+      {
+        "comment": "",
+        "key": "SAMPLE LIBRARY",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 758
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 762
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld SAMPLES",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 827
+        }
+      }
+    ]
+  },
+  "version": 1
+}

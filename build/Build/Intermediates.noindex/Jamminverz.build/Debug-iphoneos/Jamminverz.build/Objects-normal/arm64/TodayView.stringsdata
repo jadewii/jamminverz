@@ -1,0 +1,32 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/TodayView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Add new task...",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 77
+        }
+      },
+      {
+        "comment": "",
+        "key": "New task",
+        "location": {
+          "startingColumn": 47,
+          "startingLine": 63
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 223
+        }
+      }
+    ]
+  },
+  "version": 1
+}

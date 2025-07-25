@@ -1,0 +1,72 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/SampleEditorManager.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "CREATE SAMPLE PACK",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 689
+        }
+      },
+      {
+        "comment": "",
+        "key": "PACK NAME",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 707
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter pack name",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 711
+        }
+      },
+      {
+        "comment": "",
+        "key": "DESCRIPTION",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 723
+        }
+      },
+      {
+        "comment": "",
+        "key": "Pack description",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 727
+        }
+      },
+      {
+        "comment": "",
+        "key": "ARTWORK",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 741
+        }
+      },
+      {
+        "comment": "",
+        "key": "GENERATE ARTWORK",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 764
+        }
+      },
+      {
+        "comment": "",
+        "key": "CREATE PACK",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 786
+        }
+      }
+    ]
+  },
+  "version": 1
+}

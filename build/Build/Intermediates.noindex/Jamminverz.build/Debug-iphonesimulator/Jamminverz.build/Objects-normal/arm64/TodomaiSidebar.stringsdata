@@ -1,0 +1,32 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/TodomaiSidebar.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "JAde Wii",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 151
+        }
+      },
+      {
+        "comment": "",
+        "key": "RADIO",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 389
+        }
+      },
+      {
+        "comment": "",
+        "key": "REMIX",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 436
+        }
+      }
+    ]
+  },
+  "version": 1
+}

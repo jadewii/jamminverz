@@ -1,0 +1,16 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/ThisWeekView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "THIS WEEK",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 19
+        }
+      }
+    ]
+  },
+  "version": 1
+}

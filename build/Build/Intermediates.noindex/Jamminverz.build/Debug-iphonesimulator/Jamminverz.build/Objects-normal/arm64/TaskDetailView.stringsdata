@@ -1,0 +1,48 @@
+{
+  "source": "/Users/jade/SunoMusicPipeline/jamminverz/Jamminverz/TaskDetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Task Details",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "No due date",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 46
+        }
+      },
+      {
+        "comment": "",
+        "key": "Due Date",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 38
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 63
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit Task View",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 70
+        }
+      }
+    ]
+  },
+  "version": 1
+}
