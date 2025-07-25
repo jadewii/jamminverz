@@ -8,6 +8,9 @@
 import SwiftUI
 import AVFoundation
 import UniformTypeIdentifiers
+#if os(macOS)
+import AppKit
+#endif
 
 // MARK: - Modern Samples View
 struct ModernSamplesView: View {
@@ -74,28 +77,92 @@ struct ModernSamplesView: View {
                 
                 // Main content scroll
                 ScrollView {
-                    VStack(spacing: 32) {
-                        // MY PACKS section
-                        if !samplesManager.favoritePacks.isEmpty {
+                    VStack(spacing: 48) {
+                        // Create & Upload Pack section
+                        VStack(spacing: 24) {
+                            HStack(spacing: 24) {
+                                // CREATE PACK
+                                Button(action: { showCreatePackSheet = true }) {
+                                    VStack(spacing: 16) {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .fill(Color.white.opacity(0.1))
+                                                .frame(height: 180)
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 16)
+                                                        .stroke(Color.white.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [8]))
+                                                )
+                                            
+                                            VStack(spacing: 12) {
+                                                Image(systemName: "plus.circle.fill")
+                                                    .font(.system(size: 48, weight: .medium))
+                                                    .foregroundColor(.white)
+                                                Text("CREATE PACK")
+                                                    .font(.system(size: 18, weight: .heavy))
+                                                    .foregroundColor(.white)
+                                                Text("Create a new sample pack")
+                                                    .font(.system(size: 14))
+                                                    .foregroundColor(.white.opacity(0.7))
+                                            }
+                                        }
+                                    }
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                
+                                // UPLOAD PACK
+                                Button(action: { 
+                                    uploadPack()
+                                }) {
+                                    VStack(spacing: 16) {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .fill(Color.white.opacity(0.1))
+                                                .frame(height: 180)
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 16)
+                                                        .stroke(Color.white.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [8]))
+                                                )
+                                            
+                                            VStack(spacing: 12) {
+                                                Image(systemName: "folder.fill.badge.plus")
+                                                    .font(.system(size: 48, weight: .medium))
+                                                    .foregroundColor(.white)
+                                                Text("UPLOAD PACK")
+                                                    .font(.system(size: 18, weight: .heavy))
+                                                    .foregroundColor(.white)
+                                                Text("Import folder with samples")
+                                                    .font(.system(size: 14))
+                                                    .foregroundColor(.white.opacity(0.7))
+                                            }
+                                        }
+                                    }
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                            }
+                            .padding(.horizontal, 24)
+                        }
+                        
+                        // User's Packs section (will show uploaded packs)
+                        if !samplesManager.samplePacks.isEmpty {
                             VStack(alignment: .leading, spacing: 16) {
                                 HStack {
                                     Text("MY PACKS")
                                         .font(.system(size: 20, weight: .heavy))
                                         .foregroundColor(.white)
                                     Spacer()
-                                    Text("\(samplesManager.favoritePacks.count)")
+                                    Text("\(samplesManager.samplePacks.count)")
                                         .font(.system(size: 18, weight: .medium))
                                         .foregroundColor(.white.opacity(0.7))
                                 }
                                 .padding(.horizontal, 24)
                                 
                                 ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 16) {
-                                        ForEach(samplesManager.favoritedPacks) { pack in
+                                    HStack(spacing: 20) {
+                                        ForEach(samplesManager.samplePacks) { pack in
                                             FavoritePackCard(
                                                 pack: pack,
                                                 isSelected: selectedPack?.id == pack.id,
-                                                isFavorite: true,
+                                                isFavorite: samplesManager.isFavorite(pack.id),
                                                 onTap: { 
                                                     selectedPack = pack
                                                     selectedPackSamples = samplesManager.getSamplesForPack(pack)
@@ -104,80 +171,11 @@ struct ModernSamplesView: View {
                                                     samplesManager.toggleFavorite(pack.id)
                                                 }
                                             )
-                                            .frame(width: 260)
+                                            .frame(width: 280, height: 200)
                                         }
                                     }
                                     .padding(.horizontal, 24)
                                 }
-                            }
-                        }
-                        
-                        // ALL PACKS section
-                        VStack(alignment: .leading, spacing: 16) {
-                            HStack {
-                                Text("ALL PACKS")
-                                    .font(.system(size: 20, weight: .heavy))
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Text("\(samplesManager.samplePacks.count)")
-                                    .font(.system(size: 18, weight: .medium))
-                                    .foregroundColor(.white.opacity(0.7))
-                            }
-                            .padding(.horizontal, 24)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 16) {
-                                    ForEach(samplesManager.samplePacks) { pack in
-                                        FavoritePackCard(
-                                            pack: pack,
-                                            isSelected: selectedPack?.id == pack.id,
-                                            isFavorite: samplesManager.isFavorite(pack.id),
-                                            onTap: { 
-                                                selectedPack = pack
-                                                selectedPackSamples = samplesManager.getSamplesForPack(pack)
-                                            },
-                                            onToggleFavorite: {
-                                                samplesManager.toggleFavorite(pack.id)
-                                            }
-                                        )
-                                        .frame(width: 260)
-                                    }
-                                    
-                                    // Add pack button
-                                    Button(action: { showCreatePackSheet = true }) {
-                                        VStack(spacing: 8) {
-                                            ZStack {
-                                                Rectangle()
-                                                    .fill(Color.white.opacity(0.1))
-                                                    .frame(height: 120)
-                                                    .overlay(
-                                                        Rectangle()
-                                                            .stroke(Color.white.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [5]))
-                                                    )
-                                                
-                                                VStack(spacing: 8) {
-                                                    Image(systemName: "plus")
-                                                        .font(.system(size: 32, weight: .medium))
-                                                        .foregroundColor(.white)
-                                                    Text("CREATE PACK")
-                                                        .font(.system(size: 12, weight: .heavy))
-                                                        .foregroundColor(.white)
-                                                }
-                                            }
-                                            
-                                            Text("Add New")
-                                                .font(.system(size: 14, weight: .heavy))
-                                                .foregroundColor(.white)
-                                            
-                                            Text("Create custom pack")
-                                                .font(.system(size: 11))
-                                                .foregroundColor(.white.opacity(0.7))
-                                        }
-                                        .frame(width: 260)
-                                    }
-                                    .buttonStyle(PlainButtonStyle())
-                                }
-                                .padding(.horizontal, 24)
                             }
                         }
                         
@@ -202,17 +200,46 @@ struct ModernSamplesView: View {
                                 }
                                 .padding(.horizontal, 24)
                                 
-                                VStack(spacing: 8) {
-                                    ForEach(selectedPack != nil ? filteredPackSamples.prefix(10) : filteredSamples.prefix(10)) { file in
-                                        MinimalSampleRow(
-                                            file: file,
-                                            isSelected: selectedSamples.contains(file.id),
-                                            onToggle: { toggleSelection(file) },
-                                            onPlay: { playPreview(file) }
-                                        )
+                                // Group samples by subfolder
+                                if selectedPack != nil {
+                                    let groupedSamples = Dictionary(grouping: filteredPackSamples) { $0.subfolder ?? "Root" }
+                                    
+                                    ForEach(groupedSamples.keys.sorted(), id: \.self) { subfolder in
+                                        VStack(alignment: .leading, spacing: 8) {
+                                            if subfolder != "Root" {
+                                                Text(subfolder.uppercased())
+                                                    .font(.system(size: 14, weight: .heavy))
+                                                    .foregroundColor(.white.opacity(0.7))
+                                                    .padding(.horizontal, 24)
+                                                    .padding(.top, 8)
+                                            }
+                                            
+                                            VStack(spacing: 8) {
+                                                ForEach(groupedSamples[subfolder] ?? []) { file in
+                                                    MinimalSampleRow(
+                                                        file: file,
+                                                        isSelected: selectedSamples.contains(file.id),
+                                                        onToggle: { toggleSelection(file) },
+                                                        onPlay: { playPreview(file) }
+                                                    )
+                                                }
+                                            }
+                                            .padding(.horizontal, 24)
+                                        }
                                     }
+                                } else {
+                                    VStack(spacing: 8) {
+                                        ForEach(filteredSamples.prefix(10)) { file in
+                                            MinimalSampleRow(
+                                                file: file,
+                                                isSelected: selectedSamples.contains(file.id),
+                                                onToggle: { toggleSelection(file) },
+                                                onPlay: { playPreview(file) }
+                                            )
+                                        }
+                                    }
+                                    .padding(.horizontal, 24)
                                 }
-                                .padding(.horizontal, 24)
                             }
                         }
                     }
@@ -281,8 +308,63 @@ struct ModernSamplesView: View {
         samplesManager.createAutoPacksWithAI()
     }
     
+    private func uploadPack() {
+        #if os(macOS)
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        panel.message = "Select a folder containing audio samples"
+        
+        panel.begin { response in
+            if response == .OK, let url = panel.url {
+                processUploadedFolder(url)
+            }
+        }
+        #endif
+    }
+    
+    private func processUploadedFolder(_ folderURL: URL) {
+        let folderName = folderURL.lastPathComponent
+        
+        // Create a new pack for this folder
+        let newPack = samplesManager.createPack(
+            name: folderName,
+            icon: "📁",
+            color: Color(hex: "E879F9")
+        )
+        
+        // Scan for audio files in the folder and subfolders
+        let fileManager = FileManager.default
+        if let enumerator = fileManager.enumerator(at: folderURL, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles]) {
+            for case let fileURL as URL in enumerator {
+                let pathComponents = fileURL.pathComponents
+                let folderComponents = folderURL.pathComponents
+                
+                // Get the relative path components
+                let relativeComponents = Array(pathComponents.dropFirst(folderComponents.count))
+                
+                // Check if it's an audio file
+                let audioExtensions = ["wav", "mp3", "aiff", "m4a", "flac"]
+                if audioExtensions.contains(fileURL.pathExtension.lowercased()) {
+                    // Create sample file
+                    let sample = SampleFile(
+                        url: fileURL,
+                        subfolder: relativeComponents.count > 1 ? relativeComponents[0] : nil
+                    )
+                    
+                    // Add to manager
+                    samplesManager.addSampleToPack(sample, pack: newPack)
+                }
+            }
+        }
+        
+        // Refresh the view
+        samplesManager.scanForAudioFiles()
+    }
+    
     private func importPack() {
-        // TODO: Show file picker for pack import
+        uploadPack()
     }
     
     private func playPreview(_ file: SampleFile) {
@@ -457,83 +539,123 @@ struct FavoritePackCard: View {
     
     var body: some View {
         Button(action: onTap) {
-            VStack(alignment: .leading, spacing: 12) {
-                // Pack Preview Grid
-                ZStack(alignment: .bottomTrailing) {
-                    LazyVGrid(columns: [
-                        GridItem(.flexible(), spacing: 2),
-                        GridItem(.flexible(), spacing: 2),
-                        GridItem(.flexible(), spacing: 2),
-                        GridItem(.flexible(), spacing: 2)
-                    ], spacing: 2) {
-                        ForEach(0..<16) { i in
-                            Rectangle()
-                                .fill(pack.color.opacity(Double.random(in: 0.3...0.8)))
-                                .aspectRatio(1, contentMode: .fit)
-                                .cornerRadius(2)
-                        }
-                    }
-                    .padding(8)
-                    .frame(height: 120)
-                    .background(Color.white.opacity(0.05))
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(isSelected ? Color.white : Color.clear, lineWidth: 2)
+            VStack(spacing: 0) {
+                // Card Header with Gradient Background
+                ZStack {
+                    // Gradient background
+                    LinearGradient(
+                        colors: [
+                            pack.color,
+                            pack.color.opacity(0.7)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     )
                     
-                    // Favorite button
-                    Button(action: {
-                        onToggleFavorite()
-                    }) {
+                    // Pattern overlay
+                    GeometryReader { geo in
                         ZStack {
-                            Circle()
-                                .fill(Color.black.opacity(0.7))
-                                .frame(width: 36, height: 36)
-                            
-                            Image(systemName: isFavorite ? "heart.fill" : "heart")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(isFavorite ? Color.pink : .white)
-                                .overlay(
-                                    Image(systemName: "plus")
-                                        .font(.system(size: 10, weight: .heavy))
-                                        .foregroundColor(.white)
-                                        .offset(x: 8, y: -8)
-                                )
+                            ForEach(0..<6) { row in
+                                ForEach(0..<6) { col in
+                                    Circle()
+                                        .fill(Color.white.opacity(0.05))
+                                        .frame(width: 20, height: 20)
+                                        .offset(
+                                            x: CGFloat(col) * 30 - 10,
+                                            y: CGFloat(row) * 30 - 10
+                                        )
+                                }
+                            }
                         }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .offset(x: -8, y: -8)
-                }
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(pack.icon)
-                            .font(.system(size: 16))
-                        Text(pack.name.uppercased())
-                            .font(.system(size: 14, weight: .heavy))
-                            .foregroundColor(.white)
-                            .lineLimit(1)
+                        .clipped()
                     }
                     
-                    HStack {
-                        Label("\(pack.samples.count)", systemImage: "square.grid.2x2")
-                            .font(.system(size: 11))
-                            .foregroundColor(.gray)
+                    // Content
+                    VStack {
+                        HStack {
+                            Text(pack.icon)
+                                .font(.system(size: 32))
+                                .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
+                            Spacer()
+                            
+                            // Favorite button
+                            Button(action: {
+                                onToggleFavorite()
+                            }) {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.white.opacity(0.2))
+                                        .frame(width: 36, height: 36)
+                                    
+                                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(isFavorite ? Color.pink : .white)
+                                }
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 20)
+                        
                         Spacer()
-                        if isFavorite {
-                            Label("MY PACK", systemImage: "star.fill")
+                        
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(pack.name.uppercased())
+                                    .font(.system(size: 16, weight: .heavy))
+                                    .foregroundColor(.white)
+                                    .lineLimit(1)
+                                
+                                Text("\(pack.samples.count) samples")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.white.opacity(0.8))
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
+                    }
+                }
+                .frame(height: 140)
+                
+                // Card Footer
+                HStack {
+                    if isFavorite {
+                        HStack(spacing: 4) {
+                            Image(systemName: "star.fill")
+                                .font(.system(size: 10))
+                                .foregroundColor(.yellow)
+                            Text("MY PACK")
                                 .font(.system(size: 10, weight: .heavy))
                                 .foregroundColor(.yellow)
                         }
+                    } else {
+                        Text("TAP TO VIEW")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(.gray)
                     }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.gray)
                 }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 12)
+                .background(Color.white.opacity(0.03))
             }
-            .padding(12)
-            .background(Color.white.opacity(0.05))
-            .cornerRadius(12)
+            .background(Color.black)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(isSelected ? Color.white : Color.white.opacity(0.1), lineWidth: isSelected ? 2 : 1)
+            )
+            .shadow(color: pack.color.opacity(0.3), radius: 10, x: 0, y: 5)
         }
         .buttonStyle(PlainButtonStyle())
+        .scaleEffect(isSelected ? 1.02 : 1.0)
+        .animation(.spring(response: 0.3), value: isSelected)
     }
 }
 
@@ -709,7 +831,7 @@ struct CreatePackSheet: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Create") {
-                        samplesManager.createPack(
+                        _ = samplesManager.createPack(
                             name: packName.isEmpty ? "New Pack" : packName,
                             icon: selectedIcon,
                             color: selectedColor

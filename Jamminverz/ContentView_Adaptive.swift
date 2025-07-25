@@ -64,6 +64,14 @@ struct ContentView_Adaptive: View {
     @State private var showTimerSelection = false
     @State private var columnVisibility = NavigationSplitViewVisibility.automatic
     
+    // Global control button states
+    @State private var showSampleListView = false
+    @State private var isGridView = false
+    @State private var showAllSequencersView = true
+    @State private var showColorPicker = false
+    @State private var gridColorMode = "rainbow"
+    @State private var selectedGridColor: Color = .blue
+    
     
     var body: some View {
         Group {
@@ -100,7 +108,13 @@ struct ContentView_Adaptive: View {
                     // Default to radio view for menu
                     RadioView(
                         taskStore: taskStore,
-                        currentTab: $currentTab
+                        currentTab: $currentTab,
+                        showSampleListView: $showSampleListView,
+                        isGridView: $isGridView,
+                        showAllSequencersView: $showAllSequencersView,
+                        showColorPicker: $showColorPicker,
+                        gridColorMode: $gridColorMode,
+                        selectedGridColor: $selectedGridColor
                     )
                     
                 case "today":
@@ -137,7 +151,13 @@ struct ContentView_Adaptive: View {
                 case "radio":
                     RadioView(
                         taskStore: taskStore,
-                        currentTab: $currentTab
+                        currentTab: $currentTab,
+                        showSampleListView: $showSampleListView,
+                        isGridView: $isGridView,
+                        showAllSequencersView: $showAllSequencersView,
+                        showColorPicker: $showColorPicker,
+                        gridColorMode: $gridColorMode,
+                        selectedGridColor: $selectedGridColor
                     )
                     
                 default:
@@ -155,7 +175,13 @@ struct ContentView_Adaptive: View {
                         // Default to radio view
                         RadioView(
                             taskStore: taskStore,
-                            currentTab: $currentTab
+                            currentTab: $currentTab,
+                            showSampleListView: $showSampleListView,
+                            isGridView: $isGridView,
+                            showAllSequencersView: $showAllSequencersView,
+                            showColorPicker: $showColorPicker,
+                            gridColorMode: $gridColorMode,
+                            selectedGridColor: $selectedGridColor
                         )
                     }
                 }
@@ -217,7 +243,13 @@ struct ContentView_Adaptive: View {
                     case "radio":
                         RadioView(
                             taskStore: taskStore,
-                            currentTab: $currentTab
+                            currentTab: $currentTab,
+                            showSampleListView: $showSampleListView,
+                            isGridView: $isGridView,
+                            showAllSequencersView: $showAllSequencersView,
+                            showColorPicker: $showColorPicker,
+                            gridColorMode: $gridColorMode,
+                            selectedGridColor: $selectedGridColor
                         )
                     
                     case "organize":

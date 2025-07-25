@@ -23,10 +23,27 @@ struct SamplerView: View {
     @State private var selectedGridColor: Color = .blue
     @State private var showColorPicker = false
     @State private var showSampleListView = false
+    @State private var showAllSequencersView = true // Default to all sequencers view
     @State private var selectedPadIndex: Int = 0 // Always start with pad 0 selected
     @State private var sequencerSteps = Array(repeating: Array(repeating: false, count: 16), count: 16) // 16 pads x 16 steps
     @State private var currentSequencerStep: Int = -1 // -1 means not playing
     @State private var sequencerTimer: Timer?
+    @State private var padTimeSignatures = Array(repeating: 16, count: 16) // Time signature for each pad (default 16 steps)
+    @State private var padSpeeds = Array(repeating: 1.0, count: 16) // Speed multiplier for each pad
+    @State private var gridSize: Double = 12 // Number of columns/rows in the grid
+    @State private var draggedPack: SamplePack? = nil
+    @State private var draggedIndex: Int? = nil
+    @State private var dragOffset: CGSize = .zero
+    @State private var dropTargetIndex: Int? = nil
+    
+    // New sequencer control states
+    @State private var padVolumes = Array(repeating: 0.8, count: 16) // Volume for each pad (0.0 to 1.0)
+    @State private var padMuted = Array(repeating: false, count: 16) // Mute state for each pad
+    @State private var padSolo = Array(repeating: false, count: 16) // Solo state for each pad
+    @State private var padDirection = Array(repeating: "forward", count: 16) // Direction: forward, backward, pendulum, random
+    @State private var padRetrigger = Array(repeating: 1, count: 16) // Retrigger count: 1-4
+    @State private var padLength = Array(repeating: 16, count: 16) // Length of pattern for each pad
+    @State private var padGhostNotes = Array(repeating: false, count: 16) // Ghost notes state for each pad
     
     // Sample packs from profiles (mock data for now)
     @State private var availablePacks: [SamplePack] = []
@@ -43,30 +60,36 @@ struct SamplerView: View {
                     headerView
                         .frame(height: 50)
                     
-                    // Main content with sequencer always visible
-                    VStack(spacing: 20) {
-                        // Two equal sized squares that fill available space
-                        GeometryReader { innerGeo in
-                            HStack(spacing: 20) {
-                                let squareSize = min(innerGeo.size.width / 2 - 10, innerGeo.size.height)
-                                
-                                // Left side - Sample Pack Collection
-                                samplePackGrid
-                                    .frame(width: squareSize, height: squareSize)
-                                
-                                // Right side - 4x4 Drum Pads
-                                drumPadGrid
-                                    .frame(width: squareSize, height: squareSize)
+                    // Main content
+                    if showAllSequencersView {
+                        // All sequencers view - fills entire space
+                        allSequencersContent
+                    } else {
+                        // Normal sampler view
+                        VStack(spacing: 20) {
+                            // Two equal sized squares that fill available space
+                            GeometryReader { innerGeo in
+                                HStack(spacing: 20) {
+                                    let squareSize = min(innerGeo.size.width / 2 - 10, innerGeo.size.height)
+                                    
+                                    // Left side - Sample Pack Collection
+                                    samplePackGrid
+                                        .frame(width: squareSize, height: squareSize)
+                                    
+                                    // Right side - 4x4 Drum Pads
+                                    drumPadGrid
+                                        .frame(width: squareSize, height: squareSize)
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                             }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        }
-                        .padding(.horizontal, 20)
-                        
-                        // Step Sequencer always visible at bottom
-                        stepSequencerView(for: selectedPadIndex)
-                            .frame(height: 100)
                             .padding(.horizontal, 20)
-                            .padding(.bottom, 20)
+                            
+                            // Step Sequencer always visible at bottom
+                            stepSequencerView(for: selectedPadIndex)
+                                .frame(height: 100)
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 20)
+                        }
                     }
                 }
             }
@@ -88,7 +111,7 @@ struct SamplerView: View {
                         icon: icons[(i-1) % icons.count],
                         color: colors[(i-1) % colors.count]
                     )
-                    samplesManager.createPack(name: pack.name, icon: pack.icon, color: pack.color)
+                    _ = samplesManager.createPack(name: pack.name, icon: pack.icon, color: pack.color)
                 }
             }
         }
@@ -97,6 +120,7 @@ struct SamplerView: View {
                 handleKeyPress(key)
             }
         )
+        // Removed sheet - view is now inline
     }
     
     // MARK: - Header
@@ -106,13 +130,38 @@ struct SamplerView: View {
             Button(action: {
                 currentTab = "menu"
             }) {
-                HStack(spacing: 8) {
+                HStack(spacing: 12) {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 20, weight: .heavy))
                     Text("BACK")
                         .font(.system(size: 16, weight: .heavy))
                 }
                 .foregroundColor(.white)
+            }
+            
+            // Play/Stop buttons right after back button
+            HStack(spacing: 12) {
+                Button(action: startSequencer) {
+                    Circle()
+                        .fill(Color.white.opacity(0.2))
+                        .frame(width: 40, height: 40)
+                        .overlay(
+                            Image(systemName: "play.fill")
+                                .font(.system(size: 16))
+                                .foregroundColor(.white)
+                        )
+                }
+                
+                Button(action: stopSequencer) {
+                    Circle()
+                        .fill(Color.white.opacity(0.2))
+                        .frame(width: 40, height: 40)
+                        .overlay(
+                            Rectangle()
+                                .fill(Color.white)
+                                .frame(width: 12, height: 12)
+                        )
+                }
             }
             
             Spacer()
@@ -123,76 +172,86 @@ struct SamplerView: View {
             
             Spacer()
             
-            // View toggle and color picker buttons
-            HStack(spacing: 2) {
-                // List view button (4 rows icon)
+            // View toggle buttons - styled like album grid with NO spacing
+            HStack(spacing: 0) {
+                // List view button
                 Button(action: {
                     showSampleListView.toggle()
                 }) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 6)
-                            .fill(Color.white.opacity(showSampleListView ? 0.2 : 0.1))
-                            .frame(width: 40, height: 40)
-                        
-                        // 4 rows icon
-                        VStack(spacing: 3) {
-                            ForEach(0..<4) { _ in
-                                Rectangle()
-                                    .fill(Color.white.opacity(0.8))
-                                    .frame(width: 20, height: 2)
+                    Rectangle()
+                        .fill(Color.white.opacity(showSampleListView ? 0.2 : 0.1))
+                        .frame(width: 50, height: 50)
+                        .overlay(
+                            VStack(spacing: 3) {
+                                ForEach(0..<4) { _ in
+                                    Rectangle()
+                                        .fill(Color.white.opacity(0.8))
+                                        .frame(width: 22, height: 2)
+                                }
                             }
-                        }
-                    }
+                        )
                 }
+                .buttonStyle(PlainButtonStyle())
                 
                 // Grid view toggle button
                 Button(action: {
                     isGridView.toggle()
                 }) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 6)
-                            .fill(Color.white.opacity(isGridView ? 0.2 : 0.1))
-                            .frame(width: 40, height: 40)
-                        
-                        // 4x4 grid icon
-                        LazyVGrid(columns: Array(repeating: GridItem(.fixed(6), spacing: 2), count: 4), spacing: 2) {
-                            ForEach(0..<16) { _ in
-                                Rectangle()
-                                    .fill(Color.white.opacity(isGridView ? 1.0 : 0.6))
-                                    .frame(width: 6, height: 6)
+                    Rectangle()
+                        .fill(Color.white.opacity(isGridView ? 0.2 : 0.1))
+                        .frame(width: 50, height: 50)
+                        .overlay(
+                            LazyVGrid(columns: Array(repeating: GridItem(.fixed(6), spacing: 3), count: 4), spacing: 3) {
+                                ForEach(0..<16) { _ in
+                                    Rectangle()
+                                        .fill(Color.white.opacity(isGridView ? 1.0 : 0.6))
+                                        .frame(width: 6, height: 6)
+                                }
                             }
-                        }
-                    }
+                        )
                 }
+                .buttonStyle(PlainButtonStyle())
+                
+                // All sequencers view button
+                Button(action: {
+                    showAllSequencersView.toggle()
+                }) {
+                    Rectangle()
+                        .fill(Color.white.opacity(showAllSequencersView ? 0.2 : 0.1))
+                        .frame(width: 50, height: 50)
+                        .overlay(
+                            VStack(spacing: 3) {
+                                ForEach(0..<3) { row in
+                                    HStack(spacing: 3) {
+                                        ForEach(0..<3) { col in
+                                            Circle()
+                                                .fill(Color.white.opacity(showAllSequencersView ? 1.0 : 0.6))
+                                                .frame(width: 5, height: 5)
+                                        }
+                                    }
+                                }
+                            }
+                        )
+                }
+                .buttonStyle(PlainButtonStyle())
                 
                 // Color picker button
                 Button(action: {
                     showColorPicker.toggle()
                 }) {
-                    if gridColorMode == "rainbow" {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(
-                                LinearGradient(
-                                    colors: [.red, .orange, .yellow, .green, .blue, .purple],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .frame(width: 40, height: 40)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
-                            )
-                    } else {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(selectedGridColor)
-                            .frame(width: 40, height: 40)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
-                            )
-                    }
+                    Rectangle()
+                        .fill(
+                            gridColorMode == "rainbow" ?
+                            AnyShapeStyle(LinearGradient(
+                                colors: [.red, .orange, .yellow, .green, .blue, .purple],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )) :
+                            AnyShapeStyle(selectedGridColor)
+                        )
+                        .frame(width: 50, height: 50)
                 }
+                .buttonStyle(PlainButtonStyle())
                 .popover(isPresented: $showColorPicker) {
                     ColorPickerPopover(
                         gridColorMode: $gridColorMode,
@@ -200,6 +259,7 @@ struct SamplerView: View {
                     )
                 }
             }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
@@ -213,6 +273,374 @@ struct SamplerView: View {
             selectedPadIndex: $selectedPadIndex,
             onPadTap: playPadSound
         )
+    }
+    
+    // MARK: - All Sequencers Content
+    private var allSequencersContent: some View {
+        sequencerGrid
+    }
+    
+    private var sequencerGrid: some View {
+        GeometryReader { geometry in
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 8) {
+                    ForEach(0..<16, id: \.self) { padIndex in
+                        sequencerRow(for: padIndex)
+                    }
+                }
+                .padding(.top, 80)
+                .padding(.bottom, 5)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func sequencerRow(for padIndex: Int) -> some View {
+        HStack(spacing: 12) {
+            // Pad number
+            padNumberView(padIndex)
+            
+            // Step buttons - 16 circles
+            stepButtonsView(padIndex)
+            
+            // Control buttons in new order: M, S, L, F, R, G, C
+            controlButtonsView(padIndex)
+            
+            // Volume slider at the end
+            volumeSliderView(padIndex)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 10)
+    }
+    
+    @ViewBuilder
+    private func padNumberView(_ padIndex: Int) -> some View {
+        ZStack {
+            // Background for the entire button area
+            RoundedRectangle(cornerRadius: 12)
+                .fill(getColorForPad(padIndex).opacity(0.3))
+                .frame(width: 100, height: 52)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(getColorForPad(padIndex).opacity(0.5), lineWidth: 2)
+                )
+            
+            HStack(spacing: 0) {
+                // Left arrow button
+                Button(action: {
+                    cycleToPreviousKit(for: padIndex)
+                }) {
+                    Rectangle()
+                        .fill(Color.clear)
+                        .frame(width: 50, height: 52)
+                        .overlay(
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(getColorForPad(padIndex).opacity(0.8))
+                        )
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                // Divider
+                Rectangle()
+                    .fill(getColorForPad(padIndex).opacity(0.5))
+                    .frame(width: 1, height: 40)
+                
+                // Right arrow button
+                Button(action: {
+                    cycleToNextKit(for: padIndex)
+                }) {
+                    Rectangle()
+                        .fill(Color.clear)
+                        .frame(width: 49, height: 52)
+                        .overlay(
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(getColorForPad(padIndex).opacity(0.8))
+                        )
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+    }
+    
+    @ViewBuilder
+    private func stepButtonsView(_ padIndex: Int) -> some View {
+        HStack(spacing: 12) {
+            ForEach(0..<16) { step in
+                stepButton(padIndex: padIndex, step: step)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func stepButton(padIndex: Int, step: Int) -> some View {
+        Button(action: {
+            sequencerSteps[padIndex][step].toggle()
+        }) {
+            Circle()
+                .fill(
+                    sequencerSteps[padIndex][step] ? 
+                    getColorForPad(padIndex) : 
+                    Color.white.opacity(0.1)
+                )
+                .overlay(
+                    Circle()
+                        .stroke(
+                            step == currentSequencerStep ?
+                            Color.white :
+                            (sequencerSteps[padIndex][step] ? 
+                            Color.white : 
+                            Color.white.opacity(0.2)),
+                            lineWidth: step == currentSequencerStep ? 3 : 1
+                        )
+                )
+        }
+        .buttonStyle(PlainButtonStyle())
+        .frame(width: 56, height: 56)
+    }
+    
+    @ViewBuilder
+    private func volumeSliderView(_ padIndex: Int) -> some View {
+        Slider(
+            value: Binding(
+                get: { padVolumes[padIndex] },
+                set: { padVolumes[padIndex] = $0 }
+            ),
+            in: 0...1
+        )
+        .frame(width: 150)
+        .accentColor(getColorForPad(padIndex))
+    }
+    
+    @ViewBuilder
+    private func controlButtonsView(_ padIndex: Int) -> some View {
+        HStack(spacing: 12) {
+            // Mute button
+            controlButton(
+                title: "M",
+                color: padMuted[padIndex] ? Color.red.opacity(0.6) : Color.white.opacity(0.2),
+                action: { padMuted[padIndex].toggle() }
+            )
+            
+            // Solo button
+            controlButton(
+                title: "S",
+                color: padSolo[padIndex] ? Color.yellow.opacity(0.6) : Color.white.opacity(0.2),
+                action: { padSolo[padIndex].toggle() }
+            )
+            
+            // Length button
+            controlButton(
+                title: "L",
+                color: Color.purple.opacity(0.2),
+                action: {
+                    let lengths = [1, 2, 4, 8, 16]
+                    if let currentIndex = lengths.firstIndex(of: padLength[padIndex]) {
+                        let nextIndex = (currentIndex + 1) % lengths.count
+                        padLength[padIndex] = lengths[nextIndex]
+                    }
+                }
+            )
+            
+            // Direction button
+            controlButton(
+                title: directionLetter(for: padDirection[padIndex]),
+                color: directionColor(for: padDirection[padIndex]),
+                action: {
+                    let directions = ["forward", "backward", "pendulum", "random"]
+                    if let currentIndex = directions.firstIndex(of: padDirection[padIndex]) {
+                        let nextIndex = (currentIndex + 1) % directions.count
+                        padDirection[padIndex] = directions[nextIndex]
+                    }
+                }
+            )
+            
+            // Retrigger button
+            controlButton(
+                title: "R",
+                color: padRetrigger[padIndex] > 1 ? Color.orange.opacity(0.3) : Color.white.opacity(0.2),
+                action: {
+                    // Cycle through: 1, 2, 3, 4
+                    padRetrigger[padIndex] = padRetrigger[padIndex] % 4 + 1
+                }
+            )
+            
+            // Ghost notes button
+            controlButton(
+                title: "G",
+                color: padGhostNotes[padIndex] ? Color.blue.opacity(0.3) : Color.white.opacity(0.2),
+                action: { padGhostNotes[padIndex].toggle() }
+            )
+            
+            // Clear button
+            controlButton(
+                title: "C",
+                color: Color.red.opacity(0.2),
+                action: {
+                    for step in 0..<16 {
+                        sequencerSteps[padIndex][step] = false
+                    }
+                }
+            )
+        }
+    }
+    
+    @ViewBuilder
+    private func controlButton(title: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Circle()
+                .fill(color)
+                .frame(width: 52, height: 52)
+                .overlay(
+                    Text(title)
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.white)
+                )
+        }
+    }
+    
+    private var sequencerTransportBar: some View {
+        GeometryReader { geometry in
+            HStack(spacing: 0) {
+                // Mute button
+                Button(action: { /* TODO: Implement mute */ }) {
+                    Circle()
+                        .fill(Color.white.opacity(0.2))
+                        .frame(width: 50, height: 50)
+                        .overlay(
+                            Text("M")
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundColor(.white)
+                        )
+                }
+                .frame(width: 50)
+                
+                // Solo button
+                Button(action: { /* TODO: Implement solo */ }) {
+                    Circle()
+                        .fill(Color.white.opacity(0.2))
+                        .frame(width: 50, height: 50)
+                        .overlay(
+                            Text("S")
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundColor(.white)
+                        )
+                }
+                .frame(width: 50)
+                
+                // 16 step indicators
+                HStack(spacing: 0) {
+                    ForEach(0..<16) { step in
+                        Circle()
+                            .fill(
+                                step == currentSequencerStep ?
+                                Color.white :
+                                Color.white.opacity(0.2)
+                            )
+                            .frame(width: 35, height: 35)
+                            .frame(maxWidth: .infinity)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                
+                // Time signature controls
+                HStack(spacing: 4) {
+                    Button(action: {
+                        if padTimeSignatures[selectedPadIndex] > 4 {
+                            padTimeSignatures[selectedPadIndex] -= 1
+                        }
+                    }) {
+                        Circle()
+                            .fill(Color.purple.opacity(0.3))
+                            .frame(width: 40, height: 40)
+                            .overlay(
+                                Image(systemName: "minus")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
+                    }
+                    
+                    Text("\(padTimeSignatures[selectedPadIndex])")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(width: 30)
+                    
+                    Button(action: {
+                        if padTimeSignatures[selectedPadIndex] < 16 {
+                            padTimeSignatures[selectedPadIndex] += 1
+                        }
+                    }) {
+                        Circle()
+                            .fill(Color.purple.opacity(0.3))
+                            .frame(width: 40, height: 40)
+                            .overlay(
+                                Image(systemName: "plus")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.horizontal, 20)
+        }
+        .frame(height: 80)
+        .padding(.bottom, 20)
+    }
+    
+    private func calculateGridSize(for size: CGSize) -> (circleSize: CGFloat, spacing: CGFloat) {
+        let columns = 16
+        let rows = 16
+        let spacing: CGFloat = 4
+        let circleSize = min(
+            (size.width - (CGFloat(columns - 1) * spacing) - 40) / CGFloat(columns),
+            (size.height - (CGFloat(rows - 1) * spacing) - 100) / CGFloat(rows)
+        )
+        return (circleSize, spacing)
+    }
+    
+    // Helper function to get color for each pad
+    private func getColorForPad(_ padIndex: Int) -> Color {
+        let colors: [Color] = [.purple, .pink, .blue, .green, .orange, .red, .yellow, .cyan, .indigo, .mint, .teal, .brown]
+        if let pack = selectedPack {
+            return pack.color
+        }
+        return colors[padIndex % colors.count]
+    }
+    
+    // Helper function to get color for direction button
+    private func directionColor(for direction: String) -> Color {
+        switch direction {
+        case "forward":
+            return Color.blue.opacity(0.2)
+        case "backward":
+            return Color.purple.opacity(0.2)
+        case "pendulum":
+            return Color.green.opacity(0.2)
+        case "random":
+            return Color.orange.opacity(0.2)
+        default:
+            return Color.white.opacity(0.2)
+        }
+    }
+    
+    // Helper function to get letter for direction button
+    private func directionLetter(for direction: String) -> String {
+        switch direction {
+        case "forward":
+            return "F"
+        case "backward":
+            return "B"
+        case "pendulum":
+            return "P"
+        case "random":
+            return "R"
+        default:
+            return "F"
+        }
     }
     
     
@@ -232,7 +660,13 @@ struct SamplerView: View {
             selectedGridColor: selectedGridColor,
             onPackSelected: loadPackSounds,
             showSampleListView: $showSampleListView,
-            samplerEngine: samplerEngine
+            samplerEngine: samplerEngine,
+            gridSize: $gridSize,
+            draggedPack: $draggedPack,
+            draggedIndex: $draggedIndex,
+            dragOffset: $dragOffset,
+            dropTargetIndex: $dropTargetIndex,
+            performPackSwap: performPackSwap
         )
     }
     
@@ -242,10 +676,38 @@ struct SamplerView: View {
         myPacks = samplesManager.samplePacks
     }
     
-    private func handleKeyPress(_ key: String) {
-        // Only handle key presses if a sample pack is selected
-        guard selectedPack != nil else { return }
+    // MARK: - Drag and Drop Helper
+    private func performPackSwap(targetIndex: Int) {
+        guard let currentDraggedIndex = draggedIndex else { return }
         
+        // Create a mutable copy of packs
+        var updatedPacks = myPacks
+        
+        // If dropping on an empty slot
+        if targetIndex >= updatedPacks.count {
+            // Move the pack to the end
+            let movedPack = updatedPacks.remove(at: currentDraggedIndex)
+            updatedPacks.append(movedPack)
+        } else if currentDraggedIndex != targetIndex {
+            // Swap the packs
+            let movedPack = updatedPacks.remove(at: currentDraggedIndex)
+            if targetIndex > currentDraggedIndex {
+                updatedPacks.insert(movedPack, at: targetIndex - 1)
+            } else {
+                updatedPacks.insert(movedPack, at: targetIndex)
+            }
+        }
+        
+        // Update the state
+        myPacks = updatedPacks
+        
+        // Reset drag state
+        draggedPack = nil
+        draggedIndex = nil
+        dropTargetIndex = nil
+    }
+    
+    private func handleKeyPress(_ key: String) {
         // Map keys to pad indices
         let keyMap: [String: Int] = [
             // Row 1: 1-4 for pads 1-4 (indices 0-3)
@@ -259,8 +721,13 @@ struct SamplerView: View {
         ]
         
         if let padIndex = keyMap[key.lowercased()] {
-            playPadSound(padIndex)
+            // Always update selected pad index
             selectedPadIndex = padIndex
+            
+            // Only play sound if a sample pack is selected
+            if selectedPack != nil {
+                playPadSound(padIndex)
+            }
         }
     }
     
@@ -274,16 +741,27 @@ struct SamplerView: View {
         // }
     }
     
+    private func cycleToPreviousKit(for padIndex: Int) {
+        guard let currentPack = selectedPack,
+              let currentIndex = myPacks.firstIndex(where: { $0.id == currentPack.id }),
+              currentIndex > 0 else { return }
+        
+        selectedPack = myPacks[currentIndex - 1]
+        loadPackSounds(selectedPack!)
+    }
+    
+    private func cycleToNextKit(for padIndex: Int) {
+        guard let currentPack = selectedPack,
+              let currentIndex = myPacks.firstIndex(where: { $0.id == currentPack.id }),
+              currentIndex < myPacks.count - 1 else { return }
+        
+        selectedPack = myPacks[currentIndex + 1]
+        loadPackSounds(selectedPack!)
+    }
+    
     private func playPadSound(_ padIndex: Int) {
-        isPressed[padIndex] = true
-        
-        // Trigger the sound
+        // Trigger the sound immediately
         samplerEngine.triggerPad(padIndex, velocity: 1.0)
-        
-        // Reset button state instantly
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            isPressed[padIndex] = false
-        }
     }
     
     private func getPackColor(for pack: SamplePack, at index: Int) -> Color {
@@ -296,7 +774,10 @@ struct SamplerView: View {
     
     private func getInactiveColor() -> Color {
         if gridColorMode == "rainbow" {
-            return Color.gray
+            // Return a dimmed rainbow color based on a hash of current time
+            let colors: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .pink, .cyan, .mint, .teal]
+            let randomIndex = Int.random(in: 0..<colors.count)
+            return colors[randomIndex].opacity(0.3)
         } else {
             return selectedGridColor
         }
@@ -310,15 +791,27 @@ struct SamplerView: View {
         // Create timer for visual feedback
         sequencerTimer?.invalidate()
         let bpm = 120.0 // Default BPM
-        let stepDuration = 60.0 / bpm / 4.0 // 16th notes
+        let baseStepDuration = 60.0 / bpm / 4.0 // 16th notes
         
-        sequencerTimer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) { _ in
-            // Play any active steps
-            if sequencerSteps[selectedPadIndex][currentSequencerStep] {
-                playPadSound(selectedPadIndex)
+        sequencerTimer = Timer.scheduledTimer(withTimeInterval: baseStepDuration, repeats: true) { _ in
+            // Play all pads based on their individual time signatures for polyrhythms
+            for padIndex in 0..<16 {
+                let padSteps = padTimeSignatures[padIndex]
+                // padSpeed = padSpeeds[padIndex] // Reserved for future use
+                
+                // Calculate which step this pad should be on based on its time signature
+                let effectiveStep = Int(Double(currentSequencerStep) * Double(padSteps) / 16.0) % padSteps
+                
+                // Check if this global step aligns with a step in this pad's pattern
+                let stepInterval = 16.0 / Double(padSteps)
+                if Double(currentSequencerStep).truncatingRemainder(dividingBy: stepInterval) < 0.01 {
+                    if effectiveStep < padSteps && sequencerSteps[padIndex][effectiveStep] {
+                        playPadSound(padIndex)
+                    }
+                }
             }
             
-            // Move to next step
+            // Move to next global step
             currentSequencerStep = (currentSequencerStep + 1) % 16
         }
     }
@@ -336,72 +829,128 @@ struct SamplerView: View {
         VStack(spacing: 0) {
             // Sequencer content aligned with grids above
             GeometryReader { geo in
-                HStack(spacing: 8) {
-                    // Transport controls
-                    HStack(spacing: 8) {
-                        // Play button
+                HStack(spacing: 12) {
+                    // Play button
+                    Button(action: {
+                        startSequencer()
+                    }) {
+                        Circle()
+                            .fill(Color.white.opacity(0.2))
+                            .frame(width: 52, height: 52)
+                            .overlay(
+                                Image(systemName: "play.fill")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(.white)
+                            )
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.2), lineWidth: 2)
+                            )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    // Stop button
+                    Button(action: {
+                        stopSequencer()
+                    }) {
+                        Circle()
+                            .fill(Color.white.opacity(0.2))
+                            .frame(width: 52, height: 52)
+                            .overlay(
+                                Rectangle()
+                                    .fill(Color.white)
+                                    .frame(width: 12, height: 12)
+                            )
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.2), lineWidth: 2)
+                            )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    // Step buttons - only show active steps based on time signature
+                    ForEach(0..<16) { step in
+                        if step < padTimeSignatures[padIndex] {
+                            Button(action: {
+                                sequencerSteps[padIndex][step].toggle()
+                            }) {
+                                Circle()
+                                    .fill(
+                                        sequencerSteps[padIndex][step] ? 
+                                            (selectedPack?.color ?? .purple) : 
+                                            Color.white.opacity(0.1)
+                                    )
+                                    .frame(width: 52, height: 52)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(
+                                                step == currentSequencerStep ?
+                                                Color.white :
+                                                (sequencerSteps[padIndex][step] ? 
+                                                Color.white : 
+                                                Color.white.opacity(0.2)),
+                                                lineWidth: step == currentSequencerStep ? 3 : 2
+                                            )
+                                    )
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                    
+                    // Time signature controls
+                    HStack(spacing: 12) {
+                        // Decrease time signature
                         Button(action: {
-                            startSequencer()
+                            if padTimeSignatures[padIndex] > 4 {
+                                padTimeSignatures[padIndex] -= 1
+                            }
                         }) {
                             Circle()
-                                .fill(Color.white.opacity(0.2))
+                                .fill(Color.purple.opacity(0.3))
+                                .frame(width: 52, height: 52)
                                 .overlay(
-                                    Image(systemName: "play.fill")
-                                        .font(.system(size: 16, weight: .medium))
+                                    Image(systemName: "minus")
+                                        .font(.system(size: 14, weight: .bold))
                                         .foregroundColor(.white)
                                 )
                                 .overlay(
                                     Circle()
-                                        .stroke(Color.white.opacity(0.2), lineWidth: 2)
+                                        .stroke(Color.purple.opacity(0.5), lineWidth: 2)
                                 )
                         }
                         .buttonStyle(PlainButtonStyle())
                         
-                        // Stop button
+                        // Current time signature display
+                        Circle()
+                            .fill(Color.purple.opacity(0.2))
+                            .frame(width: 52, height: 52)
+                            .overlay(
+                                Text("\(padTimeSignatures[padIndex])")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.purple.opacity(0.5), lineWidth: 2)
+                            )
+                        
+                        // Increase time signature
                         Button(action: {
-                            stopSequencer()
+                            if padTimeSignatures[padIndex] < 16 {
+                                padTimeSignatures[padIndex] += 1
+                            }
                         }) {
                             Circle()
-                                .fill(Color.white.opacity(0.2))
+                                .fill(Color.purple.opacity(0.3))
+                                .frame(width: 52, height: 52)
                                 .overlay(
-                                    Rectangle()
-                                        .fill(Color.white)
-                                        .frame(width: 12, height: 12)
+                                    Image(systemName: "plus")
+                                        .font(.system(size: 14, weight: .bold))
+                                        .foregroundColor(.white)
                                 )
                                 .overlay(
                                     Circle()
-                                        .stroke(Color.white.opacity(0.2), lineWidth: 2)
-                                )
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    
-                    // Spacer
-                    Rectangle()
-                        .fill(Color.clear)
-                        .frame(width: 20)
-                    
-                    // Step buttons
-                    ForEach(0..<16) { step in
-                        Button(action: {
-                            sequencerSteps[padIndex][step].toggle()
-                        }) {
-                            Circle()
-                                .fill(
-                                    sequencerSteps[padIndex][step] ? 
-                                        (selectedPack?.color ?? .green) : 
-                                        Color.white.opacity(0.1)
-                                )
-                                .overlay(
-                                    Circle()
-                                        .stroke(
-                                            step == currentSequencerStep ?
-                                            Color.white :
-                                            (sequencerSteps[padIndex][step] ? 
-                                            Color.white : 
-                                            Color.white.opacity(0.2)),
-                                            lineWidth: step == currentSequencerStep ? 3 : 2
-                                        )
+                                        .stroke(Color.purple.opacity(0.5), lineWidth: 2)
                                 )
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -466,9 +1015,11 @@ struct DrumPadGridView: View {
                                     color: selectedPack?.color ?? .gray,
                                     isPressed: $isPressed[index],
                                     onTap: {
+                                        // Always update selected pad index
+                                        selectedPadIndex = index
+                                        // Only play sound if pack is selected
                                         if selectedPack != nil {
                                             onPadTap(index)
-                                            selectedPadIndex = index
                                         }
                                     },
                                     isSelected: selectedPadIndex == index
@@ -497,14 +1048,38 @@ struct SamplePackGridView: View {
     let onPackSelected: (SamplePack) -> Void
     @Binding var showSampleListView: Bool
     let samplerEngine: SamplerEngine
+    @Binding var gridSize: Double
+    @Binding var draggedPack: SamplePack?
+    @Binding var draggedIndex: Int?
+    @Binding var dragOffset: CGSize
+    @Binding var dropTargetIndex: Int?
+    let performPackSwap: (Int) -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            // Header
-            HStack {
+            // Header with slider
+            HStack(spacing: 12) {
                 Text("JAM PACKS")
                     .font(.system(size: 20, weight: .heavy))
                     .foregroundColor(.white)
+                
+                // Grid size slider - only show when in grid view
+                if isGridView {
+                    HStack(spacing: 12) {
+                        Text("GRID SIZE")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(.white.opacity(0.6))
+                        
+                        Slider(value: $gridSize, in: 10...50, step: 1)
+                            .frame(width: 150)
+                            .accentColor(.purple)
+                        
+                        Text("\(Int(gridSize))")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(.white.opacity(0.6))
+                            .frame(width: 25)
+                    }
+                }
                 
                 Spacer()
             }
@@ -522,38 +1097,44 @@ struct SamplePackGridView: View {
     
     private var condensedGridView: some View {
         GeometryReader { geo in
-            let columns = 30
+            let columns = Int(gridSize)
             let totalSlots = columns * columns
             let spacing: CGFloat = 1
             let totalSpacing = spacing * CGFloat(columns - 1)
             let squareSize = (geo.size.width - totalSpacing) / CGFloat(columns)
             
-            LazyVGrid(columns: Array(repeating: GridItem(.fixed(squareSize), spacing: spacing), count: columns), spacing: spacing) {
-                ForEach(0..<totalSlots, id: \.self) { index in
-                    if index < myPacks.count {
-                        let pack = myPacks[index]
-                        Button(action: {
-                            selectedPack = pack
-                            onPackSelected(pack)
-                        }) {
-                            Rectangle()
-                                .fill(getPackColor(for: pack).opacity(selectedPack?.id == pack.id ? 1.0 : 0.8))
-                                .aspectRatio(1, contentMode: .fit)
-                                .overlay(
-                                    Rectangle()
-                                        .stroke(
-                                            selectedPack?.id == pack.id ? Color.white : Color.clear,
-                                            lineWidth: 1
-                                        )
-                                )
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    } else {
-                        Rectangle()
-                            .fill(getInactiveColor().opacity(0.2))
-                            .aspectRatio(1, contentMode: .fit)
+            ZStack {
+                LazyVGrid(columns: Array(repeating: GridItem(.fixed(squareSize), spacing: spacing), count: columns), spacing: spacing) {
+                    ForEach(0..<totalSlots, id: \.self) { index in
+                        GridSlotView(
+                            index: index,
+                            pack: index < myPacks.count ? myPacks[index] : nil,
+                            squareSize: squareSize,
+                            selectedPack: selectedPack,
+                            draggedPack: draggedPack,
+                            dropTargetIndex: dropTargetIndex,
+                            onPackSelected: { pack in
+                                selectedPack = pack
+                                onPackSelected(pack)
+                            },
+                            onDragStart: { pack in
+                                if let packIndex = myPacks.firstIndex(where: { $0.id == pack.id }) {
+                                    draggedPack = pack
+                                    draggedIndex = packIndex
+                                }
+                            },
+                            onDrop: { targetIndex in
+                                performPackSwap(targetIndex)
+                            },
+                            getPackColor: getPackColor,
+                            getInactiveColor: getInactiveColor,
+                            gridColorMode: gridColorMode,
+                            selectedGridColor: selectedGridColor
+                        )
                     }
                 }
+                
+                // Remove the dragged pack overlay - SwiftUI handles it automatically
             }
         }
     }
@@ -585,7 +1166,10 @@ struct SamplePackGridView: View {
     
     private func getInactiveColor() -> Color {
         if gridColorMode == "rainbow" {
-            return Color.gray
+            // Return a dimmed rainbow color based on a hash of current time
+            let colors: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .pink, .cyan, .mint, .teal]
+            let randomIndex = Int.random(in: 0..<colors.count)
+            return colors[randomIndex].opacity(0.3)
         } else {
             return selectedGridColor
         }
@@ -601,29 +1185,34 @@ struct DrumPadButton: View {
     let onTap: () -> Void
     var isSelected: Bool = false
     
+    // Rainbow colors for inactive pads
+    private var inactiveColor: Color {
+        let colors: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .pink, .cyan, .mint, .teal, .indigo, .brown]
+        return colors[index % colors.count]
+    }
+    
     var body: some View {
         Button(action: onTap) {
             RoundedRectangle(cornerRadius: 8)
                 .fill(
                     isActive ?
                     (isPressed ? Color.white : color.opacity(isSelected ? 1.0 : 0.8)) :
-                    Color.white.opacity(0.1)
+                    (isPressed ? Color.white : inactiveColor.opacity(isSelected ? 0.6 : 0.3))
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(
-                            isActive ? (isSelected ? Color.white : color) : Color.white.opacity(0.2),
+                            isActive ? (isSelected ? Color.white : color) : 
+                            (isSelected ? Color.white : inactiveColor.opacity(0.5)),
                             lineWidth: isSelected ? 3 : 2
                         )
                 )
                 .overlay(
                     Text("\(index + 1)")
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(isActive ? .white : .white.opacity(0.3))
+                        .foregroundColor(isActive || isSelected ? .white : .white.opacity(0.6))
                 )
-                .scaleEffect(isPressed ? 0.95 : 1.0)
         }
-        .disabled(!isActive)
     }
 }
 
@@ -670,7 +1259,6 @@ struct SamplePackTile: View {
                     )
             )
             .scaleEffect(isHovering ? 1.05 : 1.0)
-            .animation(.spring(response: 0.3), value: isHovering)
         }
         .onHover { hovering in
             isHovering = hovering
@@ -687,9 +1275,7 @@ struct AddPackButton: View {
     var body: some View {
         Button(action: {
             onAdd()
-            withAnimation {
-                isAdded = true
-            }
+            isAdded = true
         }) {
             Image(systemName: isAdded ? "checkmark" : "heart")
                 .font(.system(size: 14, weight: .medium))
@@ -732,7 +1318,22 @@ struct ColorPickerPopover: View {
         ("indigo", .indigo),
         ("brown", .brown),
         ("gray", .gray),
-        ("white", .white)
+        ("white", .white),
+        ("black", .black),
+        ("navy", Color(red: 0, green: 0, blue: 0.5)),
+        ("forest", Color(red: 0.13, green: 0.37, blue: 0.13)),
+        ("maroon", Color(red: 0.5, green: 0, blue: 0)),
+        ("olive", Color(red: 0.5, green: 0.5, blue: 0)),
+        ("lime", Color(red: 0.75, green: 1, blue: 0)),
+        ("aqua", Color(red: 0, green: 1, blue: 1)),
+        ("fuchsia", Color(red: 1, green: 0, blue: 1)),
+        ("silver", Color(red: 0.75, green: 0.75, blue: 0.75)),
+        ("coral", Color(red: 1, green: 0.5, blue: 0.31)),
+        ("salmon", Color(red: 0.98, green: 0.5, blue: 0.45)),
+        ("gold", Color(red: 1, green: 0.84, blue: 0)),
+        ("plum", Color(red: 0.87, green: 0.63, blue: 0.87)),
+        ("turquoise", Color(red: 0.25, green: 0.88, blue: 0.82)),
+        ("violet", Color(red: 0.93, green: 0.51, blue: 0.93))
     ]
     
     var body: some View {
@@ -744,7 +1345,8 @@ struct ColorPickerPopover: View {
                 .frame(maxWidth: .infinity)
                 .background(Color.black)
             
-            LazyVGrid(columns: Array(repeating: GridItem(.fixed(50), spacing: 10), count: 5), spacing: 10) {
+            ScrollView {
+                LazyVGrid(columns: Array(repeating: GridItem(.fixed(50), spacing: 10), count: 5), spacing: 10) {
                 ForEach(colors, id: \.name) { item in
                     Button(action: {
                         gridColorMode = item.name
@@ -781,6 +1383,8 @@ struct ColorPickerPopover: View {
                 }
             }
             .padding()
+            }
+            .frame(maxHeight: 400)
             .background(Color(red: 0.1, green: 0.1, blue: 0.15))
         }
         .frame(width: 300)
@@ -846,12 +1450,10 @@ struct SamplePackSection: View {
                 pack: pack,
                 isExpanded: expandedPacks.contains(pack.id),
                 onToggle: {
-                    withAnimation {
-                        if expandedPacks.contains(pack.id) {
-                            expandedPacks.remove(pack.id)
-                        } else {
-                            expandedPacks.insert(pack.id)
-                        }
+                    if expandedPacks.contains(pack.id) {
+                        expandedPacks.remove(pack.id)
+                    } else {
+                        expandedPacks.insert(pack.id)
                     }
                 }
             )
@@ -923,6 +1525,81 @@ struct SampleListRow: View {
     }
 }
 
+// MARK: - Grid Slot View
+struct GridSlotView: View {
+    let index: Int
+    let pack: SamplePack?
+    let squareSize: CGFloat
+    let selectedPack: SamplePack?
+    let draggedPack: SamplePack?
+    let dropTargetIndex: Int?
+    let onPackSelected: (SamplePack) -> Void
+    let onDragStart: (SamplePack) -> Void
+    let onDrop: (Int) -> Void
+    let getPackColor: (SamplePack) -> Color
+    let getInactiveColor: () -> Color
+    let gridColorMode: String
+    let selectedGridColor: Color
+    
+    @State private var isDragOver = false
+    
+    private func getInactiveColorForIndex(_ index: Int) -> Color {
+        if gridColorMode == "rainbow" {
+            // Rainbow mode - generate a unique color for each index
+            let colors: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .pink, .cyan, .mint, .teal, .indigo, .brown]
+            return colors[index % colors.count]
+        } else {
+            // Single color mode
+            return selectedGridColor
+        }
+    }
+    
+    var body: some View {
+        ZStack {
+            if let pack = pack {
+                Rectangle()
+                    .fill(getPackColor(pack).opacity(selectedPack?.id == pack.id ? 1.0 : 0.8))
+                    .aspectRatio(1, contentMode: .fit)
+                    .overlay(
+                        Rectangle()
+                            .stroke(
+                                selectedPack?.id == pack.id ? Color.white : Color.clear,
+                                lineWidth: 1
+                            )
+                    )
+                    .scaleEffect(draggedPack?.id == pack.id ? 0.8 : 1.0)
+                    .opacity(draggedPack?.id == pack.id ? 0.5 : 1.0)
+                    .onTapGesture {
+                        onPackSelected(pack)
+                    }
+                    .onDrag {
+                        onDragStart(pack)
+                        return NSItemProvider(object: pack.id as NSString)
+                    }
+            } else {
+                Rectangle()
+                    .fill(getInactiveColorForIndex(index).opacity(0.2))
+                    .aspectRatio(1, contentMode: .fit)
+            }
+            
+            // Drop indicator
+            if isDragOver {
+                Rectangle()
+                    .stroke(Color.white, lineWidth: 2)
+                    .background(Color.white.opacity(0.2))
+            }
+        }
+        .onDrop(of: [.text], isTargeted: $isDragOver) { providers in
+            // Only allow drop if we're dragging something
+            if draggedPack != nil {
+                onDrop(index)
+                return true
+            }
+            return false
+        }
+    }
+}
+
 // MARK: - Sample List Inline View
 struct SampleListInlineView: View {
     let samplerEngine: SamplerEngine
@@ -936,12 +1613,10 @@ struct SampleListInlineView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         // Pack header
                         Button(action: {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                if expandedPacks.contains(pack.id) {
-                                    expandedPacks.remove(pack.id)
-                                } else {
-                                    expandedPacks.insert(pack.id)
-                                }
+                            if expandedPacks.contains(pack.id) {
+                                expandedPacks.remove(pack.id)
+                            } else {
+                                expandedPacks.insert(pack.id)
                             }
                         }) {
                             HStack {
@@ -1038,6 +1713,57 @@ class KeyboardHandlerUIView: UIView {
         if let key = sender.input {
             onKeyPress?(key)
         }
+    }
+}
+
+// MARK: - Sequencer Row View
+struct SequencerRowView: View {
+    let padIndex: Int
+    @Binding var sequencerSteps: [[Bool]]
+    let currentStep: Int
+    let circleSize: CGFloat
+    let spacing: CGFloat
+    let color: Color
+    
+    var body: some View {
+        HStack(spacing: spacing) {
+            ForEach(0..<16, id: \.self) { step in
+                SamplerSequencerStepButton(
+                    isActive: sequencerSteps[padIndex][step],
+                    isCurrentStep: step == currentStep,
+                    color: color,
+                    size: circleSize,
+                    action: {
+                        sequencerSteps[padIndex][step].toggle()
+                    }
+                )
+            }
+        }
+    }
+}
+
+// MARK: - Sampler Sequencer Step Button
+struct SamplerSequencerStepButton: View {
+    let isActive: Bool
+    let isCurrentStep: Bool
+    let color: Color
+    let size: CGFloat
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Circle()
+                .fill(isActive ? color : Color.white.opacity(0.1))
+                .frame(width: size, height: size)
+                .overlay(
+                    Circle()
+                        .stroke(
+                            isCurrentStep ? Color.white : Color.white.opacity(0.2),
+                            lineWidth: isCurrentStep ? 2 : 1
+                        )
+                )
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

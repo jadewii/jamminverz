@@ -22,9 +22,11 @@ struct JamminverzApp: App {
                 .environmentObject(artStoreManager)
                 .environmentObject(paymentManager)
                 .environmentObject(themeManager)
+                .frame(minWidth: 1200, minHeight: 800)
         }
         #if os(macOS)
         .windowStyle(HiddenTitleBarWindowStyle())
+        .defaultSize(width: 1920, height: 1080)
         .commands {
             // Add keyboard shortcuts for macOS
             CommandGroup(replacing: .newItem) {

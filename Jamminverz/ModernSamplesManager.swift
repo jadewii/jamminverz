@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import AVFoundation
+import UniformTypeIdentifiers
 
 // MARK: - Audio File Model
 struct SampleFile: Identifiable, Codable, Transferable {
@@ -18,6 +19,26 @@ struct SampleFile: Identifiable, Codable, Transferable {
     let duration: TimeInterval?
     let bpm: Double?
     let dateModified: Date
+    let subfolder: String? // For organizing samples by subfolder (e.g., "kick", "snare", "hat")
+    
+    init(url: URL, subfolder: String? = nil) {
+        self.url = url
+        self.name = url.lastPathComponent
+        self.subfolder = subfolder
+        
+        // Get file attributes
+        if let attributes = try? FileManager.default.attributesOfItem(atPath: url.path) {
+            self.size = attributes[.size] as? Int64 ?? 0
+            self.dateModified = attributes[.modificationDate] as? Date ?? Date()
+        } else {
+            self.size = 0
+            self.dateModified = Date()
+        }
+        
+        // Duration will be loaded asynchronously later if needed
+        self.duration = nil
+        self.bpm = nil // Will be analyzed later if needed
+    }
     
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .audioContent)
@@ -100,9 +121,7 @@ class ModernSamplesManager: ObservableObject {
     init() {
         loadSamplePacks()
         loadFavorites()
-        if samplePacks.isEmpty {
-            createDefaultPacks()
-        }
+        // Don't create default packs - user will create or upload their own
     }
     
     // MARK: - File Scanning
@@ -155,39 +174,13 @@ class ModernSamplesManager: ObservableObject {
             let pathExtension = fileURL.pathExtension.lowercased()
             
             if supportedExtensions.contains(pathExtension) {
-                do {
-                    let attributes = try fileURL.resourceValues(forKeys: [
-                        .fileSizeKey,
-                        .contentModificationDateKey
-                    ])
-                    
-                    let size = Int64(attributes.fileSize ?? 0)
-                    let dateModified = attributes.contentModificationDate ?? Date()
-                    
-                    // Get duration
-                    let duration = await getAudioDuration(url: fileURL)
-                    
-                    // Quick BPM detection (simplified for demo)
-                    let bpm = await detectBPM(url: fileURL)
-                    
-                    let audioFile = SampleFile(
-                        url: fileURL,
-                        name: fileURL.lastPathComponent,
-                        size: size,
-                        duration: duration,
-                        bpm: bpm,
-                        dateModified: dateModified
-                    )
-                    
-                    files.append(audioFile)
-                    
-                    // Update progress
-                    await MainActor.run {
-                        self.scanProgress = Double(files.count) / 100.0 // Estimate
-                    }
-                    
-                } catch {
-                    print("Error scanning file: \(error)")
+                // File attributes are now handled in SampleFile init
+                let audioFile = SampleFile(url: fileURL)
+                files.append(audioFile)
+                
+                // Update progress
+                await MainActor.run {
+                    self.scanProgress = Double(files.count) / 100.0 // Estimate
                 }
             }
         }
@@ -197,7 +190,7 @@ class ModernSamplesManager: ObservableObject {
         do {
             let asset = AVAsset(url: url)
             let duration = try await asset.load(.duration)
-            return CMTimeGetSeconds(duration)
+            return duration.seconds.isFinite ? duration.seconds : nil
         } catch {
             return nil
         }
@@ -209,10 +202,26 @@ class ModernSamplesManager: ObservableObject {
     }
     
     // MARK: - Sample Pack Management
-    func createPack(name: String, icon: String, color: Color) {
+    func createPack(name: String, icon: String, color: Color) -> SamplePack {
         let pack = SamplePack(name: name, icon: icon, color: color)
         samplePacks.append(pack)
         saveSamplePacks()
+        return pack
+    }
+    
+    func addSampleToPack(_ sample: SampleFile, pack: SamplePack) {
+        guard let index = samplePacks.firstIndex(where: { $0.id == pack.id }) else { return }
+        
+        // Add the sample to our audio files if not already there
+        if !audioFiles.contains(where: { $0.id == sample.id }) {
+            audioFiles.append(sample)
+        }
+        
+        // Add to pack
+        if !samplePacks[index].samples.contains(sample.id) {
+            samplePacks[index].samples.append(sample.id)
+            saveSamplePacks()
+        }
     }
     
     func addSamplesToPack(_ samples: [SampleFile], pack: SamplePack) {
@@ -326,7 +335,7 @@ class ModernSamplesManager: ObservableObject {
     
     private func createDefaultPacks() {
         for (name, icon, color) in defaultPacks {
-            createPack(name: name, icon: icon, color: color)
+            let _ = createPack(name: name, icon: icon, color: color)
         }
     }
     

@@ -10,6 +10,14 @@ struct ContentView: View {
     @State private var selectedPriorityTask: Task? = nil
     @State private var showTimerSelection = false
     
+    // Global control button states
+    @State private var showSampleListView = false
+    @State private var isGridView = false
+    @State private var showAllSequencersView = true
+    @State private var showColorPicker = false
+    @State private var gridColorMode = "rainbow"
+    @State private var selectedGridColor: Color = .blue
+    
     var body: some View {
         #if os(iOS)
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -34,7 +42,16 @@ struct ContentView: View {
                 // Main navigation switch - Radio is now the main page
                 switch currentTab {
                 case "menu":
-                    RadioView(taskStore: taskStore, currentTab: $currentTab)
+                    RadioView(
+                        taskStore: taskStore,
+                        currentTab: $currentTab,
+                        showSampleListView: $showSampleListView,
+                        isGridView: $isGridView,
+                        showAllSequencersView: $showAllSequencersView,
+                        showColorPicker: $showColorPicker,
+                        gridColorMode: $gridColorMode,
+                        selectedGridColor: $selectedGridColor
+                    )
                     
                 case "today":
                     TodayView(taskStore: taskStore, currentTab: $currentTab)
@@ -86,7 +103,16 @@ struct ContentView: View {
                     )
                     
                 default:
-                    RadioView(taskStore: taskStore, currentTab: $currentTab)
+                    RadioView(
+                        taskStore: taskStore,
+                        currentTab: $currentTab,
+                        showSampleListView: $showSampleListView,
+                        isGridView: $isGridView,
+                        showAllSequencersView: $showAllSequencersView,
+                        showColorPicker: $showColorPicker,
+                        gridColorMode: $gridColorMode,
+                        selectedGridColor: $selectedGridColor
+                    )
                 }
             }
         }

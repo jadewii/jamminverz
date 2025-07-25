@@ -54,8 +54,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>JAMVERZ uses the microphone for music discovery and voice commands.</string>
+	<string>Jamminverz uses the microphone for music discovery and voice commands.</string>
 	<key>NSUserNotificationsUsageDescription</key>
-	<string>JAMVERZ sends notifications for music updates and downloads.</string>
+	<string>Jamminverz sends notifications for music updates and downloads.</string>
 </dict>
 </plist>
